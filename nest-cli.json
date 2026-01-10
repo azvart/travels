@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/gateway/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/gateway/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/gateway",
+  "projects": {
+    "accounts": {
+      "type": "application",
+      "root": "apps/accounts",
+      "entryFile": "main",
+      "sourceRoot": "apps/accounts/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/accounts/tsconfig.app.json"
+      }
+    },
+    "config": {
+      "type": "library",
+      "root": "libs/config",
+      "entryFile": "index",
+      "sourceRoot": "libs/config/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/config/tsconfig.lib.json"
+      }
+    },
+    "database": {
+      "type": "library",
+      "root": "libs/database",
+      "entryFile": "index",
+      "sourceRoot": "libs/database/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/database/tsconfig.lib.json"
+      }
+    },
+    "decorators": {
+      "type": "library",
+      "root": "libs/decorators",
+      "entryFile": "index",
+      "sourceRoot": "libs/decorators/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/decorators/tsconfig.lib.json"
+      }
+    },
+    "dto": {
+      "type": "library",
+      "root": "libs/dto",
+      "entryFile": "index",
+      "sourceRoot": "libs/dto/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/dto/tsconfig.lib.json"
+      }
+    },
+    "entities": {
+      "type": "library",
+      "root": "libs/entities",
+      "entryFile": "index",
+      "sourceRoot": "libs/entities/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/entities/tsconfig.lib.json"
+      }
+    },
+    "gateway": {
+      "type": "application",
+      "root": "apps/gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/gateway/tsconfig.app.json"
+      }
+    },
+    "grpc-api-clients": {
+      "type": "library",
+      "root": "libs/grpc-api-clients",
+      "entryFile": "index",
+      "sourceRoot": "libs/grpc-api-clients/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/grpc-api-clients/tsconfig.lib.json"
+      }
+    },
+    "jobs-processor": {
+      "type": "application",
+      "root": "apps/jobs-processor",
+      "entryFile": "main",
+      "sourceRoot": "apps/jobs-processor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/jobs-processor/tsconfig.app.json"
+      }
+    },
+    "kafka": {
+      "type": "library",
+      "root": "libs/kafka",
+      "entryFile": "index",
+      "sourceRoot": "libs/kafka/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/kafka/tsconfig.lib.json"
+      }
+    },
+    "proto": {
+      "type": "library",
+      "root": "libs/proto",
+      "entryFile": "index",
+      "sourceRoot": "libs/proto/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/proto/tsconfig.lib.json"
+      }
+    },
+    "pubsub": {
+      "type": "library",
+      "root": "libs/pubsub",
+      "entryFile": "index",
+      "sourceRoot": "libs/pubsub/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/pubsub/tsconfig.lib.json"
+      }
+    },
+    "redis": {
+      "type": "library",
+      "root": "libs/redis",
+      "entryFile": "index",
+      "sourceRoot": "libs/redis/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redis/tsconfig.lib.json"
+      }
+    },
+    "travel-cards": {
+      "type": "application",
+      "root": "apps/travel-cards",
+      "entryFile": "main",
+      "sourceRoot": "apps/travel-cards/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/travel-cards/tsconfig.app.json"
+      }
+    },
+    "types": {
+      "type": "library",
+      "root": "libs/types",
+      "entryFile": "index",
+      "sourceRoot": "libs/types/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/types/tsconfig.lib.json"
+      }
+    },
+    "weather-processor": {
+      "type": "application",
+      "root": "apps/weather-processor",
+      "entryFile": "main",
+      "sourceRoot": "apps/weather-processor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/weather-processor/tsconfig.app.json"
+      }
+    }
+  }
+}

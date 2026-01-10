@@ -1,0 +1,89 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/decorators": [
+        "libs/decorators/src"
+      ],
+      "@app/decorators/*": [
+        "libs/decorators/src/*"
+      ],
+      "@app/dto": [
+        "libs/dto/src"
+      ],
+      "@app/dto/*": [
+        "libs/dto/src/*"
+      ],
+      "@app/entities": [
+        "libs/entities/src"
+      ],
+      "@app/entities/*": [
+        "libs/entities/src/*"
+      ],
+      "@app/grpc-api-clients": [
+        "libs/grpc-api-clients/src"
+      ],
+      "@app/grpc-api-clients/*": [
+        "libs/grpc-api-clients/src/*"
+      ],
+      "@app/kafka": [
+        "libs/kafka/src"
+      ],
+      "@app/kafka/*": [
+        "libs/kafka/src/*"
+      ],
+      "@app/proto": [
+        "libs/proto/src"
+      ],
+      "@app/proto/*": [
+        "libs/proto/src/*"
+      ],
+      "@app/pubsub": [
+        "libs/pubsub/src"
+      ],
+      "@app/pubsub/*": [
+        "libs/pubsub/src/*"
+      ],
+      "@app/redis": [
+        "libs/redis/src"
+      ],
+      "@app/redis/*": [
+        "libs/redis/src/*"
+      ],
+      "@app/types": [
+        "libs/types/src"
+      ],
+      "@app/types/*": [
+        "libs/types/src/*"
+      ],
+      "libs/config": [
+        "libs/config/src"
+      ],
+      "libs/config/*": [
+        "libs/config/src/*"
+      ],
+      "libs/database": [
+        "libs/database/src"
+      ],
+      "libs/database/*": [
+        "libs/database/src/*"
+      ]
+    }
+  }
+}

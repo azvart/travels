@@ -1,0 +1,1 @@
+syntax = 'proto3';import 'google/protobuf/wrappers.proto';package travelCards;service TravelCard {  rpc CreateNew() returns ()}

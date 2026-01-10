@@ -1,0 +1,49 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  accountId: String!
+  firstName: String
+  lastName: String
+  age: Float
+}
+
+type Account {
+  id: ID!
+  email: String!
+  password: String!
+  registrationType: String!
+  user: User
+}
+
+type UpdateAccountOutput {
+  id: ID!
+  email: String!
+  password: String!
+  registrationType: String!
+}
+
+type TokenType {
+  id: ID!
+  token: String!
+}
+
+type Query {
+  getAccount(id: String!): Account
+  getAccountByEmail(email: String!): Account
+}
+
+type Mutation {
+  updateExistAccount(input: UpdateAccountInput!): UpdateAccountOutput!
+  createNewAccount(email: String!, password: String!, registrationType: String): TokenType!
+  deleteAccount(id: String!): Boolean!
+  login: TokenType!
+}
+
+input UpdateAccountInput {
+  id: ID!
+  email: String
+  password: String
+}
