@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TravelCardsRepository } from '../../domain/repositories/travel-cards.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TravelCardsOrmEntity, UserOrmEntity } from '@app/entities/enity';
+import { TravelCardsOrmEntity } from '@app/entities/enity';
 import { Repository } from 'typeorm';
 import { TravelCards } from '@app/dto';
 
@@ -49,6 +49,10 @@ export class TravelCardsTypeormRepository implements TravelCardsRepository {
           orm.image,
           orm.amount,
           orm.currency,
+          orm.timezone,
+          orm.timezoneOffset,
+          orm.startDate,
+          orm.endDate,
         )
       : null;
   }

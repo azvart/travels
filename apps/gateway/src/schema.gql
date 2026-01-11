@@ -30,6 +30,20 @@ type TokenType {
   token: String!
 }
 
+type TravelCardsOutputType {
+  id: ID!
+  userId: String!
+  title: String!
+  description: String
+  amount: String
+  currency: String
+  image: String
+  timezone: String
+  timezoneOffset: String
+  startDate: String
+  endDate: String
+}
+
 type Query {
   getAccount(id: String!): Account
   getAccountByEmail(email: String!): Account
@@ -39,11 +53,20 @@ type Mutation {
   updateExistAccount(input: UpdateAccountInput!): UpdateAccountOutput!
   createNewAccount(email: String!, password: String!, registrationType: String): TokenType!
   deleteAccount(id: String!): Boolean!
-  login: TokenType!
+  login(email: String!, password: String!): TokenType!
+  createCard(input: CreateTravelCardInput!): TravelCardsOutputType!
 }
 
 input UpdateAccountInput {
   id: ID!
   email: String
   password: String
+}
+
+input CreateTravelCardInput {
+  title: String!
+  description: String
+  image: String
+  amount: String
+  currency: String
 }

@@ -7,8 +7,12 @@ export class TravelCards {
     private readonly _title: string,
     private readonly _description?: string,
     private readonly _image?: string,
-    private readonly _amount?: number,
+    private readonly _amount?: string,
     private readonly _currency?: string,
+    private readonly _timezone?: string,
+    private readonly _timezoneOffset?: string,
+    private readonly _startDate?: Date,
+    private readonly _endDate?: Date,
     private readonly _user?: User,
   ) {}
 
@@ -37,6 +41,21 @@ export class TravelCards {
 
   get image() {
     return this._image;
+  }
+
+  get timezone() {
+    return this._timezone;
+  }
+
+  get timezoneOffset() {
+    return this._timezoneOffset;
+  }
+  get startDate() {
+    return this._startDate;
+  }
+
+  get endDate() {
+    return this._endDate;
   }
 
   get user() {
