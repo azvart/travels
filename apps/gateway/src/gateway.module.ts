@@ -9,6 +9,7 @@ import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 
 import { DecoratorsModule } from '@app/decorators';
 import { JwtModule } from '@nestjs/jwt';
+import { TravelCardsMutationResolver } from './resolvers/travel-cards/travel-cards-mutation.resolver';
 
 @Module({
   imports: [
@@ -27,6 +28,10 @@ import { JwtModule } from '@nestjs/jwt';
       context: ({ req, res }) => ({ req, res }),
     }),
   ],
-  providers: [AccountQueriesResolver, AccountMutationResolver],
+  providers: [
+    AccountQueriesResolver,
+    AccountMutationResolver,
+    TravelCardsMutationResolver,
+  ],
 })
 export class GatewayModule {}

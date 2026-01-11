@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TravelCardsRepository } from '../domain/repositories/travel-cards.repository';
-import { CreateTravelCardInput } from '../interfaces/inputs';
+import { CreateTravelCardInput } from '@app/types';
 import { v4 as uuid } from 'uuid';
 import { TravelCards } from '@app/dto';
 
@@ -10,7 +10,9 @@ export class TravelCardsService {
     private readonly travelCardsRepository: TravelCardsRepository,
   ) {}
 
-  public async createNewCard(input: CreateTravelCardInput) {
+  public async createNewCard(
+    input: CreateTravelCardInput & { userId: string },
+  ) {
     const travelCard = new TravelCards(
       uuid(),
       input.userId,

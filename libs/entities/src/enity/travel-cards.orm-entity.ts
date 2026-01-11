@@ -16,31 +16,28 @@ export class TravelCardsOrmEntity {
   public title: string;
 
   @Column({ nullable: true })
-  public description: string;
+  public description?: string;
 
   @Column({ nullable: true })
-  public image: string;
+  public image?: string;
 
-  @Column({ default: 0 })
-  public amount: number;
+  @Column({ nullable: true })
+  public amount?: string;
 
   @Column({ default: 'USD' })
   public currency: string;
 
-  @Column({ array: true })
-  public countries: string;
+  @Column({ nullable: true })
+  public timezone?: string;
 
-  @Column()
-  public timezone: string;
+  @Column({ nullable: true })
+  public timezoneOffset?: string;
 
-  @Column()
-  public timezoneOffset: string;
+  @Column({ nullable: true })
+  public startDate?: Date;
 
-  @Column()
-  public startDate: Date;
-
-  @Column()
-  public endDate: Date;
+  @Column({ nullable: true })
+  public endDate?: Date;
 
   @OneToOne(() => UserOrmEntity, { onDelete: 'CASCADE' })
   @JoinColumn()

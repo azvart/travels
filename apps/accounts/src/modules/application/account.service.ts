@@ -75,9 +75,12 @@ export class AccountService {
 
   public async login(email: string, password: string) {
     const account = await this.accountRepository.login(email, password);
+    const user = await this.userService.findByAccountId(account.id);
+
     const payload = {
       accountId: account.id,
       email: account.email,
+      userId: user?.id,
     };
     return {
       token: await this.jwtService.signAsync(payload, {

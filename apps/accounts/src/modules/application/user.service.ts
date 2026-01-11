@@ -11,4 +11,8 @@ export class UserService {
     await this.userRepository.save(user);
     return this.userRepository.findByAccountId(user.accountId);
   }
+
+  public async findByAccountId(accountId: string) {
+    return this.userRepository.findByAccountId(accountId);
+  }
 }
