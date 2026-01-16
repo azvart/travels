@@ -39,6 +39,9 @@ export class TravelCardsOrmEntity {
   @Column({ nullable: true })
   public endDate?: Date;
 
+  @Column({ default: false })
+  public isActive: boolean;
+
   @OneToOne(() => UserOrmEntity, { onDelete: 'CASCADE' })
   @JoinColumn()
   public user: UserOrmEntity;

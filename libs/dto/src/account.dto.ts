@@ -1,3 +1,5 @@
+import { User } from './user.dto';
+
 export class Account {
   constructor(
     private readonly _id: string,
@@ -5,7 +7,7 @@ export class Account {
     private readonly _password: string,
     private _registrationType: string = 'credentials',
     private readonly _isEmailVerified: boolean = false,
-    private readonly _user = undefined,
+    private readonly _user: User | undefined = undefined,
   ) {}
 
   get id() {
