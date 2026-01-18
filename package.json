@@ -14,6 +14,7 @@
     "start:gateway": "nest start --watch gateway",
     "start:accounts": "nest start --watch accounts",
     "start:weather-processor": "nest start --watch weather-processor",
+    "start:websocket-gateway": "nest start --watch websocket-gateway",
     "start:travel-cards": "nest start --watch travel-cards",
     "start:debug-gateway": "nest start --debug --watch gateway",
     "start:debug-accounts": "nest start --debug --watch accounts",
