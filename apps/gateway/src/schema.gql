@@ -44,6 +44,10 @@ type TravelCardsOutputType {
   endDate: String
 }
 
+type DeleteTravelCardsOutputType {
+  success: Boolean!
+}
+
 type Query {
   getAccount(id: String!): Account
   getAccountByEmail(email: String!): Account
@@ -55,6 +59,8 @@ type Mutation {
   deleteAccount(id: String!): Boolean!
   login(email: String!, password: String!): TokenType!
   createCard(input: CreateTravelCardInput!): TravelCardsOutputType!
+  updateCard(input: UpdateTravelCardInputType!): TravelCardsOutputType!
+  deleteCard(id: String!): DeleteTravelCardsOutputType!
 }
 
 input UpdateAccountInput {
@@ -69,4 +75,18 @@ input CreateTravelCardInput {
   image: String
   amount: String
   currency: String
+}
+
+input UpdateTravelCardInputType {
+  id: ID!
+  userId: String!
+  title: String
+  description: String
+  amount: String
+  currency: String
+  image: String
+  timezone: String
+  timezoneOffset: String
+  startDate: String
+  endDate: String
 }
