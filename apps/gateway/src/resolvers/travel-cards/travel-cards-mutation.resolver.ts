@@ -1,5 +1,10 @@
 import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
-import { CreateTravelCardInput, TravelCards } from '@app/types';
+import {
+  CreateTravelCardInput,
+  DeleteTravelCardsOutputType,
+  TravelCards,
+  UpdateTravelCardInputType,
+} from '@app/types';
 import { TravelCardsOutputType } from '@app/types';
 import { firstValueFrom } from 'rxjs';
 import { TravelCardsGrpcService } from '@app/grpc-api-clients/travel-cards/travel-cards-grpc.service';
@@ -28,6 +33,40 @@ export class TravelCardsMutationResolver {
         amount: input.amount,
         image: input.image,
         currency: input.currency,
+      }),
+    );
+  }
+
+  @Mutation(() => TravelCardsOutputType)
+  @UseGuards(GqlAuthGuard)
+  public async updateCard(
+    @Args('input') input: UpdateTravelCardInputType,
+    @Context() ctx,
+  ) {
+    const userId = ctx.user.userId as string;
+
+    return firstValueFrom(
+      this.travelCardsGrpcService.service.updateExistTravelCard({
+        id: input.id,
+        userId,
+        title: input.title,
+        description: input.description,
+        amount: input.amount,
+        image: input.image,
+        currency: input.currency,
+      }),
+    );
+  }
+
+  @Mutation(() => DeleteTravelCardsOutputType)
+  @UseGuards(GqlAuthGuard)
+  public async deleteCard(@Args('id') id: string, @Context() ctx) {
+    const userId = ctx.user.userId as string;
+
+    return firstValueFrom(
+      this.travelCardsGrpcService.service.deleteExistTravelCard({
+        id,
+        userId,
       }),
     );
   }
