@@ -63,6 +63,16 @@ export interface LoginAccount {
   password: string;
 }
 
+export interface LoginToken {
+  token: string;
+}
+
+export interface LoginTokenOutput {
+  accountId: string;
+  email: string;
+  userId: string;
+}
+
 export const ACCOUNT_PACKAGE_NAME = "account";
 
 function createBaseAccountOutput(): AccountOutput {
@@ -545,6 +555,102 @@ export const LoginAccount: MessageFns<LoginAccount> = {
   },
 };
 
+function createBaseLoginToken(): LoginToken {
+  return { token: "" };
+}
+
+export const LoginToken: MessageFns<LoginToken> = {
+  encode(message: LoginToken, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.token !== "") {
+      writer.uint32(10).string(message.token);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): LoginToken {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseLoginToken();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.token = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseLoginTokenOutput(): LoginTokenOutput {
+  return { accountId: "", email: "", userId: "" };
+}
+
+export const LoginTokenOutput: MessageFns<LoginTokenOutput> = {
+  encode(message: LoginTokenOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.accountId !== "") {
+      writer.uint32(10).string(message.accountId);
+    }
+    if (message.email !== "") {
+      writer.uint32(18).string(message.email);
+    }
+    if (message.userId !== "") {
+      writer.uint32(26).string(message.userId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): LoginTokenOutput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseLoginTokenOutput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.accountId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.email = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
 export interface AccountClient {
   createNewAccount(request: CreateNewAccountInput, metadata?: Metadata): Observable<CreateNewAccountOutput>;
 
@@ -559,6 +665,8 @@ export interface AccountClient {
   verifyEmailAccount(request: VerifyEmailAccount, metadata?: Metadata): Observable<AccountOutput>;
 
   login(request: LoginAccount, metadata?: Metadata): Observable<CreateNewAccountOutput>;
+
+  loginByToken(request: LoginToken, metadata?: Metadata): Observable<LoginTokenOutput>;
 }
 
 export interface AccountController {
@@ -596,6 +704,11 @@ export interface AccountController {
     request: LoginAccount,
     metadata?: Metadata,
   ): Promise<CreateNewAccountOutput> | Observable<CreateNewAccountOutput> | CreateNewAccountOutput;
+
+  loginByToken(
+    request: LoginToken,
+    metadata?: Metadata,
+  ): Promise<LoginTokenOutput> | Observable<LoginTokenOutput> | LoginTokenOutput;
 }
 
 export function AccountControllerMethods() {
@@ -608,6 +721,7 @@ export function AccountControllerMethods() {
       "getAccountByEmail",
       "verifyEmailAccount",
       "login",
+      "loginByToken",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
@@ -693,6 +807,15 @@ export const AccountService = {
       Buffer.from(CreateNewAccountOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): CreateNewAccountOutput => CreateNewAccountOutput.decode(value),
   },
+  loginByToken: {
+    path: "/account.Account/loginByToken",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: LoginToken): Buffer => Buffer.from(LoginToken.encode(value).finish()),
+    requestDeserialize: (value: Buffer): LoginToken => LoginToken.decode(value),
+    responseSerialize: (value: LoginTokenOutput): Buffer => Buffer.from(LoginTokenOutput.encode(value).finish()),
+    responseDeserialize: (value: Buffer): LoginTokenOutput => LoginTokenOutput.decode(value),
+  },
 } as const;
 
 export interface AccountServer extends UntypedServiceImplementation {
@@ -703,6 +826,7 @@ export interface AccountServer extends UntypedServiceImplementation {
   getAccountByEmail: handleUnaryCall<GetAccountByEmailInput, AccountOutput>;
   verifyEmailAccount: handleUnaryCall<VerifyEmailAccount, AccountOutput>;
   login: handleUnaryCall<LoginAccount, CreateNewAccountOutput>;
+  loginByToken: handleUnaryCall<LoginToken, LoginTokenOutput>;
 }
 
 export interface MessageFns<T> {

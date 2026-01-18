@@ -89,4 +89,20 @@ export class AccountService {
       id: account.id,
     };
   }
+
+  public async loginByToken(token: string) {
+    const isTokenValid = await this.jwtService.verifyAsync(token, {
+      secret: 'secret',
+    });
+    console.log('IS TOKEN VALID', isTokenValid);
+    if (!isTokenValid) {
+      throw new Error('Invalid token');
+    }
+
+    return this.jwtService.decode<{
+      accountId: string;
+      email: string;
+      userId: string;
+    }>(token);
+  }
 }
