@@ -21,4 +21,6 @@ export class SchedulerService {
       ...data.map((account) => this.jobsQueue.enqueueVerifiedEmail(account)),
     ]);
   }
+
+  async checkCalculatedDestination() {}
 }

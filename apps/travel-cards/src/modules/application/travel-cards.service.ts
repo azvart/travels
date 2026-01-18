@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TravelCardsRepository } from '../domain/repositories/travel-cards.repository';
-import { CreateTravelCardInput } from '@app/types';
+import { CreateTravelCardInput, UpdateTravelCardInputType } from '@app/types';
 import { v4 as uuid } from 'uuid';
 import { TravelCards } from '@app/dto';
 
@@ -27,5 +27,13 @@ export class TravelCardsService {
 
   public async getCardById(id: string) {
     return this.travelCardsRepository.getCardById(id);
+  }
+
+  public async updateExistTravelCard(input: UpdateTravelCardInputType) {
+    return this.travelCardsRepository.updateExistTravelCard(input);
+  }
+
+  public async deleteExistTravelCard(input: { id: string; userId: string }) {
+    return this.travelCardsRepository.deleteExistTravelCard(input);
   }
 }

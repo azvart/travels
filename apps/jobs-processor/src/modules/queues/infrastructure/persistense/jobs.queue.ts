@@ -27,4 +27,16 @@ export class JobsQueue implements JobsRepository {
       },
     });
   }
+
+  public async enqueueCalculateDestination(payload: { cardId: string }) {
+    await this.queue.add('calculate-destination', payload, {
+      jobId: `calculate-destination-${payload.cardId}`,
+      removeOnComplete: true,
+      attempts: 3,
+      backoff: {
+        type: 'exponential',
+        delay: 5000,
+      },
+    });
+  }
 }

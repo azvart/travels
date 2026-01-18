@@ -22,4 +22,26 @@ export class TravelCardsGrpController {
   public async getCardById(data: { id: string }) {
     return this.travelCardsService.getCardById(data.id);
   }
+
+  @GrpcMethod('TravelCard', 'updateExistTravelCard')
+  public async updateExistTravelCard(data: {
+    id: string;
+    userId: string;
+    title?: string;
+    description?: string;
+    amount?: string;
+    currency?: string;
+    image?: string;
+    timezone?: string;
+    timezoneOffset?: string;
+    startDate?: Date;
+    endDate?: Date;
+  }) {
+    return this.travelCardsService.updateExistTravelCard(data);
+  }
+
+  @GrpcMethod('TravelCard', 'deleteExistTravelCard')
+  public async deleteExistTravelCard(data: { id: string; userId: string }) {
+    return this.travelCardsService;
+  }
 }

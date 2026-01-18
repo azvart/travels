@@ -145,6 +145,15 @@
         "tsConfigPath": "libs/types/tsconfig.lib.json"
       }
     },
+    "weather": {
+      "type": "application",
+      "root": "apps/weather",
+      "entryFile": "main",
+      "sourceRoot": "apps/weather/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/weather/tsconfig.app.json"
+      }
+    },
     "weather-processor": {
       "type": "application",
       "root": "apps/weather-processor",

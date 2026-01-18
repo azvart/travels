@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TravelCardsRepository } from '../../domain/repositories/travel-cards.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TravelCardsOrmEntity } from '@app/entities/enity';
 import { Repository } from 'typeorm';
 import { TravelCards } from '@app/dto';
+import { UpdateTravelCardInputType } from '@app/types';
 
 @Injectable()
 export class TravelCardsTypeormRepository implements TravelCardsRepository {
@@ -58,4 +59,54 @@ export class TravelCardsTypeormRepository implements TravelCardsRepository {
   }
 
   public async getCardByUserId() {}
+
+  public async updateExistTravelCard(
+    input: UpdateTravelCardInputType,
+  ): Promise<TravelCards | null> {
+    const travelCard = await this.travelCardsRepository.update(
+      { id: input.id, userId: input.userId } as any,
+      input,
+    );
+    if (travelCard.affected === 0) {
+      throw new NotFoundException();
+    }
+    const orm = await this.getCardById(input.id);
+
+    return orm
+      ? new TravelCards(
+          orm.id,
+          input.userId,
+          orm.title,
+          orm.description,
+          orm.image,
+          orm.amount,
+          orm.currency,
+          orm.timezone,
+          orm.timezoneOffset,
+          orm.startDate,
+          orm.endDate,
+        )
+      : null;
+  }
+
+  public async deleteExistTravelCard({
+    id,
+    userId,
+  }: {
+    id: string;
+    userId: string;
+  }): Promise<{ success: boolean } | null> {
+    const travelCard = await this.travelCardsRepository.delete({
+      id,
+      userId,
+    } as any);
+
+    if (travelCard.affected === 0) {
+      throw new NotFoundException();
+    }
+
+    return {
+      success: true,
+    };
+  }
 }
