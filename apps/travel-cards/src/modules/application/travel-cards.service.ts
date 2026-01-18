@@ -36,4 +36,7 @@ export class TravelCardsService {
   public async deleteExistTravelCard(input: { id: string; userId: string }) {
     return this.travelCardsRepository.deleteExistTravelCard(input);
   }
+  public async getCards() {
+    return this.travelCardsRepository.getCards();
+  }
 }

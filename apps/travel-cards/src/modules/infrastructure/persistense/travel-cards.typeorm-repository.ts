@@ -109,4 +109,29 @@ export class TravelCardsTypeormRepository implements TravelCardsRepository {
       success: true,
     };
   }
+
+  public async getCards() {
+    const orm = await this.travelCardsRepository.find({
+      relations: ['user'],
+    });
+
+    return orm
+      ? orm.map(
+          (item) =>
+            new TravelCards(
+              item.id,
+              item.user.id,
+              item.title,
+              item.description,
+              item.image,
+              item.amount,
+              item.currency,
+              item.timezone,
+              item.timezoneOffset,
+              item.startDate,
+              item.endDate,
+            ),
+        )
+      : null;
+  }
 }
