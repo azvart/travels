@@ -15,4 +15,6 @@ export abstract class TravelCardsRepository {
     id: string;
     userId: string;
   }): Promise<{ success: boolean } | null>;
+
+  abstract getCards(): Promise<TravelCards[] | null>;
 }

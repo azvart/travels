@@ -42,6 +42,11 @@ export class TravelCardsGrpController {
 
   @GrpcMethod('TravelCard', 'deleteExistTravelCard')
   public async deleteExistTravelCard(data: { id: string; userId: string }) {
-    return this.travelCardsService;
+    return this.travelCardsService.deleteExistTravelCard(data);
+  }
+
+  @GrpcMethod('TravelCard', 'getCards')
+  public async getCards() {
+    return this.travelCardsService.getCards();
   }
 }

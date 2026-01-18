@@ -9,6 +9,7 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
+import { Empty } from "../google/protobuf/empty";
 
 export const protobufPackage = "travelCards";
 
@@ -60,6 +61,10 @@ export interface DeleteTravelCardInput {
 
 export interface DeleteTravelCardOutput {
   success: boolean;
+}
+
+export interface TravelCardMany {
+  cards: TravelCardsOutput[];
 }
 
 export const TRAVEL_CARDS_PACKAGE_NAME = "travelCards";
@@ -572,6 +577,43 @@ export const DeleteTravelCardOutput: MessageFns<DeleteTravelCardOutput> = {
   },
 };
 
+function createBaseTravelCardMany(): TravelCardMany {
+  return { cards: [] };
+}
+
+export const TravelCardMany: MessageFns<TravelCardMany> = {
+  encode(message: TravelCardMany, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.cards) {
+      TravelCardsOutput.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TravelCardMany {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTravelCardMany();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.cards.push(TravelCardsOutput.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
 export interface TravelCardClient {
   createNewTravelCards(request: CreateNewTravelCards, metadata?: Metadata): Observable<TravelCardsOutput>;
 
@@ -580,6 +622,8 @@ export interface TravelCardClient {
   updateExistTravelCard(request: UpdateTravelCardInput, metadata?: Metadata): Observable<TravelCardsOutput>;
 
   deleteExistTravelCard(request: DeleteTravelCardInput, metadata?: Metadata): Observable<DeleteTravelCardOutput>;
+
+  getCards(request: Empty, metadata?: Metadata): Observable<TravelCardMany>;
 }
 
 export interface TravelCardController {
@@ -602,6 +646,8 @@ export interface TravelCardController {
     request: DeleteTravelCardInput,
     metadata?: Metadata,
   ): Promise<DeleteTravelCardOutput> | Observable<DeleteTravelCardOutput> | DeleteTravelCardOutput;
+
+  getCards(request: Empty, metadata?: Metadata): Promise<TravelCardMany> | Observable<TravelCardMany> | TravelCardMany;
 }
 
 export function TravelCardControllerMethods() {
@@ -611,6 +657,7 @@ export function TravelCardControllerMethods() {
       "getCardById",
       "updateExistTravelCard",
       "deleteExistTravelCard",
+      "getCards",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
@@ -667,6 +714,15 @@ export const TravelCardService = {
       Buffer.from(DeleteTravelCardOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): DeleteTravelCardOutput => DeleteTravelCardOutput.decode(value),
   },
+  getCards: {
+    path: "/travelCards.TravelCard/getCards",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: Empty): Buffer => Buffer.from(Empty.encode(value).finish()),
+    requestDeserialize: (value: Buffer): Empty => Empty.decode(value),
+    responseSerialize: (value: TravelCardMany): Buffer => Buffer.from(TravelCardMany.encode(value).finish()),
+    responseDeserialize: (value: Buffer): TravelCardMany => TravelCardMany.decode(value),
+  },
 } as const;
 
 export interface TravelCardServer extends UntypedServiceImplementation {
@@ -674,6 +730,7 @@ export interface TravelCardServer extends UntypedServiceImplementation {
   getCardById: handleUnaryCall<GetTravelCardById, TravelCardsOutput>;
   updateExistTravelCard: handleUnaryCall<UpdateTravelCardInput, TravelCardsOutput>;
   deleteExistTravelCard: handleUnaryCall<DeleteTravelCardInput, DeleteTravelCardOutput>;
+  getCards: handleUnaryCall<Empty, TravelCardMany>;
 }
 
 export interface MessageFns<T> {
