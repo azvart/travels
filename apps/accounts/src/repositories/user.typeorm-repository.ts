@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../../domain/repositories/user.repository';
+import { UserAbstractRepository } from '../abstracts/user.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserOrmEntity } from '@app/entities/enity';
 import { Repository } from 'typeorm';
 import { User } from '@app/dto';
 
 @Injectable()
-export class UserTypeormRepository implements UserRepository {
+export class UserTypeormRepository implements UserAbstractRepository {
   public constructor(
     @InjectRepository(UserOrmEntity)
     public readonly userRepository: Repository<UserOrmEntity>,

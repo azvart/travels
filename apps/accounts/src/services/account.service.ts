@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AccountRepository } from '../domain/repositories/account.repository';
+import { AccountAbstractRepository } from '../abstracts/account.abstract.repository';
 import { Account } from '@app/dto';
 import { v4 as uuid } from 'uuid';
 import { UpdateAccountInput } from '@app/types/account/inputs/update-account.input';
@@ -11,7 +11,7 @@ import { AccountsRedisService } from '@app/redis/modules/accounts.service';
 export class AccountService {
   public constructor(
     private readonly userService: UserService,
-    private readonly accountRepository: AccountRepository,
+    private readonly accountRepository: AccountAbstractRepository,
     private readonly jwtService: JwtService,
     private readonly accountsRedisService: AccountsRedisService,
   ) {}
@@ -91,6 +91,7 @@ export class AccountService {
   }
 
   public async loginByToken(token: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const isTokenValid = await this.jwtService.verifyAsync(token, {
       secret: 'secret',
     });

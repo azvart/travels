@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AccountRepository } from '../../domain/repositories/account.repository';
+import { AccountAbstractRepository } from '../abstracts/account.abstract.repository';
 import { Account } from '@app/dto';
 import { AccountOrmEntity } from '@app/entities/enity';
 import { Repository } from 'typeorm';
-import { PasswordVo } from '../../domain/value-object/password.vo';
+import { PasswordVo } from '../value-object/password.vo';
 import { UpdateAccountInput } from '@app/types/account/inputs/update-account.input';
 
 @Injectable()
-export class AccountTypeormRepository implements AccountRepository {
+export class AccountTypeormRepository implements AccountAbstractRepository {
   public constructor(
     @InjectRepository(AccountOrmEntity)
     private readonly accountRepository: Repository<AccountOrmEntity>,

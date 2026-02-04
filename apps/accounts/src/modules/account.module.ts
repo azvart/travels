@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AccountRepository } from './domain/repositories/account.repository';
-import { AccountTypeormRepository } from './infrastructure/persistense/account.typeorm-repository';
+import { AccountAbstractRepository } from '../abstracts/account.abstract.repository';
+import { AccountTypeormRepository } from '../repositories/account.typeorm-repository';
 import { JwtModule } from '@nestjs/jwt';
-import { AccountService } from './application/account.service';
+import { AccountService } from '../services/account.service';
 import { EntitiesModule } from '@app/entities';
-import { AccountGrpcController } from './interfaces/grpc/account.grpc.controller';
+import { AccountGrpcController } from '../controllers/account.grpc.controller';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
-import { UserService } from './application/user.service';
-import { UserRepository } from './domain/repositories/user.repository';
-import { UserTypeormRepository } from './infrastructure/persistense/user.typeorm-repository';
+import { UserService } from '../services/user.service';
+import { UserAbstractRepository } from '../abstracts/user.abstract.repository';
+import { UserTypeormRepository } from '../repositories/user.typeorm-repository';
 
 @Module({
   imports: [EntitiesModule, JwtModule, GrpcApiClientsModule],
@@ -17,11 +17,11 @@ import { UserTypeormRepository } from './infrastructure/persistense/user.typeorm
     AccountService,
     UserService,
     {
-      provide: AccountRepository,
+      provide: AccountAbstractRepository,
       useClass: AccountTypeormRepository,
     },
     {
-      provide: UserRepository,
+      provide: UserAbstractRepository,
       useClass: UserTypeormRepository,
     },
   ],
