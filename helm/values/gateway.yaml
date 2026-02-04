@@ -1,0 +1,1 @@
+name: gatewayimage:  repository: gateway  tag: "latest"service:  port: 5000env:  SERVICE_NAME: gateway  PORT: "5000"  RUN_APP: gatewayingress:  enabled: true  host: api.local  path: /gateway

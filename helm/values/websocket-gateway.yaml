@@ -1,0 +1,1 @@
+name: websocket-gatewayimage:  repository: websocket-gateway  tag: "latest"service:  port: 4000env:  SERVICE_NAME: websocket-gateway  PORT: "4000"  RUN_APP: websocket-gatewayingress:  enabled: true  host: api.local  path: /websocket-gateway

@@ -1,0 +1,1 @@
+name: travel-cardsimage:  repository: travel-cards  tag: "latest"service:  port: 3004env:  SERVICE_NAME: travel-cards  PORT: "3004"  RUN_APP: travel-cardsingress:  enabled: true  host: api.local  path: /travel-cards

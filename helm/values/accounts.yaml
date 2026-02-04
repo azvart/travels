@@ -1,0 +1,1 @@
+name: accountsimage:  repository: accounts  tag: "latest"service:  port: 3002env:  SERVICE_NAME: accounts  PORT: "3002"  RUN_APP: accountsingress:  enabled: true  host: api.local  path: /accounts
