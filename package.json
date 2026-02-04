@@ -7,7 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "build": "npm-run-all --parallel & nest build gateway & nest build accounts & nest build travel-cards & nest build websocket-gateway & nest build job-processor",
+    "build": "nest build",
+    "build-all:dev": "npm-run-all --parallel & nest build gateway & nest build accounts & nest build travel-cards & nest build websocket-gateway & nest build job-processor",
     "start": "npm-run-all --parallel & nest start & nest start travel-cards & nest start job-processor & nest start accounts & nest start websocket-gateway",
     "start:services": "npm-run-all --parallel start:accounts start:travel-cards start:job-processor start:gateway start:websocket-gateway",
     "start-all:dev": "npm-run-all start:services",

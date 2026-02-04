@@ -1,0 +1,1 @@
+name: job-processorimage:  repository: job-processor  tag: "latest"service:  port: 6000env:  SERVICE_NAME: job-processor  PORT: "6000"  RUN_APP: job-processoringress:  enabled: true  host: api.local  path: /job-processor
