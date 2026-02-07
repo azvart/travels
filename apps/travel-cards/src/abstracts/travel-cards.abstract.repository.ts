@@ -1,7 +1,7 @@
 import { TravelCards } from '@app/dto';
 import { UpdateTravelCardInputType } from '@app/types';
 
-export abstract class TravelCardsRepository {
+export abstract class TravelCardsAbstractRepository {
   abstract createNewCard(input: TravelCards): Promise<TravelCards | null>;
   abstract getCardById(id: string): Promise<TravelCards | null>;
   abstract getCardByUserId(userId: string): Promise<void>;

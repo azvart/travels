@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TravelCardsRepository } from '../../domain/repositories/travel-cards.repository';
+import { TravelCardsAbstractRepository } from '../abstracts/travel-cards.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TravelCardsOrmEntity } from '@app/entities/enity';
 import { Repository } from 'typeorm';
@@ -7,7 +7,9 @@ import { TravelCards } from '@app/dto';
 import { UpdateTravelCardInputType } from '@app/types';
 
 @Injectable()
-export class TravelCardsTypeormRepository implements TravelCardsRepository {
+export class TravelCardsTypeormRepository
+  implements TravelCardsAbstractRepository
+{
   public constructor(
     @InjectRepository(TravelCardsOrmEntity)
     public readonly travelCardsRepository: Repository<TravelCardsOrmEntity>,

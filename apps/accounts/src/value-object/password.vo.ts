@@ -1,4 +1,4 @@
-import { genSaltSync, hashSync, compareSync } from 'bcrypt';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 
 export class PasswordVo {
   private readonly value: string;
@@ -8,8 +8,7 @@ export class PasswordVo {
       throw new Error('Password must be provided');
     }
     const salt = genSaltSync(10);
-    const hash = hashSync(password, salt);
-    this.value = hash;
+    this.value = hashSync(password, salt);
   }
 
   public getHashedPasswordValue(): string {

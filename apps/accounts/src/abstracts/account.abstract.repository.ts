@@ -1,7 +1,7 @@
 import { Account } from '@app/dto';
 import { UpdateAccountInput } from '@app/types/account/inputs/update-account.input';
 
-export abstract class AccountRepository {
+export abstract class AccountAbstractRepository {
   abstract save(account: Account): Promise<void>;
   abstract findById(id: string): Promise<Account | null>;
   abstract findByEmail(email: string): Promise<Account | null>;

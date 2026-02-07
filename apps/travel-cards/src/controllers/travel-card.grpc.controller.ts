@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import { TravelCardsService } from '../../application/travel-cards.service';
+import { TravelCardsService } from '../services/travel-cards.service';
 
 @Controller()
 export class TravelCardsGrpController {

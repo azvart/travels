@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../domain/repositories/user.repository';
+import { UserAbstractRepository } from '../abstracts/user.abstract.repository';
 import { User } from '@app/dto';
 import { v4 as uuid } from 'uuid';
 @Injectable()
 export class UserService {
-  public constructor(private readonly userRepository: UserRepository) {}
+  public constructor(private readonly userRepository: UserAbstractRepository) {}
 
   public async createNewUser(accountId: string) {
     const user = new User(uuid(), accountId);
