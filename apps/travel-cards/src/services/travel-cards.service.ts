@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TravelCardsRepository } from '../domain/repositories/travel-cards.repository';
+import { TravelCardsAbstractRepository } from '../abstracts/travel-cards.abstract.repository';
 import { CreateTravelCardInput, UpdateTravelCardInputType } from '@app/types';
 import { v4 as uuid } from 'uuid';
 import { TravelCards } from '@app/dto';
@@ -7,7 +7,7 @@ import { TravelCards } from '@app/dto';
 @Injectable()
 export class TravelCardsService {
   public constructor(
-    private readonly travelCardsRepository: TravelCardsRepository,
+    private readonly travelCardsRepository: TravelCardsAbstractRepository,
   ) {}
 
   public async createNewCard(
