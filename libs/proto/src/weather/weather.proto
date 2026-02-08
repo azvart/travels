@@ -1,0 +1,1 @@
+syntax = 'proto3';package weather;service Weather {  rpc weather(WeatherInput) returns (WeatherOutput);}message WeatherInput {}message WeatherOutput {}
