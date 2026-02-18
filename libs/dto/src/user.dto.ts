@@ -1,4 +1,16 @@
+import { UserOrmEntity } from '@app/entities/enity';
+
 export class User {
+  public static fromEntity(user: UserOrmEntity) {
+    return new User(
+      user.id,
+      user.accountId,
+      user.firstName,
+      user.lastName,
+      user.age,
+    );
+  }
+
   constructor(
     private readonly _id: string,
     private readonly _accountId: string,
