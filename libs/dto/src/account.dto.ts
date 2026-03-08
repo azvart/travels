@@ -2,14 +2,16 @@ import { User } from './user.dto';
 import { AccountOrmEntity } from '@app/entities/enity';
 
 export class Account {
-  public static fromEntity(account: AccountOrmEntity) {
-    return new Account(
-      account.id,
-      account.email,
-      account.password,
-      account.registrationType,
-      account.isEmailVerified,
-    );
+  public static fromEntity(account?: AccountOrmEntity | null) {
+    return account
+      ? new Account(
+          account.id,
+          account.email,
+          account.password,
+          account.registrationType,
+          account.isEmailVerified,
+        )
+      : null;
   }
 
   constructor(
