@@ -29,16 +29,12 @@ export class AccountTypeormRepository implements AccountAbstractRepository {
     const orm = await this.accountRepository.findOne({
       where: { id },
     });
-    return orm
-      ? new Account(orm.id, orm.email, orm.password, orm.registrationType)
-      : null;
+    return Account.fromEntity(orm);
   }
 
   public async findByEmail(email: string): Promise<Account | null> {
     const orm = await this.accountRepository.findOne({ where: { email } });
-    return orm
-      ? new Account(orm.id, orm.email, orm.password, orm.registrationType)
-      : null;
+    return Account.fromEntity(orm);
   }
 
   public async deleteAccount(id: string) {
@@ -74,9 +70,7 @@ export class AccountTypeormRepository implements AccountAbstractRepository {
       where: { email },
     });
 
-    return orm
-      ? new Account(orm.id, orm.email, orm.password, orm.registrationType)
-      : null;
+    return Account.fromEntity(orm);
   }
 
   public async login(email: string, password: string) {
@@ -85,20 +79,15 @@ export class AccountTypeormRepository implements AccountAbstractRepository {
       throw new Error('Please enter a valid email');
     }
 
-    const isComparedPassord = PasswordVo.comparePassword(
+    const isComparedPassword = PasswordVo.comparePassword(
       account.password,
       password,
     );
 
-    if (!isComparedPassord) {
+    if (!isComparedPassword) {
       throw new Error('Invalid password');
     }
 
-    return new Account(
-      account.id,
-      account.email,
-      account.password,
-      account.registrationType,
-    );
+    return Account.fromEntity(account);
   }
 }

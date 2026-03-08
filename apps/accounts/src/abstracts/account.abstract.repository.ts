@@ -8,5 +8,5 @@ export abstract class AccountAbstractRepository {
   abstract deleteAccount(id: string): Promise<boolean>;
   abstract updateAccount(account: UpdateAccountInput): Promise<Account | null>;
   abstract verifyAccountEmail(email: string): Promise<Account | null>;
-  abstract login(email: string, password: string): Promise<Account>;
+  abstract login(email: string, password: string): Promise<Account | null>;
 }

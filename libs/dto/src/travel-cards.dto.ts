@@ -1,6 +1,23 @@
 import { User } from '@app/dto/user.dto';
+import { TravelCardsOrmEntity } from '@app/entities/enity';
 
 export class TravelCards {
+  public static fromEntity(travelCard: TravelCardsOrmEntity) {
+    return new TravelCards(
+      travelCard.id,
+      travelCard.user.id,
+      travelCard.title,
+      travelCard.description,
+      travelCard.image,
+      travelCard.amount,
+      travelCard.currency,
+      travelCard.timezone,
+      travelCard.timezoneOffset,
+      travelCard.startDate,
+      travelCard.endDate,
+    );
+  }
+
   constructor(
     private readonly _id: string,
     private readonly _userId: string,

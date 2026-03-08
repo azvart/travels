@@ -5,6 +5,8 @@ import {
   AccountOrmEntity,
   TravelCardsOrmEntity,
   UserOrmEntity,
+  WeatherCardOrmEntity,
+  WeatherOrmEntity,
 } from '@app/entities/enity';
 
 @Module({
@@ -13,6 +15,8 @@ import {
       AccountOrmEntity,
       UserOrmEntity,
       TravelCardsOrmEntity,
+      WeatherCardOrmEntity,
+      WeatherOrmEntity,
     ]),
   ],
   exports: [
@@ -20,6 +24,8 @@ import {
       AccountOrmEntity,
       UserOrmEntity,
       TravelCardsOrmEntity,
+      WeatherCardOrmEntity,
+      WeatherOrmEntity,
     ]),
   ],
 })
