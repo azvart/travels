@@ -75,19 +75,23 @@ export class AccountService {
 
   public async login(email: string, password: string) {
     const account = await this.accountRepository.login(email, password);
-    const user = await this.userService.findByAccountId(account.id);
+    if (account) {
+      const user = await this.userService.findByAccountId(account.id);
 
-    const payload = {
-      accountId: account.id,
-      email: account.email,
-      userId: user?.id,
-    };
-    return {
-      token: await this.jwtService.signAsync(payload, {
-        secret: 'secret',
-      }),
-      id: account.id,
-    };
+      const payload = {
+        accountId: account.id,
+        email: account.email,
+        userId: user?.id,
+      };
+      return {
+        token: await this.jwtService.signAsync(payload, {
+          secret: 'secret',
+        }),
+        id: account.id,
+      };
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 
   public async loginByToken(token: string) {

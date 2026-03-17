@@ -48,9 +48,17 @@ type DeleteTravelCardsOutputType {
   success: Boolean!
 }
 
+type Achievement {
+  id: ID!
+  name: String!
+  points: Float!
+}
+
 type Query {
   getAccount(id: String!): Account
   getAccountByEmail(email: String!): Account
+  getAllAchievements: [Achievement!]!
+  getAchievement(id: String!): Achievement!
 }
 
 type Mutation {
@@ -61,6 +69,8 @@ type Mutation {
   createCard(input: CreateTravelCardInput!): TravelCardsOutputType!
   updateCard(input: UpdateTravelCardInputType!): TravelCardsOutputType!
   deleteCard(id: String!): DeleteTravelCardsOutputType!
+  createAchievement(input: CreateAchievementInput!): Achievement!
+  deleteAchievement(input: DeleteAchievementInput!): Boolean!
 }
 
 input UpdateAccountInput {
@@ -89,4 +99,13 @@ input UpdateTravelCardInputType {
   timezoneOffset: String
   startDate: String
   endDate: String
+}
+
+input CreateAchievementInput {
+  name: String!
+  points: Float!
+}
+
+input DeleteAchievementInput {
+  id: ID!
 }

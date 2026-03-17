@@ -5,3 +5,4 @@ export * from './enums';
 export * from './interfaces';
 export * from './travel-cards';
 export * from './socket-event';
+export * from './achievements';

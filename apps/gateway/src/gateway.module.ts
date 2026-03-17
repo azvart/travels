@@ -10,6 +10,8 @@ import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 import { DecoratorsModule } from '@app/decorators';
 import { JwtModule } from '@nestjs/jwt';
 import { TravelCardsMutationResolver } from './resolvers/travel-cards/travel-cards-mutation.resolver';
+import { AchievementsMutationResolver } from './resolvers/achievements/achievements-mutation.resolver';
+import { AchievementsQueryResolver } from './resolvers/achievements/achievements-queries.resolver';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { TravelCardsMutationResolver } from './resolvers/travel-cards/travel-car
     AccountQueriesResolver,
     AccountMutationResolver,
     TravelCardsMutationResolver,
+    AchievementsMutationResolver,
+    AchievementsQueryResolver,
   ],
 })
 export class GatewayModule {}
