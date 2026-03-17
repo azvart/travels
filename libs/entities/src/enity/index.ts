@@ -3,3 +3,4 @@ export * from './account.orm-entity';
 export * from './travel-cards.orm-entity';
 export * from './weather.orm-entity';
 export * from './weather-card.orm-entity';
+export * from './achievements.orm-entity';

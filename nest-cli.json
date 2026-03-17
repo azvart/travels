@@ -19,6 +19,15 @@
         "tsConfigPath": "apps/accounts/tsconfig.app.json"
       }
     },
+    "achievements": {
+      "type": "application",
+      "root": "apps/achievements",
+      "entryFile": "main",
+      "sourceRoot": "apps/achievements/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/achievements/tsconfig.app.json"
+      }
+    },
     "config": {
       "type": "library",
       "root": "libs/config",
