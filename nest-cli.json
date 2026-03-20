@@ -100,15 +100,6 @@
         "tsConfigPath": "apps/jobs-processor/tsconfig.app.json"
       }
     },
-    "kafka": {
-      "type": "library",
-      "root": "libs/kafka",
-      "entryFile": "index",
-      "sourceRoot": "libs/kafka/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/kafka/tsconfig.lib.json"
-      }
-    },
     "proto": {
       "type": "library",
       "root": "libs/proto",

@@ -35,7 +35,6 @@
     "@apollo/gateway": "^2.11.2",
     "@apollo/server": "^4.12.2",
     "@apollo/subgraph": "^2.11.2",
-    "@confluentinc/kafka-javascript": "^1.8.0",
     "@grpc/grpc-js": "^1.14.0",
     "@grpc/proto-loader": "^0.8.0",
     "@nestjs/apollo": "^13.1.0",

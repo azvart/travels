@@ -1,8 +1,21 @@
 import { NestFactory } from '@nestjs/core';
-import { WeatherProcessorModule } from './weather-processor.module';
+import { Transport } from '@nestjs/microservices';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(WeatherProcessorModule);
-  await app.listen(process.env.port ?? 5001);
+  const app = await NestFactory.createMicroservice(AppModule, {
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        clientId: 'weather-client',
+        brokers: ['localhost:9092'],
+      },
+      consumer: {
+        groupId: 'weather-consumer',
+      },
+    },
+  });
+  await app.listen();
 }
 bootstrap();
