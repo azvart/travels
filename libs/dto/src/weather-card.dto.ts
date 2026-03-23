@@ -1,4 +1,15 @@
+import { WeatherCardOrmEntity } from '@app/entities/enity';
+
 export class WeatherCard {
+  public static fromEntity(entity: WeatherCardOrmEntity) {
+    return new WeatherCard(
+      entity.id,
+      entity.travelCardId,
+      entity.country,
+      entity.city,
+    );
+  }
+
   public constructor(
     private readonly _id: string,
     private readonly _travelCardId: string,

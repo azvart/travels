@@ -9,23 +9,61 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
+import { Empty } from "../google/protobuf/empty";
+import { BoolValue } from "../google/protobuf/wrappers";
 
 export const protobufPackage = "weather";
 
 export interface WeatherInput {
+  accountId: string;
+  userId: string;
+  country: string;
 }
 
 export interface WeatherOutput {
 }
 
+export interface WeatherCreateInput {
+  accountId: string;
+  country?: string | undefined;
+  city?: string | undefined;
+}
+
+export interface WeatherUpdateOneInput {
+  weatherId: string;
+  country?: string | undefined;
+  city?: string | undefined;
+  accountId?: string | undefined;
+}
+
+export interface WeatherUpdateOneOutput {
+  id: string;
+  accountId: string;
+  city?: string | undefined;
+  country?: string | undefined;
+}
+
+export interface WeatherDeleteOneInput {
+  weatherId: string;
+}
+
 export const WEATHER_PACKAGE_NAME = "weather";
 
 function createBaseWeatherInput(): WeatherInput {
-  return {};
+  return { accountId: "", userId: "", country: "" };
 }
 
 export const WeatherInput: MessageFns<WeatherInput> = {
-  encode(_: WeatherInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+  encode(message: WeatherInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.accountId !== "") {
+      writer.uint32(10).string(message.accountId);
+    }
+    if (message.userId !== "") {
+      writer.uint32(18).string(message.userId);
+    }
+    if (message.country !== "") {
+      writer.uint32(26).string(message.country);
+    }
     return writer;
   },
 
@@ -36,6 +74,30 @@ export const WeatherInput: MessageFns<WeatherInput> = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.accountId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -72,8 +134,250 @@ export const WeatherOutput: MessageFns<WeatherOutput> = {
   },
 };
 
+function createBaseWeatherCreateInput(): WeatherCreateInput {
+  return { accountId: "" };
+}
+
+export const WeatherCreateInput: MessageFns<WeatherCreateInput> = {
+  encode(message: WeatherCreateInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.accountId !== "") {
+      writer.uint32(10).string(message.accountId);
+    }
+    if (message.country !== undefined) {
+      writer.uint32(18).string(message.country);
+    }
+    if (message.city !== undefined) {
+      writer.uint32(26).string(message.city);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): WeatherCreateInput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseWeatherCreateInput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.accountId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.city = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseWeatherUpdateOneInput(): WeatherUpdateOneInput {
+  return { weatherId: "" };
+}
+
+export const WeatherUpdateOneInput: MessageFns<WeatherUpdateOneInput> = {
+  encode(message: WeatherUpdateOneInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.weatherId !== "") {
+      writer.uint32(10).string(message.weatherId);
+    }
+    if (message.country !== undefined) {
+      writer.uint32(18).string(message.country);
+    }
+    if (message.city !== undefined) {
+      writer.uint32(26).string(message.city);
+    }
+    if (message.accountId !== undefined) {
+      writer.uint32(34).string(message.accountId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): WeatherUpdateOneInput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseWeatherUpdateOneInput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.weatherId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.city = reader.string();
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.accountId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseWeatherUpdateOneOutput(): WeatherUpdateOneOutput {
+  return { id: "", accountId: "" };
+}
+
+export const WeatherUpdateOneOutput: MessageFns<WeatherUpdateOneOutput> = {
+  encode(message: WeatherUpdateOneOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.accountId !== "") {
+      writer.uint32(18).string(message.accountId);
+    }
+    if (message.city !== undefined) {
+      writer.uint32(26).string(message.city);
+    }
+    if (message.country !== undefined) {
+      writer.uint32(34).string(message.country);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): WeatherUpdateOneOutput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseWeatherUpdateOneOutput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.accountId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.city = reader.string();
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseWeatherDeleteOneInput(): WeatherDeleteOneInput {
+  return { weatherId: "" };
+}
+
+export const WeatherDeleteOneInput: MessageFns<WeatherDeleteOneInput> = {
+  encode(message: WeatherDeleteOneInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.weatherId !== "") {
+      writer.uint32(10).string(message.weatherId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): WeatherDeleteOneInput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseWeatherDeleteOneInput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.weatherId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
 export interface WeatherClient {
   weather(request: WeatherInput, metadata?: Metadata): Observable<WeatherOutput>;
+
+  create(request: WeatherCreateInput, metadata?: Metadata): Observable<Empty>;
+
+  updateOne(request: WeatherUpdateOneInput, metadata?: Metadata): Observable<WeatherUpdateOneOutput>;
+
+  deleteOne(request: WeatherDeleteOneInput, metadata?: Metadata): Observable<BoolValue>;
 }
 
 export interface WeatherController {
@@ -81,11 +385,23 @@ export interface WeatherController {
     request: WeatherInput,
     metadata?: Metadata,
   ): Promise<WeatherOutput> | Observable<WeatherOutput> | WeatherOutput;
+
+  create(request: WeatherCreateInput, metadata?: Metadata): void;
+
+  updateOne(
+    request: WeatherUpdateOneInput,
+    metadata?: Metadata,
+  ): Promise<WeatherUpdateOneOutput> | Observable<WeatherUpdateOneOutput> | WeatherUpdateOneOutput;
+
+  deleteOne(
+    request: WeatherDeleteOneInput,
+    metadata?: Metadata,
+  ): Promise<BoolValue> | Observable<BoolValue> | BoolValue;
 }
 
 export function WeatherControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["weather"];
+    const grpcMethods: string[] = ["weather", "create", "updateOne", "deleteOne"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("Weather", method)(constructor.prototype[method], method, descriptor);
@@ -111,10 +427,44 @@ export const WeatherService = {
     responseSerialize: (value: WeatherOutput): Buffer => Buffer.from(WeatherOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): WeatherOutput => WeatherOutput.decode(value),
   },
+  create: {
+    path: "/weather.Weather/create",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: WeatherCreateInput): Buffer => Buffer.from(WeatherCreateInput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): WeatherCreateInput => WeatherCreateInput.decode(value),
+    responseSerialize: (value: Empty): Buffer => Buffer.from(Empty.encode(value).finish()),
+    responseDeserialize: (value: Buffer): Empty => Empty.decode(value),
+  },
+  updateOne: {
+    path: "/weather.Weather/updateOne",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: WeatherUpdateOneInput): Buffer =>
+      Buffer.from(WeatherUpdateOneInput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): WeatherUpdateOneInput => WeatherUpdateOneInput.decode(value),
+    responseSerialize: (value: WeatherUpdateOneOutput): Buffer =>
+      Buffer.from(WeatherUpdateOneOutput.encode(value).finish()),
+    responseDeserialize: (value: Buffer): WeatherUpdateOneOutput => WeatherUpdateOneOutput.decode(value),
+  },
+  deleteOne: {
+    path: "/weather.Weather/deleteOne",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: WeatherDeleteOneInput): Buffer =>
+      Buffer.from(WeatherDeleteOneInput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): WeatherDeleteOneInput => WeatherDeleteOneInput.decode(value),
+    responseSerialize: (value: boolean | undefined): Buffer =>
+      Buffer.from(BoolValue.encode({ value: value ?? false }).finish()),
+    responseDeserialize: (value: Buffer): boolean | undefined => BoolValue.decode(value).value,
+  },
 } as const;
 
 export interface WeatherServer extends UntypedServiceImplementation {
   weather: handleUnaryCall<WeatherInput, WeatherOutput>;
+  create: handleUnaryCall<WeatherCreateInput, Empty>;
+  updateOne: handleUnaryCall<WeatherUpdateOneInput, WeatherUpdateOneOutput>;
+  deleteOne: handleUnaryCall<WeatherDeleteOneInput, boolean | undefined>;
 }
 
 export interface MessageFns<T> {
