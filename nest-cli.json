@@ -28,13 +28,13 @@
         "tsConfigPath": "apps/achievements/tsconfig.app.json"
       }
     },
-    "config": {
+    "app-config": {
       "type": "library",
-      "root": "libs/config",
+      "root": "libs/app-config",
       "entryFile": "index",
-      "sourceRoot": "libs/config/src",
+      "sourceRoot": "libs/app-config/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/config/tsconfig.lib.json"
+        "tsConfigPath": "libs/app-config/tsconfig.lib.json"
       }
     },
     "database": {

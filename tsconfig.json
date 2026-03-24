@@ -18,6 +18,12 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@app/app-config": [
+        "libs/app-config/src"
+      ],
+      "@app/app-config/*": [
+        "libs/app-config/src/*"
+      ],
       "@app/decorators": [
         "libs/decorators/src"
       ],
@@ -65,12 +71,6 @@
       ],
       "@app/types/*": [
         "libs/types/src/*"
-      ],
-      "libs/config": [
-        "libs/config/src"
-      ],
-      "libs/config/*": [
-        "libs/config/src/*"
       ],
       "libs/database": [
         "libs/database/src"

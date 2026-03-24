@@ -14,7 +14,7 @@ export class AccountGrpcService implements OnModuleInit {
     options: {
       package: ACCOUNT_PACKAGE_NAME,
       protoPath: join(process.cwd(), 'libs/proto/src/account', 'account.proto'),
-      url: `0.0.0.0:${process.env.ACCOUNT_GRPC_PORT || '50052'}`,
+      url: `${process.env.ACCOUNTS_GRPC_HOST}:${process.env.ACCOUNTS_GRPC_PORT}`,
     },
   })
   private readonly client: ClientGrpc;
@@ -23,6 +23,8 @@ export class AccountGrpcService implements OnModuleInit {
 
   onModuleInit() {
     this.service = this.client.getService<AccountClient>(ACCOUNT_SERVICE_NAME);
-    console.log(`AccountGrpcService init`);
+    console.log(
+      `AccountGrpcService init and running on ${process.env.ACCOUNTS_GRPC_HOST}:${process.env.ACCOUNTS_GRPC_PORT}`,
+    );
   }
 }

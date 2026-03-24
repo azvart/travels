@@ -7,15 +7,19 @@ import { AccountMutationResolver } from './resolvers/account/account-mutation.re
 import { join } from 'node:path';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 
+import { DecoratorsModule } from '@app/decorators';
 import { JwtModule } from '@nestjs/jwt';
 import { TravelCardsMutationResolver } from './resolvers/travel-cards/travel-cards-mutation.resolver';
 import { AchievementsMutationResolver } from './resolvers/achievements/achievements-mutation.resolver';
 import { AchievementsQueryResolver } from './resolvers/achievements/achievements-queries.resolver';
 import { Context } from 'graphql-ws';
 import { WeatherSubscriptionResolver } from './subscriptions/weather/weather-subscription.resolver';
+import { AppConfigModule } from '@app/app-config';
 
 @Module({
   imports: [
+    AppConfigModule.forRootAsync(),
+    DecoratorsModule,
     JwtModule,
     GrpcApiClientsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
