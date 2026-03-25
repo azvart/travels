@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { JobsModule } from '../queues/jobs.module';
-import { SchedulerService } from './application/scheduler.service';
+import { JobsModule } from './jobs.module';
+import { SchedulerService } from '../services/scheduler.service';
 import { RedisModule } from '@app/redis';
 
 @Module({
