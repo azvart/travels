@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
-import { JobsQueue } from '../../queues/infrastructure/persistense/jobs.queue';
+import { JobsQueue } from '../repositories/jobs.queue';
 import { AccountsRedisService } from '@app/redis';
 
 @Injectable()

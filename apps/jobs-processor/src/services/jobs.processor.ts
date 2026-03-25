@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
-import { EmailVerifiedService } from '../../domains/application/email-verified.service';
-import { CalculateDestinationService } from '../../domains/application/calculate-destination.service';
+import { EmailVerifiedService } from './email-verified.service';
+import { CalculateDestinationService } from './calculate-destination.service';
 
 @Processor('jobs')
 export class JobsProcessor extends WorkerHost {

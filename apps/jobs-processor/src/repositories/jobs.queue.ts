@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { JobsRepository } from '../../domain/repositories/job.repository';
+import { JobsRepository } from '../abstracts/job.repository';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 

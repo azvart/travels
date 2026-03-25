@@ -41,4 +41,7 @@ export class RedisService implements OnModuleDestroy {
   getClient(): Redis {
     return this.redisClient;
   }
+  get client(): Redis {
+    return this.redisClient;
+  }
 }
