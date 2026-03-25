@@ -2,10 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
 import { join } from 'node:path';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-  const grpcPort = process.env.GRPC_PORT || '50052';
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const accountPort = configService.get<string>('ACCOUNTS_PORT');
+  const accountGrpcHost = configService.get<string>('ACCOUNTS_GRPC_HOST');
+  const accountGrpcPort = configService.get<string>('ACCOUNTS_GRPC_PORT');
   const protoPath = join(
     process.cwd(),
     'libs/proto/src/account',
@@ -17,12 +21,14 @@ async function bootstrap() {
     options: {
       package: 'account',
       protoPath,
-      url: `0.0.0.0:${grpcPort}`,
+      url: `${accountGrpcHost}:${accountGrpcPort}`,
     },
   });
 
   await app.startAllMicroservices();
-  await app.listen(3002);
-  console.log(`Account service (gRPC) listening on ${grpcPort}`);
+  await app.listen(accountPort as string);
+  console.log(
+    `Account service (gRPC) listening on ${accountGrpcHost}:${accountGrpcPort}`,
+  );
 }
 bootstrap();

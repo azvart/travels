@@ -18,7 +18,7 @@ export class TravelCardsGrpcService implements OnModuleInit {
         'libs/proto/src/travels-card',
         'travels-card.proto',
       ),
-      url: `0.0.0.0:${process.env.TRAVEL_CARDS_GRPC_PORT || '50053'}`,
+      url: `${process.env.TRAVEL_CARDS_GRPC_HOST}:${process.env.TRAVEL_CARDS_GRPC_PORT}`,
     },
   })
   private readonly client: ClientGrpc;
@@ -29,6 +29,8 @@ export class TravelCardsGrpcService implements OnModuleInit {
     this.service = this.client.getService<TravelCardClient>(
       TRAVEL_CARD_SERVICE_NAME,
     );
-    console.log('TravelCardsGrpcService init');
+    console.log(
+      `TravelCardsGrpcService init and running on ${process.env.TRAVEL_CARDS_GRPC_HOST}:${process.env.TRAVEL_CARDS_GRPC_PORT}`,
+    );
   }
 }

@@ -6,9 +6,15 @@ import { DatabaseModule } from 'libs/database';
 import { EntitiesModule } from '@app/entities';
 import { AchievementTypeormRepository } from './repositories/achievement.typeorm-repository';
 import { AchievementsAbstractRepository } from './abstracts/achievements.abstract.repository';
+import { AppConfigModule } from '@app/app-config';
 
 @Module({
-  imports: [RedisModule, DatabaseModule, EntitiesModule],
+  imports: [
+    AppConfigModule.forRootAsync(),
+    RedisModule,
+    DatabaseModule,
+    EntitiesModule,
+  ],
   controllers: [AchievementsGrpcController],
   providers: [
     AchievementsService,

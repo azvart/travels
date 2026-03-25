@@ -19,7 +19,7 @@ export class AchievementsGrpcService implements OnModuleInit {
         'libs/proto/src/achievements',
         'achievement.proto',
       ),
-      url: `0.0.0.0:${process.env.ACHIEVEMENTS_GRPC_PORT || 5054}`,
+      url: `${process.env.ACHIEVEMENT_GRPC_HOST}:${process.env.ACHIEVEMENT_GRPC_PORT}`,
     },
   })
   private readonly client: ClientGrpc;
@@ -30,6 +30,8 @@ export class AchievementsGrpcService implements OnModuleInit {
     this.service = this.client.getService<AchievementsClient>(
       ACHIEVEMENTS_SERVICE_NAME,
     );
-    console.log('Achievements grpc service init');
+    console.log(
+      `Achievements grpc service init and running on ${process.env.ACHIEVEMENT_GRPC_HOST}:${process.env.ACHIEVEMENT_GRPC_PORT}`,
+    );
   }
 }

@@ -3,8 +3,14 @@ import { DatabaseModule } from 'libs/database';
 
 import { AccountModule } from './modules/account.module';
 import { RedisModule } from '@app/redis';
+import { AppConfigModule } from '@app/app-config';
 
 @Module({
-  imports: [DatabaseModule, AccountModule, RedisModule],
+  imports: [
+    AppConfigModule.forRootAsync(),
+    DatabaseModule,
+    AccountModule,
+    RedisModule,
+  ],
 })
 export class AppModule {}

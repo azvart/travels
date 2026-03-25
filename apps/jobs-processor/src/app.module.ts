@@ -4,9 +4,11 @@ import { RedisModule } from '@app/redis';
 import { RedisBullModule } from './modules/redisBull/redisBull.module';
 import { DomainsModule } from './modules/domains/domains.module';
 import { SchedulerModule } from './modules/scheduler/scheduler.module';
+import { AppConfigModule } from '@app/app-config';
 
 @Module({
   imports: [
+    AppConfigModule.forRootAsync(),
     ScheduleModule.forRoot(),
     RedisModule,
     RedisBullModule,
