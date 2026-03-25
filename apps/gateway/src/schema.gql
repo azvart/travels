@@ -54,6 +54,12 @@ type Achievement {
   points: Float!
 }
 
+type WeatherObjectType {
+  id: ID!
+  country: String
+  city: String
+}
+
 type Query {
   getAccount(id: String!): Account
   getAccountByEmail(email: String!): Account
@@ -108,4 +114,8 @@ input CreateAchievementInput {
 
 input DeleteAchievementInput {
   id: ID!
+}
+
+type Subscription {
+  weatherSubscription: WeatherObjectType!
 }

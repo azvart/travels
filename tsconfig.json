@@ -42,12 +42,6 @@
       "@app/grpc-api-clients/*": [
         "libs/grpc-api-clients/src/*"
       ],
-      "@app/kafka": [
-        "libs/kafka/src"
-      ],
-      "@app/kafka/*": [
-        "libs/kafka/src/*"
-      ],
       "@app/proto": [
         "libs/proto/src"
       ],
