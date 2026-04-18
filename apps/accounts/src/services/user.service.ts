@@ -15,4 +15,11 @@ export class UserService {
   public async findByAccountId(accountId: string) {
     return this.userRepository.findByAccountId(accountId);
   }
+
+  public async updateUser(
+    userId: string,
+    updatedData: { firstName: string; lastName: string; age: number },
+  ) {
+    return this.userRepository.updateUserById(userId, updatedData);
+  }
 }

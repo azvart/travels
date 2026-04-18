@@ -6,6 +6,7 @@ import { UpdateAccountInput } from '@app/types/account/inputs/update-account.inp
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from './user.service';
 import { AccountsRedisService } from '@app/redis/modules/accounts.service';
+import { UserRedisService } from '@app/redis';
 
 @Injectable()
 export class AccountService {
@@ -14,6 +15,7 @@ export class AccountService {
     private readonly accountRepository: AccountAbstractRepository,
     private readonly jwtService: JwtService,
     private readonly accountsRedisService: AccountsRedisService,
+    private readonly userRedisService: UserRedisService,
   ) {}
 
   public async createNewAccount(
@@ -78,11 +80,16 @@ export class AccountService {
     if (account) {
       const user = await this.userService.findByAccountId(account.id);
 
+      if (user) {
+        await this.userRedisService.setUser(user.id, { login: true });
+      }
+
       const payload = {
         accountId: account.id,
         email: account.email,
         userId: user?.id,
       };
+
       return {
         token: await this.jwtService.signAsync(payload, {
           secret: 'secret',
@@ -109,5 +116,10 @@ export class AccountService {
       email: string;
       userId: string;
     }>(token);
+  }
+
+  public async logout(input: { userId: string; accountId: string }) {
+    await this.userRedisService.setUser(input.userId, { login: false });
+    return true;
   }
 }

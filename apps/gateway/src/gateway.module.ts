@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { AccountQueriesResolver } from './resolvers/account/account-queries.resolver';
 import { AccountMutationResolver } from './resolvers/account/account-mutation.resolver';
+import { CacheModule } from '@nestjs/cache-manager';
 
 import { join } from 'node:path';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
@@ -15,6 +16,7 @@ import { AchievementsQueryResolver } from './resolvers/achievements/achievements
 import { Context } from 'graphql-ws';
 import { WeatherSubscriptionResolver } from './subscriptions/weather/weather-subscription.resolver';
 import { AppConfigModule } from '@app/app-config';
+import { UserMutationResolver } from './resolvers/account/user-mutation.resolver';
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { AppConfigModule } from '@app/app-config';
     DecoratorsModule,
     JwtModule,
     GrpcApiClientsModule,
+    CacheModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'apps/gateway/src/schema.gql'),
@@ -45,6 +48,7 @@ import { AppConfigModule } from '@app/app-config';
     AchievementsMutationResolver,
     AchievementsQueryResolver,
     WeatherSubscriptionResolver,
+    UserMutationResolver,
   ],
 })
 export class GatewayModule {}

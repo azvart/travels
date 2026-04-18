@@ -1,23 +1,12 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Client, ClientGrpc, Transport } from '@nestjs/microservices';
-import {
-  ACCOUNT_PACKAGE_NAME,
-  ACCOUNT_SERVICE_NAME,
-  AccountClient,
-} from '@app/proto';
-import { join } from 'node:path';
+import { Injectable, OnModuleInit, Inject } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
+import { ACCOUNT_SERVICE_NAME, AccountClient } from '@app/proto';
 
 @Injectable()
 export class AccountGrpcService implements OnModuleInit {
-  @Client({
-    transport: Transport.GRPC,
-    options: {
-      package: ACCOUNT_PACKAGE_NAME,
-      protoPath: join(process.cwd(), 'libs/proto/src/account', 'account.proto'),
-      url: `${process.env.ACCOUNTS_GRPC_HOST}:${process.env.ACCOUNTS_GRPC_PORT}`,
-    },
-  })
-  private readonly client: ClientGrpc;
+  public constructor(
+    @Inject('ACCOUNT_GRPC_SERVICE') private readonly client: ClientGrpc,
+  ) {}
 
   public service: AccountClient;
 

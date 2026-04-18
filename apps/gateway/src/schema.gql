@@ -8,6 +8,7 @@ type User {
   firstName: String
   lastName: String
   age: Float
+  account: Account
 }
 
 type Account {
@@ -23,6 +24,12 @@ type UpdateAccountOutput {
   email: String!
   password: String!
   registrationType: String!
+}
+
+type GetAccountFromTokenOutput {
+  accountId: String!
+  userId: String!
+  email: String!
 }
 
 type TokenType {
@@ -63,6 +70,7 @@ type WeatherObjectType {
 type Query {
   getAccount(id: String!): Account
   getAccountByEmail(email: String!): Account
+  getAccountByToken: GetAccountFromTokenOutput!
   getAllAchievements: [Achievement!]!
   getAchievement(id: String!): Achievement!
 }
@@ -72,11 +80,13 @@ type Mutation {
   createNewAccount(email: String!, password: String!, registrationType: String): TokenType!
   deleteAccount(id: String!): Boolean!
   login(email: String!, password: String!): TokenType!
+  logout: Boolean!
   createCard(input: CreateTravelCardInput!): TravelCardsOutputType!
   updateCard(input: UpdateTravelCardInputType!): TravelCardsOutputType!
   deleteCard(id: String!): DeleteTravelCardsOutputType!
   createAchievement(input: CreateAchievementInput!): Achievement!
   deleteAchievement(input: DeleteAchievementInput!): Boolean!
+  updateUser(input: UpdateUserInput!): User!
 }
 
 input UpdateAccountInput {
@@ -114,6 +124,13 @@ input CreateAchievementInput {
 
 input DeleteAchievementInput {
   id: ID!
+}
+
+input UpdateUserInput {
+  id: ID!
+  firstName: String
+  lasName: String
+  age: Float
 }
 
 type Subscription {
