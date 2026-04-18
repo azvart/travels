@@ -8,6 +8,8 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 import { AccountGrpcService } from '@app/grpc-api-clients';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../../guards/auth-guard';
 
 @Resolver(() => Account)
 export class AccountMutationResolver {
@@ -59,14 +61,42 @@ export class AccountMutationResolver {
   }
 
   @Mutation(() => TokenType)
-  public login(
+  public async login(
     @Args('email') email: string,
     @Args('password') password: string,
+    @Context() ctx,
   ) {
-    return firstValueFrom(
+    const credentials = await firstValueFrom(
       this.accountGrpcService.service.login({
         email,
         password,
+      }),
+    );
+    const response = ctx.res;
+    response.cookie('access_token', credentials.token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    response.cookie('refresh_token', credentials.token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    return credentials;
+  }
+
+  @Mutation(() => Boolean)
+  @UseGuards(GqlAuthGuard)
+  public async logout(@Context() ctx: any) {
+    return firstValueFrom(
+      this.accountGrpcService.service.logout({
+        userId: ctx.user.userId,
+        accountId: ctx.user.accountId,
       }),
     );
   }

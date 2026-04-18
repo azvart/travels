@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
-import { Resolver, Query, Args } from '@nestjs/graphql';
-import { Account } from '@app/types';
+import { Resolver, Query, Args, Context } from '@nestjs/graphql';
+import { Account, GetAccountFromTokenOutput, TokenType } from '@app/types';
 import { firstValueFrom } from 'rxjs';
 import { GqlAuthGuard } from '../../guards/auth-guard';
 import { AccountGrpcService } from '@app/grpc-api-clients/account/account-grpc.service';
@@ -26,5 +26,17 @@ export class AccountQueriesResolver {
         email,
       }),
     );
+  }
+
+  @Query(() => GetAccountFromTokenOutput)
+  @UseGuards(GqlAuthGuard)
+  public getAccountByToken(@Context() ctx: any) {
+    console.log(ctx.user);
+
+    return {
+      accountId: ctx.user.accountId,
+      userId: ctx.user.userId,
+      email: ctx.user.email,
+    };
   }
 }

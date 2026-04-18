@@ -9,10 +9,11 @@ import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 import { UserService } from '../services/user.service';
 import { UserAbstractRepository } from '../abstracts/user.abstract.repository';
 import { UserTypeormRepository } from '../repositories/user.typeorm-repository';
+import { UserGrpcController } from '../controllers/user.grpc.controller';
 
 @Module({
   imports: [EntitiesModule, JwtModule, GrpcApiClientsModule],
-  controllers: [AccountGrpcController],
+  controllers: [AccountGrpcController, UserGrpcController],
   providers: [
     AccountService,
     UserService,

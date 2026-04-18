@@ -55,10 +55,15 @@ export class AccountGrpcController {
   @GrpcMethod('Account', 'login')
   public async login(data: { email: string; password: string }) {
     return this.accountService.login(data.email, data.password);
-  }
+}
 
   @GrpcMethod('Account', 'loginByToken')
   public async loginByToken(data: { token: string }) {
     return this.accountService.loginByToken(data.token);
+  }
+
+  @GrpcMethod('Account', 'logout')
+  public async logout(data: { userId: string; accountId: string }) {
+    return this.accountService.logout(data);
   }
 }

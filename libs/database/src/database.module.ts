@@ -18,7 +18,7 @@ import { AppConfigModule } from '@app/app-config';
     //   autoLoadEntities: true,
     //   synchronize: true,
     // }),
-    TypeOrmModule.forRootAsync({
+    TypeOrmModule.fowrRootAsync({
       useFactory: (configService: ConfigService) => {
         return {
           type: configService.get<'mysql' | 'mariadb'>('TYPEORM_TYPE') as

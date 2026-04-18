@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserAbstractRepository } from '../abstracts/user.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserOrmEntity } from '@app/entities/enity';
@@ -31,5 +31,32 @@ export class UserTypeormRepository implements UserAbstractRepository {
     return orm
       ? new User(orm.id, orm.accountId, orm.firstName, orm.lastName, orm.age)
       : null;
+  }
+
+  public async updateUserById(
+    userId: string,
+    updatedData: { firstName: string; lastName: string; age: number },
+  ) {
+    const orm = await this.userRepository.update(
+      {
+        id: userId,
+      },
+      { ...updatedData },
+    );
+    if (orm.affected && orm.affected < 1) {
+      throw new Error('User not updated');
+    }
+    const userEntity = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: {
+        account: true,
+      },
+    });
+    if (!userEntity) {
+      throw new NotFoundException('User not found');
+    }
+    return User.fromEntity(userEntity);
   }
 }
