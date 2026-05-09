@@ -4,3 +4,4 @@ export * from './travel-cards.orm-entity';
 export * from './weather.orm-entity';
 export * from './weather-card.orm-entity';
 export * from './achievements.orm-entity';
+export * from './user-address.orm-entity';

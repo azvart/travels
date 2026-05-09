@@ -12,6 +12,7 @@
     "start:services": "npm-run-all --parallel start:accounts start:travel-cards start:job-processor start:gateway start:websocket-gateway",
     "start-all:dev": "npm-run-all start:services",
     "start:gateway": "nest start --watch gateway",
+    "start:weather": "nest start --watch weather",
     "start:accounts": "nest start --watch accounts",
     "start:achievements": "nest start --watch achievements",
     "start:weather-processor": "nest start --watch weather-processor",

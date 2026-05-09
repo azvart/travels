@@ -2,12 +2,14 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 import { EmailVerifiedService } from './email-verified.service';
 import { CalculateDestinationService } from './calculate-destination.service';
+import { RunWeatherDataService } from './run-weather-data.service';
 
 @Processor('jobs')
 export class JobsProcessor extends WorkerHost {
   constructor(
     private readonly verifiedEmailService: EmailVerifiedService,
     private readonly calculateDestinationService: CalculateDestinationService,
+    private readonly runWeatherDataService: RunWeatherDataService,
   ) {
     super();
   }
@@ -20,6 +22,9 @@ export class JobsProcessor extends WorkerHost {
       return this.calculateDestinationService.calculateDestinationFromCard(
         job.data,
       );
+    }
+    if (job.name === 'weather-data') {
+      return this.runWeatherDataService.runWeatherData();
     }
   }
 }

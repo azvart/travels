@@ -2,7 +2,7 @@ import { UserOrmEntity } from '@app/entities/enity';
 import { Account } from '@app/dto/account.dto';
 
 export class User {
-  public static fromEntity(user: UserOrmEntity) {
+  public static fromEntity(user?: UserOrmEntity) {
     return user
       ? new User(
           user.id,

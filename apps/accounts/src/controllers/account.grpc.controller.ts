@@ -55,7 +55,7 @@ export class AccountGrpcController {
   @GrpcMethod('Account', 'login')
   public async login(data: { email: string; password: string }) {
     return this.accountService.login(data.email, data.password);
-}
+  }
 
   @GrpcMethod('Account', 'loginByToken')
   public async loginByToken(data: { token: string }) {

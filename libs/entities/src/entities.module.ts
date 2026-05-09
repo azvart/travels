@@ -8,6 +8,7 @@ import {
   WeatherCardOrmEntity,
   WeatherOrmEntity,
   AchievementsEntity,
+  UserAddressOrmEntity,
 } from '@app/entities/enity';
 
 @Module({
@@ -19,6 +20,7 @@ import {
       WeatherCardOrmEntity,
       WeatherOrmEntity,
       AchievementsEntity,
+      UserAddressOrmEntity,
     ]),
   ],
   exports: [
@@ -29,6 +31,7 @@ import {
       WeatherCardOrmEntity,
       WeatherOrmEntity,
       AchievementsEntity,
+      UserAddressOrmEntity,
     ]),
   ],
 })

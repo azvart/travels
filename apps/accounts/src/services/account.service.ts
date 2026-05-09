@@ -42,6 +42,7 @@ export class AccountService {
         email: account.email,
         userId: createNewUser.id,
       };
+      console.log('PAYLOAD ACCOUNT SERVICE', payload);
       return {
         token: await this.jwtService.signAsync(payload, {
           secret: 'secret',

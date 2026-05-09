@@ -1,35 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { pubSub } from '@app/pubsub';
-import { WeatherAbstractRepository } from '../abstracts/weather.abstract.repository';
-import { Weather } from '@app/dto';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { UserRedisService } from '@app/redis';
+import { UserAddressDto } from '@app/dto';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
+import { ClientKafkaProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class WeatherService {
+  private logger = new Logger(WeatherService.name);
+
   public constructor(
-    private readonly weatherRepository: WeatherAbstractRepository,
+    private readonly userRedisService: UserRedisService,
+    private readonly httpService: HttpService,
+    @Inject('WEATHER_KAFKA_SERVICE')
+    private readonly weatherClientKafka: ClientKafkaProxy,
   ) {}
 
-  public async weather(data: {
-    accountId: string;
-    userId: string;
-    country: string;
-  }) {
-    await pubSub.publish('weatherSubscription', data);
+  public async weatherData() {
+    this.logger.debug(`WeatherService Data users`);
+    const allRedisUsers = await this.userRedisService.getAllUsers();
+    // const userWeatherData = Promise.all(
+    //   allRedisUsers.map(async (user) => await this.getUserWeatherData(user)),
+    // );
+    this.weatherClientKafka.emit('weather', []);
   }
 
-  public async save(weather: Weather): Promise<void> {
-    await this.weatherRepository.save(weather);
-  }
-
-  public async findMany() {
-    return this.weatherRepository.findMany();
-  }
-
-  public async updateOne(weatherId: string, data: Partial<Weather>) {
-    return this.weatherRepository.update(weatherId, data);
-  }
-
-  public async deleteOne(weatherId: string) {
-    return this.weatherRepository.deleteOne(weatherId);
+  private async getUserWeatherData(userWeatherData: UserAddressDto) {
+    return await firstValueFrom(
+      this.httpService.get(
+        `/search?name=${userWeatherData.country}&count=1&language=en&format=json&countryCode=${userWeatherData.countryCode}`,
+      ),
+    );
   }
 }

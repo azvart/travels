@@ -30,7 +30,7 @@ export class GqlAuthGuard implements CanActivate {
         token,
         process.env.JWT_SECRET || 'secret',
       ) as jwt.JwtPayload;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
       ctx.getContext().user = payload;
       if (payload.exp && Date.now() / 1000 > payload.exp - 60 * 5) {
         const newToken = jwt.sign(

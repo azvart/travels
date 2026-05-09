@@ -26,17 +26,29 @@ export class TravelCardsService {
   }
 
   public async getCardById(id: string) {
-    return this.travelCardsRepository.getCardById(id);
+    return this.travelCardsRepository.findOne({
+      where: { id },
+    });
   }
 
-  public async updateExistTravelCard(input: UpdateTravelCardInputType) {
-    return this.travelCardsRepository.updateExistTravelCard(input);
+  public async updateExistTravelCard({
+    id,
+    ...updatedData
+  }: UpdateTravelCardInputType) {
+    return this.travelCardsRepository.updateOne(
+      {
+        id,
+      },
+      {
+        ...updatedData,
+      },
+    );
   }
 
   public async deleteExistTravelCard(input: { id: string; userId: string }) {
-    return this.travelCardsRepository.deleteExistTravelCard(input);
+    return this.travelCardsRepository.deleteOne(input);
   }
   public async getCards() {
-    return this.travelCardsRepository.getCards();
+    return this.travelCardsRepository.findMany();
   }
 }

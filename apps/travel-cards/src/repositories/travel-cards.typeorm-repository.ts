@@ -2,9 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { TravelCardsAbstractRepository } from '../abstracts/travel-cards.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TravelCardsOrmEntity } from '@app/entities/enity';
-import { Repository } from 'typeorm';
+import {
+  FindManyOptions,
+  FindOneOptions,
+  FindOptionsWhere,
+  Repository,
+} from 'typeorm';
 import { TravelCards } from '@app/dto';
-import { UpdateTravelCardInputType } from '@app/types';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 @Injectable()
 export class TravelCardsTypeormRepository
@@ -30,110 +35,54 @@ export class TravelCardsTypeormRepository
       }),
     );
 
-    return this.getCardById(input.id);
-  }
-
-  public async getCardById(id: string): Promise<TravelCards | null> {
-    const orm = await this.travelCardsRepository.findOne({
-      where: {
-        id,
-      },
-      relations: {
-        user: true,
-      },
-      relationLoadStrategy: 'join',
+    return this.findOne({
+      where: { id: input.id },
     });
-    return orm
-      ? new TravelCards(
-          orm.id,
-          orm.user.id,
-          orm.title,
-          orm.description,
-          orm.image,
-          orm.amount,
-          orm.currency,
-          orm.timezone,
-          orm.timezoneOffset,
-          orm.startDate,
-          orm.endDate,
-        )
-      : null;
   }
 
-  public async getCardByUserId() {}
+  public async findOne(options: FindOneOptions<TravelCardsOrmEntity>) {
+    const orm = await this.travelCardsRepository.findOne(options);
 
-  public async updateExistTravelCard(
-    input: UpdateTravelCardInputType,
-  ): Promise<TravelCards | null> {
-    const travelCard = await this.travelCardsRepository.update(
-      { id: input.id, userId: input.userId } as any,
-      input,
+    return orm ? TravelCards.fromEntity(orm) : null;
+  }
+
+  public async findMany(options?: FindManyOptions<TravelCardsOrmEntity>) {
+    const orm = await this.travelCardsRepository.find(options);
+
+    return orm ? orm.map((item) => TravelCards.fromEntity(item)) : null;
+  }
+
+  public async updateOne(
+    entity: FindOptionsWhere<TravelCardsOrmEntity>,
+    updatedData: QueryDeepPartialEntity<TravelCardsOrmEntity>,
+  ) {
+    const updatedResult = await this.travelCardsRepository.update(
+      entity,
+      updatedData,
     );
-    if (travelCard.affected === 0) {
+
+    if (updatedResult.affected === 0) {
       throw new NotFoundException();
     }
-    const orm = await this.getCardById(input.id);
 
-    return orm
-      ? new TravelCards(
-          orm.id,
-          input.userId,
-          orm.title,
-          orm.description,
-          orm.image,
-          orm.amount,
-          orm.currency,
-          orm.timezone,
-          orm.timezoneOffset,
-          orm.startDate,
-          orm.endDate,
-        )
-      : null;
+    const orm = await this.findOne({
+      where: {
+        id: entity.id,
+      },
+    });
+
+    return orm ?? null;
   }
 
-  public async deleteExistTravelCard({
-    id,
-    userId,
-  }: {
-    id: string;
-    userId: string;
-  }): Promise<{ success: boolean } | null> {
-    const travelCard = await this.travelCardsRepository.delete({
-      id,
-      userId,
-    } as any);
+  public async deleteOne(criteria: FindOptionsWhere<TravelCardsOrmEntity>) {
+    const deletedResult = await this.travelCardsRepository.delete(criteria);
 
-    if (travelCard.affected === 0) {
+    if (deletedResult.affected === 0) {
       throw new NotFoundException();
     }
 
     return {
       success: true,
     };
-  }
-
-  public async getCards() {
-    const orm = await this.travelCardsRepository.find({
-      relations: ['user'],
-    });
-
-    return orm
-      ? orm.map(
-          (item) =>
-            new TravelCards(
-              item.id,
-              item.user.id,
-              item.title,
-              item.description,
-              item.image,
-              item.amount,
-              item.currency,
-              item.timezone,
-              item.timezoneOffset,
-              item.startDate,
-              item.endDate,
-            ),
-        )
-      : null;
   }
 }

@@ -11,6 +11,16 @@ type User {
   account: Account
 }
 
+type UserAddressType {
+  id: ID!
+  userId: String!
+  country: String
+  countryCode: String
+  street: String
+  city: String
+  user: User
+}
+
 type Account {
   id: ID!
   email: String!
@@ -87,6 +97,7 @@ type Mutation {
   createAchievement(input: CreateAchievementInput!): Achievement!
   deleteAchievement(input: DeleteAchievementInput!): Boolean!
   updateUser(input: UpdateUserInput!): User!
+  updateUserAddress(input: UpdateUserAddressInput!): UserAddressType!
 }
 
 input UpdateAccountInput {
@@ -131,6 +142,14 @@ input UpdateUserInput {
   firstName: String
   lasName: String
   age: Float
+}
+
+input UpdateUserAddressInput {
+  id: ID!
+  country: String
+  countryCode: String
+  street: String
+  city: String
 }
 
 type Subscription {
