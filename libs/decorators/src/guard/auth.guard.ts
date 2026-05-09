@@ -16,7 +16,7 @@ export class GqlAuthGuard implements CanActivate {
     }>().req;
     const auth = request.headers['authorization'] || '';
     const token = auth.replace('Bearer ', '');
-
+    console.log(token);
     if (!token) return false;
 
     try {
@@ -27,6 +27,7 @@ export class GqlAuthGuard implements CanActivate {
       }>(token, {
         secret: 'secret',
       });
+
       request.user = user;
       return true;
     } catch {

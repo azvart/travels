@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { AccountGrpcService } from '@app/grpc-api-clients/account';
 import { TravelCardsGrpcService } from '@app/grpc-api-clients/travel-cards';
 import { AchievementsGrpcService } from '@app/grpc-api-clients/achievements';
+import { WeatherGrpcService } from '@app/grpc-api-clients/weather';
 import { AppConfigModule } from '@app/app-config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { ACCOUNT_PACKAGE_NAME } from '@app/proto';
 import { join } from 'node:path';
+import { WEATHER_PACKAGE_NAME } from '@app/proto/generated/weather/weather';
 
 @Module({
   imports: [
@@ -15,9 +17,6 @@ import { join } from 'node:path';
         imports: [AppConfigModule.forRootAsync()],
         inject: [ConfigService],
         useFactory: (configService: ConfigService) => {
-          console.log(
-            join(process.cwd(), 'libs/proto/src/account', 'account.proto'),
-          );
           return {
             transport: Transport.GRPC,
             options: {
@@ -33,17 +32,38 @@ import { join } from 'node:path';
         },
         name: 'ACCOUNT_GRPC_SERVICE',
       },
+      {
+        imports: [AppConfigModule.forRootAsync()],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => {
+          return {
+            transport: Transport.GRPC,
+            options: {
+              package: WEATHER_PACKAGE_NAME,
+              protoPath: join(
+                process.cwd(),
+                'libs/proto/src/weather',
+                'weather.proto',
+              ),
+              url: `${configService.get<string>('WEATHER_GRPC_HOST')}:${configService.get('WEATHER_GRPC_PORT')}`,
+            },
+          };
+        },
+        name: 'WEATHER_GRPC_SERVICE',
+      },
     ]),
   ],
   providers: [
     AccountGrpcService,
     TravelCardsGrpcService,
     AchievementsGrpcService,
+    WeatherGrpcService,
   ],
   exports: [
     AccountGrpcService,
     TravelCardsGrpcService,
     AchievementsGrpcService,
+    WeatherGrpcService,
   ],
 })
 export class GrpcApiClientsModule {}

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Interval } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { JobsQueue } from '../repositories/jobs.queue';
 import { AccountsRedisService } from '@app/redis';
 
@@ -10,7 +10,7 @@ export class SchedulerService {
     private readonly accountsRedisService: AccountsRedisService,
   ) {}
 
-  @Interval(10000)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async checkIsVerifiedEmail() {
     const data = await this.accountsRedisService.getAllAccounts<{
       id: string;
@@ -22,5 +22,8 @@ export class SchedulerService {
     ]);
   }
 
-  async checkCalculatedDestination() {}
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  public async runWeatherData() {
+    await this.jobsQueue.enqueueWeatherData();
+  }
 }

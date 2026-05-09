@@ -10,6 +10,8 @@ import { UserService } from '../services/user.service';
 import { UserAbstractRepository } from '../abstracts/user.abstract.repository';
 import { UserTypeormRepository } from '../repositories/user.typeorm-repository';
 import { UserGrpcController } from '../controllers/user.grpc.controller';
+import { UserAddressAbstractRepository } from '../abstracts/user-address.abstract.repository';
+import { UserAddressTypeormRepository } from '../repositories/user-address.typeorm-repository';
 
 @Module({
   imports: [EntitiesModule, JwtModule, GrpcApiClientsModule],
@@ -24,6 +26,10 @@ import { UserGrpcController } from '../controllers/user.grpc.controller';
     {
       provide: UserAbstractRepository,
       useClass: UserTypeormRepository,
+    },
+    {
+      provide: UserAddressAbstractRepository,
+      useClass: UserAddressTypeormRepository,
     },
   ],
 })

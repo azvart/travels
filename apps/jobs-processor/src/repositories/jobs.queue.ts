@@ -39,4 +39,17 @@ export class JobsQueue implements JobsRepository {
       },
     });
   }
+
+  public async enqueueWeatherData() {
+    await this.queue.add('weather-data', undefined, {
+      jobId: 'weather-data',
+      removeOnComplete: true,
+      attempts: 1,
+      continueParentOnFailure: true,
+      backoff: {
+        type: 'exponential',
+        delay: 5000,
+      },
+    });
+  }
 }
