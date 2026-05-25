@@ -54,4 +54,6 @@ export class AchievementTypeormRepository
     });
     return !!ormEntity.affected;
   }
+
+  public async attachAchievementToUser(userId: string, achievementId: string) {}
 }

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "../../dist/libs/auth",
+    "typeRoots": [
+      "../../libs/types/src/shared"
+    ]
+  },
+  "include": ["src/**/*", "../../libs/types/src/shared/express.d.ts"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

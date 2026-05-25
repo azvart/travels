@@ -18,12 +18,13 @@ import { AppConfigModule } from '@app/app-config';
 import { UserMutationResolver } from './resolvers/account/user-mutation.resolver';
 import { PubSubModule } from '@app/pubsub';
 import { Context } from 'graphql-ws';
+import { AuthModule } from '@app/auth';
 
 @Module({
   imports: [
     AppConfigModule.forRootAsync(),
     DecoratorsModule,
-    JwtModule,
+   AuthModule,
     GrpcApiClientsModule,
     PubSubModule,
     CacheModule.register(),
@@ -33,16 +34,8 @@ import { Context } from 'graphql-ws';
       subscriptions: {
         'graphql-ws': {
           path: '/graphql',
-          onConnect: (context: Context<any>) => {
-            const { extra, connectionParams } = context;
-
-            const token = connectionParams?.authorization;
-
-            if (!token) {
-              throw new Error('Token is missing');
-            }
-
-            return true;
+          onConnect: (context) => {
+           return { connectionParams: context.connectionParams };
           },
         },
       },

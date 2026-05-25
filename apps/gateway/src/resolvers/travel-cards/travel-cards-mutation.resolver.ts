@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import {
   CreateTravelCardInput,
   DeleteTravelCardsOutputType,
@@ -8,8 +8,8 @@ import {
 import { TravelCardsOutputType } from '@app/types';
 import { firstValueFrom } from 'rxjs';
 import { TravelCardsGrpcService } from '@app/grpc-api-clients/travel-cards/travel-cards-grpc.service';
-import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '../../guards/auth-guard';
+import { CurrentUser } from '@app/auth';
+import { UserPayload } from '@app/types/shared';
 
 @Resolver(() => TravelCards)
 export class TravelCardsMutationResolver {
@@ -18,16 +18,13 @@ export class TravelCardsMutationResolver {
   ) {}
 
   @Mutation(() => TravelCardsOutputType)
-  @UseGuards(GqlAuthGuard)
   public async createCard(
     @Args('input') input: CreateTravelCardInput,
-    @Context() ctx,
+   @CurrentUser() user: UserPayload,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const userId = ctx.user.userId as string;
     return firstValueFrom(
       this.travelCardsGrpcService.service.createNewTravelCards({
-        userId,
+        userId: user.userId,
         title: input.title,
         description: input.description,
         amount: input.amount,
@@ -38,17 +35,15 @@ export class TravelCardsMutationResolver {
   }
 
   @Mutation(() => TravelCardsOutputType)
-  @UseGuards(GqlAuthGuard)
   public async updateCard(
     @Args('input') input: UpdateTravelCardInputType,
-    @Context() ctx,
+    @CurrentUser() user:UserPayload,
   ) {
-    const userId = ctx.user.userId as string;
 
     return firstValueFrom(
       this.travelCardsGrpcService.service.updateExistTravelCard({
         id: input.id,
-        userId,
+        userId: user.userId,
         title: input.title,
         description: input.description,
         amount: input.amount,
@@ -59,14 +54,12 @@ export class TravelCardsMutationResolver {
   }
 
   @Mutation(() => DeleteTravelCardsOutputType)
-  @UseGuards(GqlAuthGuard)
-  public async deleteCard(@Args('id') id: string, @Context() ctx) {
-    const userId = ctx.user.userId as string;
+  public async deleteCard(@Args('id') id: string, @CurrentUser() user:UserPayload) {
 
     return firstValueFrom(
       this.travelCardsGrpcService.service.deleteExistTravelCard({
         id,
-        userId,
+        userId: user.userId,
       }),
     );
   }

@@ -1,16 +1,15 @@
-import { UseGuards } from '@nestjs/common';
-import { Resolver, Query, Args, Context } from '@nestjs/graphql';
-import { Account, GetAccountFromTokenOutput, TokenType } from '@app/types';
+import { Resolver, Query, Args } from '@nestjs/graphql';
+import { Account, GetAccountFromTokenOutput } from '@app/types';
 import { firstValueFrom } from 'rxjs';
-import { GqlAuthGuard } from '../../guards/auth-guard';
 import { AccountGrpcService } from '@app/grpc-api-clients/account/account-grpc.service';
+import { CurrentUser } from '@app/auth';
+import { UserPayload } from '@app/types/shared';
 
 @Resolver(() => Account)
 export class AccountQueriesResolver {
   public constructor(private readonly accountGrpcService: AccountGrpcService) {}
 
   @Query(() => Account, { nullable: true })
-  @UseGuards(GqlAuthGuard)
   public async getAccount(@Args('id') id: string) {
     return firstValueFrom(
       this.accountGrpcService.service.getAccount({
@@ -29,14 +28,12 @@ export class AccountQueriesResolver {
   }
 
   @Query(() => GetAccountFromTokenOutput)
-  @UseGuards(GqlAuthGuard)
-  public getAccountByToken(@Context() ctx: any) {
-    console.log(ctx.user);
+  public getAccountByToken(@CurrentUser() user:UserPayload) {
 
     return {
-      accountId: ctx.user.accountId,
-      userId: ctx.user.userId,
-      email: ctx.user.email,
+      accountId: user.accountId,
+      userId: user.userId,
+      email: user.email,
     };
   }
 }

@@ -17,12 +17,21 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
+    "typeRoots": [
+      "libs/types/src/shared"
+    ],
     "paths": {
       "@app/app-config": [
         "libs/app-config/src"
       ],
       "@app/app-config/*": [
         "libs/app-config/src/*"
+      ],
+      "@app/auth": [
+        "libs/auth/src"
+      ],
+      "@app/auth/*": [
+        "libs/auth/src/*"
       ],
       "@app/decorators": [
         "libs/decorators/src"
@@ -77,7 +86,16 @@
       ],
       "libs/database/*": [
         "libs/database/src/*"
+      ],
+      "libs/interfaces": [
+        "libs/interfaces/src"
+      ],
+      "libs/interfaces/*": [
+        "libs/interfaces/src/*"
       ]
     }
-  }
+  },
+  "include": [
+    "libs/types/src/shared/express.d.ts"
+  ]
 }
