@@ -1,9 +1,9 @@
-import { Resolver, Query, Args, Context } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { TravelCards, TravelCardsOutputType } from '@app/types';
 import { TravelCardsGrpcService } from '@app/grpc-api-clients';
-import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '../../guards/auth-guard';
 import { firstValueFrom } from 'rxjs';
+import { CurrentUser } from '@app/auth';
+import { UserPayload } from '@app/types/shared';
 
 @Resolver(() => TravelCards)
 export class TravelCardsQueryResolver {
@@ -12,8 +12,7 @@ export class TravelCardsQueryResolver {
   ) {}
 
   @Query(() => TravelCardsOutputType)
-  @UseGuards(GqlAuthGuard)
-  public async getOne(@Args('id') id: string, @Context() ctx) {
+  public async getOne(@Args('id') id: string, @CurrentUser() user: UserPayload) {
     return firstValueFrom(
       this.travelCardsGrpcService.service.getCardById({
         id,
@@ -22,8 +21,7 @@ export class TravelCardsQueryResolver {
   }
 
   @Query(() => [TravelCardsOutputType])
-  @UseGuards(GqlAuthGuard)
-  public async getMany(@Context() ctx) {
+  public async getMany(@CurrentUser() user:UserPayload) {
     return firstValueFrom(this.travelCardsGrpcService.service.getCards({}));
   }
 }

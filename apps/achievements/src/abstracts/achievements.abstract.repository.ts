@@ -6,4 +6,8 @@ export abstract class AchievementsAbstractRepository {
   abstract findOneById(id: string): Promise<Achievements | null>;
   abstract create(name: string, points: number): Promise<Achievements | null>;
   abstract deleteById(id: string): Promise<boolean>;
+  abstract attachAchievementToUser(
+    userId: string,
+    achievementId: string,
+  ): Promise<void>;
 }

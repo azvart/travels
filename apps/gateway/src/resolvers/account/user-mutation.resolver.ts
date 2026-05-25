@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import {
   UpdateUserInput,
   User,
@@ -7,18 +7,17 @@ import {
 } from '@app/types';
 import { AccountGrpcService } from '@app/grpc-api-clients';
 import { firstValueFrom } from 'rxjs';
-import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '../../guards/auth-guard/index';
+import { CurrentUser } from '@app/auth';
+import { UserPayload } from '@app/types/shared';
 
 @Resolver(() => User)
 export class UserMutationResolver {
   public constructor(private readonly accountGrpcService: AccountGrpcService) {}
 
   @Mutation(() => User)
-  @UseGuards(GqlAuthGuard)
   public async updateUser(
     @Args('input') user: UpdateUserInput,
-    @Context() ctx: any,
+    @CurrentUser() currentUser: UserPayload
   ) {
     return firstValueFrom(
       this.accountGrpcService.service.updateUser({
@@ -30,12 +29,19 @@ export class UserMutationResolver {
     );
   }
   @Mutation(() => UserAddressType)
-  @UseGuards(GqlAuthGuard)
   public async updateUserAddress(@Args('input') input: UpdateUserAddressInput) {
     return firstValueFrom(
       this.accountGrpcService.service.updateUserAddress({
         ...input,
       }),
     );
+  }
+
+  @Mutation(() => User)
+  public async attachQuestToUser(
+    @Args('questId') questId: string,
+    @CurrentUser() user: UserPayload
+  ) {
+    // return firstValueFrom();
   }
 }

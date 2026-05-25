@@ -27,4 +27,15 @@ export class AchievementsGrpcController {
   public async deleteAchievement(data: { id: string }) {
     return this.achievementsService.deleteAchievement(data.id);
   }
+
+  @GrpcMethod('Achievements', 'attachedAchievementToUser')
+  public async attachAchievementToUser(data: {
+    userId: string;
+    achievementId: string;
+  }) {
+    return this.achievementsService.attachAchievementToUser(
+      data.userId,
+      data.achievementId,
+    );
+  }
 }

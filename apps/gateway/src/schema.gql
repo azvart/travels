@@ -98,6 +98,7 @@ type Mutation {
   deleteAchievement(input: DeleteAchievementInput!): Boolean!
   updateUser(input: UpdateUserInput!): User!
   updateUserAddress(input: UpdateUserAddressInput!): UserAddressType!
+  attachQuestToUser(questId: String!): User!
 }
 
 input UpdateAccountInput {

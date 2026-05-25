@@ -37,6 +37,15 @@
         "tsConfigPath": "libs/app-config/tsconfig.lib.json"
       }
     },
+    "auth": {
+      "type": "library",
+      "root": "libs/auth",
+      "entryFile": "index",
+      "sourceRoot": "libs/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/auth/tsconfig.lib.json"
+      }
+    },
     "database": {
       "type": "library",
       "root": "libs/database",
@@ -89,6 +98,15 @@
       "sourceRoot": "libs/grpc-api-clients/src",
       "compilerOptions": {
         "tsConfigPath": "libs/grpc-api-clients/tsconfig.lib.json"
+      }
+    },
+    "interfaces": {
+      "type": "library",
+      "root": "libs/interfaces",
+      "entryFile": "index",
+      "sourceRoot": "libs/interfaces/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/interfaces/tsconfig.lib.json"
       }
     },
     "jobs-processor": {

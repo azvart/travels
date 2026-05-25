@@ -22,4 +22,6 @@ export class AchievementsService {
   public async deleteAchievement(id: string) {
     return this.achievementRepository.deleteById(id);
   }
+
+  public async attachAchievementToUser(userId: string, achievementId: string) {}
 }

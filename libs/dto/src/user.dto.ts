@@ -1,5 +1,6 @@
-import { UserOrmEntity } from '@app/entities/enity';
+import { QuestOrmEntity, UserOrmEntity } from '@app/entities/enity';
 import { Account } from '@app/dto/account.dto';
+import { Achievements } from '@app/dto/achievements.dto';
 
 export class User {
   public static fromEntity(user?: UserOrmEntity) {
@@ -22,6 +23,8 @@ export class User {
     private readonly _lastName?: string,
     private readonly _age?: number,
     private readonly _account?: Account | null,
+    private readonly _achievements?: Achievements[] | null,
+    private readonly quests?: QuestOrmEntity[] | null,
   ) {}
 
   get id() {
