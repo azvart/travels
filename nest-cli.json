@@ -145,6 +145,15 @@
         "tsConfigPath": "libs/redis/tsconfig.lib.json"
       }
     },
+    "routes": {
+      "type": "application",
+      "root": "apps/routes",
+      "entryFile": "main",
+      "sourceRoot": "apps/routes/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/routes/tsconfig.app.json"
+      }
+    },
     "travel-cards": {
       "type": "application",
       "root": "apps/travel-cards",

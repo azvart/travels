@@ -1,0 +1,1 @@
+import { Injectable } from '@nestjs/common';import { CreateQuestHandler } from '../use-case/create-quest/create-quest.handler';@Injectable()export class QuestsPresentationService{  public constructor(    private readonly createQuestHandler:CreateQuestHandler  ){}  public async createQuest(){    return this.createQuestHandler.run();  }}
