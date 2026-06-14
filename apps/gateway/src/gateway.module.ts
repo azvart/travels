@@ -9,7 +9,6 @@ import { join } from 'node:path';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 
 import { DecoratorsModule } from '@app/decorators';
-import { JwtModule } from '@nestjs/jwt';
 import { TravelCardsMutationResolver } from './resolvers/travel-cards/travel-cards-mutation.resolver';
 import { AchievementsMutationResolver } from './resolvers/achievements/achievements-mutation.resolver';
 import { AchievementsQueryResolver } from './resolvers/achievements/achievements-queries.resolver';
@@ -17,14 +16,15 @@ import { WeatherSubscriptionResolver } from './subscriptions/weather/weather-sub
 import { AppConfigModule } from '@app/app-config';
 import { UserMutationResolver } from './resolvers/account/user-mutation.resolver';
 import { PubSubModule } from '@app/pubsub';
-import { Context } from 'graphql-ws';
 import { AuthModule } from '@app/auth';
+import { RoutePresentationModule } from './routes/presentation/route-presentation.module';
+import { QuestsPresentationModule } from './quests/presentation/quests-presentation.module';
 
 @Module({
   imports: [
     AppConfigModule.forRootAsync(),
     DecoratorsModule,
-   AuthModule,
+    AuthModule,
     GrpcApiClientsModule,
     PubSubModule,
     CacheModule.register(),
@@ -44,6 +44,8 @@ import { AuthModule } from '@app/auth';
         return { req, res, user: extra?.user };
       },
     }),
+    RoutePresentationModule,
+    QuestsPresentationModule
   ],
   providers: [
     AccountQueriesResolver,

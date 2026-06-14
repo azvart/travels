@@ -6,3 +6,4 @@ export * from './weather-card.dto';
 export * from './achievements.dto';
 export * from './user-address.dto';
 export * from './quest.dto';
+export * from './route.dto';

@@ -8,7 +8,7 @@ export class AccountGrpcService implements OnModuleInit {
     @Inject('ACCOUNT_GRPC_SERVICE') private readonly client: ClientGrpc,
   ) {}
 
-  public service: AccountClient;
+  public service!: AccountClient;
 
   onModuleInit() {
     this.service = this.client.getService<AccountClient>(ACCOUNT_SERVICE_NAME);

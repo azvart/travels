@@ -9,6 +9,8 @@ import { ConfigService } from '@nestjs/config';
 import { ACCOUNT_PACKAGE_NAME } from '@app/proto';
 import { join } from 'node:path';
 import { WEATHER_PACKAGE_NAME } from '@app/proto/generated/weather/weather';
+import { ROUTE_PACKAGE_NAME } from '@app/proto/generated/route/route';
+import { RouteGrpcService } from '@app/grpc-api-clients/route';
 
 @Module({
   imports: [
@@ -51,6 +53,25 @@ import { WEATHER_PACKAGE_NAME } from '@app/proto/generated/weather/weather';
         },
         name: 'WEATHER_GRPC_SERVICE',
       },
+      {
+        imports: [AppConfigModule.forRootAsync()],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => {
+          return {
+            transport: Transport.GRPC,
+            options: {
+              package: ROUTE_PACKAGE_NAME,
+              protoPath: join(
+                process.cwd(),
+                "libs/proto/src/route",
+                'route.proto',
+              ),
+              url: `${configService.get<string>('ROUTE_GRPC_HOST')}:${configService.get('ROUTE_GRPC_PORT')}`,
+            }
+          };
+        },
+        name: 'ROUTE_GRPC_SERVICE',
+      },
     ]),
   ],
   providers: [
@@ -58,12 +79,14 @@ import { WEATHER_PACKAGE_NAME } from '@app/proto/generated/weather/weather';
     TravelCardsGrpcService,
     AchievementsGrpcService,
     WeatherGrpcService,
+    RouteGrpcService
   ],
   exports: [
     AccountGrpcService,
     TravelCardsGrpcService,
     AchievementsGrpcService,
     WeatherGrpcService,
+    RouteGrpcService
   ],
 })
 export class GrpcApiClientsModule {}

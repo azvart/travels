@@ -1,0 +1,1 @@
+import { ICreateRoute, Route } from 'libs/interfaces';export abstract class RouteAbstractRepository {  abstract create(data: ICreateRoute):Promise<Route>;}
