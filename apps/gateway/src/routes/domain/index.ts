@@ -1,1 +1,0 @@
-export * from './route-type.interface';export * from './create-route.interface';

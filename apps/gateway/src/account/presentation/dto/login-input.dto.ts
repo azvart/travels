@@ -1,0 +1,1 @@
+import { Field, InputType } from '@nestjs/graphql';import { ILoginInput } from 'libs/interfaces';@InputType()export class LoginInputDTO  implements ILoginInput{  @Field(() => String)  public email!: string;  @Field(() => String)  public password!: string;}

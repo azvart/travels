@@ -1,1 +1,1 @@
-export * from './routes';export * from './create-route.interface';
+export * from './routes';export * from './create-route.interface';

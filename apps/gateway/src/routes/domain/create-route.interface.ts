@@ -1,1 +1,0 @@
-export interface ICreateRoute{  routeName: string;}

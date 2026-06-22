@@ -1,1 +1,1 @@
-export * from './route.type';
+

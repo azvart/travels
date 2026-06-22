@@ -1,1 +1,1 @@
-import { Module } from '@nestjs/common';import { CreateQuestHandler } from './create-quest.handler';@Module({  providers: [CreateQuestHandler],  exports: [CreateQuestHandler],})export class CreateQuestModule {}
+import { Module } from '@nestjs/common';import { CreateQuestHandler } from './create-quest.handler';@Module({  providers: [CreateQuestHandler],  exports: [CreateQuestHandler],})export class CreateQuestModule {}

@@ -1,0 +1,1 @@
+export interface IUser {  id: string;  accountId: string;  firstName?: string;  lastName?: string;  age?: number;}

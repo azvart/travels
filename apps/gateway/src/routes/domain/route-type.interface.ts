@@ -1,1 +1,0 @@
-export interface IRouteType {  id: string;  routeName: string;}
