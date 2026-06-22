@@ -8,17 +8,6 @@ type User {
   firstName: String
   lastName: String
   age: Float
-  account: Account
-}
-
-type UserAddressType {
-  id: ID!
-  userId: String!
-  country: String
-  countryCode: String
-  street: String
-  city: String
-  user: User
 }
 
 type Account {
@@ -36,123 +25,44 @@ type UpdateAccountOutput {
   registrationType: String!
 }
 
+type TokenType {
+  id: ID!
+  token: String!
+}
+
 type GetAccountFromTokenOutput {
   accountId: String!
   userId: String!
   email: String!
 }
 
-type TokenType {
-  id: ID!
-  token: String!
-}
-
-type TravelCardsOutputType {
-  id: ID!
-  userId: String!
-  title: String!
-  description: String
-  amount: String
-  currency: String
-  image: String
-  timezone: String
-  timezoneOffset: String
-  startDate: String
-  endDate: String
-}
-
-type DeleteTravelCardsOutputType {
-  success: Boolean!
-}
-
-type Achievement {
-  id: ID!
-  name: String!
-  points: Float!
-}
-
-type WeatherObjectType {
-  id: ID!
-  country: String
-  city: String
-}
-
 type Query {
   getAccount(id: String!): Account
-  getAccountByEmail(email: String!): Account
+  getAccountByEmail(email: String!): Account!
   getAccountByToken: GetAccountFromTokenOutput!
-  getAllAchievements: [Achievement!]!
-  getAchievement(id: String!): Achievement!
 }
 
 type Mutation {
-  updateExistAccount(input: UpdateAccountInput!): UpdateAccountOutput!
-  createNewAccount(email: String!, password: String!, registrationType: String): TokenType!
+  createNewAccount(input: CreateNewAccountInput!): TokenType!
   deleteAccount(id: String!): Boolean!
-  login(email: String!, password: String!): TokenType!
+  login(input: LoginInputDTO!): TokenType!
   logout: Boolean!
-  createCard(input: CreateTravelCardInput!): TravelCardsOutputType!
-  updateCard(input: UpdateTravelCardInputType!): TravelCardsOutputType!
-  deleteCard(id: String!): DeleteTravelCardsOutputType!
-  createAchievement(input: CreateAchievementInput!): Achievement!
-  deleteAchievement(input: DeleteAchievementInput!): Boolean!
-  updateUser(input: UpdateUserInput!): User!
-  updateUserAddress(input: UpdateUserAddressInput!): UserAddressType!
-  attachQuestToUser(questId: String!): User!
+  updateExistingAccount(input: UpdateAccountInput!): UpdateAccountOutput!
+}
+
+input CreateNewAccountInput {
+  email: String!
+  password: String!
+  registrationType: String!
+}
+
+input LoginInputDTO {
+  email: String!
+  password: String!
 }
 
 input UpdateAccountInput {
   id: ID!
   email: String
   password: String
-}
-
-input CreateTravelCardInput {
-  title: String!
-  description: String
-  image: String
-  amount: String
-  currency: String
-}
-
-input UpdateTravelCardInputType {
-  id: ID!
-  userId: String!
-  title: String
-  description: String
-  amount: String
-  currency: String
-  image: String
-  timezone: String
-  timezoneOffset: String
-  startDate: String
-  endDate: String
-}
-
-input CreateAchievementInput {
-  name: String!
-  points: Float!
-}
-
-input DeleteAchievementInput {
-  id: ID!
-}
-
-input UpdateUserInput {
-  id: ID!
-  firstName: String
-  lasName: String
-  age: Float
-}
-
-input UpdateUserAddressInput {
-  id: ID!
-  country: String
-  countryCode: String
-  street: String
-  city: String
-}
-
-type Subscription {
-  weatherSubscription: WeatherObjectType!
 }

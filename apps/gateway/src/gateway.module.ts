@@ -9,7 +9,6 @@ import { join } from 'node:path';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 
 import { DecoratorsModule } from '@app/decorators';
-import { TravelCardsMutationResolver } from './resolvers/travel-cards/travel-cards-mutation.resolver';
 import { AchievementsMutationResolver } from './resolvers/achievements/achievements-mutation.resolver';
 import { AchievementsQueryResolver } from './resolvers/achievements/achievements-queries.resolver';
 import { WeatherSubscriptionResolver } from './subscriptions/weather/weather-subscription.resolver';
@@ -19,13 +18,14 @@ import { PubSubModule } from '@app/pubsub';
 import { AuthModule } from '@app/auth';
 import { RoutePresentationModule } from './routes/presentation/route-presentation.module';
 import { QuestsPresentationModule } from './quests/presentation/quests-presentation.module';
+import { AccountPresentationModule } from './account';
+import { UserPresentationModule } from './user';
 
 @Module({
   imports: [
     AppConfigModule.forRootAsync(),
     DecoratorsModule,
     AuthModule,
-    GrpcApiClientsModule,
     PubSubModule,
     CacheModule.register(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -44,17 +44,8 @@ import { QuestsPresentationModule } from './quests/presentation/quests-presentat
         return { req, res, user: extra?.user };
       },
     }),
-    RoutePresentationModule,
-    QuestsPresentationModule
-  ],
-  providers: [
-    AccountQueriesResolver,
-    AccountMutationResolver,
-    TravelCardsMutationResolver,
-    AchievementsMutationResolver,
-    AchievementsQueryResolver,
-    WeatherSubscriptionResolver,
-    UserMutationResolver,
+   AccountPresentationModule,
+    UserPresentationModule,
   ],
 })
 export class GatewayModule {}

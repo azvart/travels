@@ -53,7 +53,7 @@ export class AuthGuard implements CanActivate {
       if(isSubscription){
         ctx.getContext<GqlSubscriptionContext & { user: UserPayload }>().user = user;
       }else {
-        this.getRequest(context).user = user;
+        (this.getRequest(context) as any).user = user;
       }
     } catch {
       throw new UnauthorizedException('Invalid or expired token');

@@ -22,9 +22,9 @@ export class AchievementsGrpcService implements OnModuleInit {
       url: `${process.env.ACHIEVEMENT_GRPC_HOST}:${process.env.ACHIEVEMENT_GRPC_PORT}`,
     },
   })
-  private readonly client: ClientGrpc;
+  private readonly client!: ClientGrpc;
 
-  public service: AchievementsClient;
+  public service!: AchievementsClient;
 
   onModuleInit() {
     this.service = this.client.getService<AchievementsClient>(

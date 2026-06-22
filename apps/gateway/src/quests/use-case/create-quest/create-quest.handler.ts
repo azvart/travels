@@ -1,1 +1,1 @@
-import { Injectable } from '@nestjs/common';@Injectable()export class CreateQuestHandler {  public async run(){}}
+import { Injectable } from '@nestjs/common';@Injectable()export class CreateQuestHandler {  public async run(){}}

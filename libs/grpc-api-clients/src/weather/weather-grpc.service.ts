@@ -11,7 +11,7 @@ export class WeatherGrpcService implements OnModuleInit {
     @Inject('WEATHER_GRPC_SERVICE') private readonly client: ClientGrpc,
   ) {}
 
-  public service: WeatherClient;
+  public service!: WeatherClient;
 
   onModuleInit() {
     this.service = this.client.getService<WeatherClient>(WEATHER_SERVICE_NAME);
