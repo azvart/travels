@@ -8,6 +8,12 @@ import { UserService } from './user.service';
 import { AccountsRedisService } from '@app/redis/modules/accounts.service';
 import { UserRedisService } from '@app/redis';
 
+interface JWTPayload {
+  userId: string;
+  email: string;
+  accountId: string;
+}
+
 @Injectable()
 export class AccountService {
   public constructor(
@@ -18,11 +24,7 @@ export class AccountService {
     private readonly userRedisService: UserRedisService,
   ) {}
 
-  public async createNewAccount(
-    email: string,
-    password: string,
-    registrationType = 'credentials',
-  ) {
+  public async createNewAccount(email: string, password: string, registrationType = 'credentials') {
     if (await this.accountRepository.findByEmail(email)) {
       throw new Error('Account already exists');
     }
@@ -42,13 +44,8 @@ export class AccountService {
         email: account.email,
         userId: createNewUser.id,
       };
-      console.log('PAYLOAD ACCOUNT SERVICE', payload);
-      return {
-        token: await this.jwtService.signAsync(payload, {
-          secret: 'secret',
-        }),
-        id: account.id,
-      };
+
+     return await this.generateTokenPair(payload);
     } else {
       throw new UnauthorizedException();
     }
@@ -88,15 +85,10 @@ export class AccountService {
       const payload = {
         accountId: account.id,
         email: account.email,
-        userId: user?.id,
+        userId: user?.id as string,
       };
 
-      return {
-        token: await this.jwtService.signAsync(payload, {
-          secret: 'secret',
-        }),
-        id: account.id,
-      };
+      return await this.generateTokenPair(payload);
     } else {
       throw new UnauthorizedException();
     }
@@ -107,7 +99,7 @@ export class AccountService {
     const isTokenValid = await this.jwtService.verifyAsync(token, {
       secret: 'secret',
     });
-    console.log('IS TOKEN VALID', isTokenValid);
+
     if (!isTokenValid) {
       throw new Error('Invalid token');
     }
@@ -122,5 +114,52 @@ export class AccountService {
   public async logout(input: { userId: string; accountId: string }) {
     await this.userRedisService.setUser(input.userId, { login: false });
     return true;
+  }
+
+  private async generateTokenPair(input: JWTPayload){
+    const accessToken = await this.jwtService.signAsync(input,{
+      secret: 'secret',
+      expiresIn: '15m'
+    })
+
+    const refreshToken = await this.jwtService.signAsync(input, {
+      secret: 'secret',
+      expiresIn: '30d'
+    })
+
+    await this.userRedisService.saveUserRefreshToken(input.userId, refreshToken);
+
+    return {
+      id: input.accountId,
+      token: accessToken,
+      refreshToken: refreshToken
+    }
+
+  }
+
+  public async refreshToken(refreshToken: string){
+    let payload: JWTPayload;
+
+    try {
+      payload = await this.jwtService.verifyAsync<JWTPayload>(refreshToken, {
+        secret: 'secret',
+      })
+    }catch{
+      throw new UnauthorizedException("INVALID_REFRESH_TOKEN");
+    }
+
+    const storedHash = await this.userRedisService.getUserRefreshToken(payload.userId);
+
+    if(!storedHash || storedHash !== this.userRedisService.hashToken(refreshToken)){
+      await this.userRedisService.deleteUserRefreshToken(payload.userId);
+      throw new UnauthorizedException("REFRESH_TOKEN_REUSED_OR_EXPIRED");
+    }
+
+    return this.generateTokenPair({
+      userId: payload.userId,
+      email: payload.email,
+      accountId: payload.accountId
+    })
+
   }
 }

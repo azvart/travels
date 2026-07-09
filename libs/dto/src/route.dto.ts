@@ -5,7 +5,7 @@ export class RouteDto {
     return orm ? new RouteDto(orm.id, orm.routeName) : null;
   }
 
-  public constructor(_id: string, _routeName: string) {}
+  public constructor(private readonly _id: string, private readonly _routeName: string) {}
 
   get id() {
     return this._id;

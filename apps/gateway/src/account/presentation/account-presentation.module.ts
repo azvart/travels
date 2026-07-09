@@ -8,7 +8,8 @@ import { LoginModule } from '../use-case/login/login.module';
 import { LogoutModule } from '../use-case/logout/logout.module';
 import { GetAccountModule } from '../use-case/get-account/get-account.module';
 import { GetAccountByEmailModule } from '../use-case/get-account-by-email/get-account-by-email.module';
-import { GrpcApiClientsModule } from '@app/grpc-api-clients';
+import { RefreshTokenModule } from '../use-case/refresh-token/refresh-token.module';
+
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GrpcApiClientsModule } from '@app/grpc-api-clients';
     LogoutModule,
     GetAccountModule,
     GetAccountByEmailModule,
+    RefreshTokenModule
   ],
   providers: [AccountPresentationResolver, AccountPresentationService],
 })

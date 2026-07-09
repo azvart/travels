@@ -66,4 +66,9 @@ export class AccountGrpcController {
   public async logout(data: { userId: string; accountId: string }) {
     return this.accountService.logout(data);
   }
+
+  @GrpcMethod('Account', 'refreshToken')
+  public async refreshToken(data: { refreshToken: string }){
+    return this.accountService.refreshToken(data.refreshToken);
+  }
 }

@@ -34,17 +34,17 @@ export class AuthGuard implements CanActivate {
     const isSubscription = ctx.getInfo().operation.operation === 'subscription';
 
 
-
     const token = isSubscription
       ? this.extractTokenFromSubscription(ctx.getContext<GqlSubscriptionContext>())
       : this.extractTokenFromHeader(this.getRequest(context))
-
     if (!token) {
       throw new UnauthorizedException('Token not provided');
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync<UserPayload>(token);
+      const payload = await this.jwtService.verifyAsync<UserPayload>(token, {
+        secret: 'secret'
+      });
       const user = {
         userId: payload.userId,
         email: payload.email,
@@ -55,8 +55,10 @@ export class AuthGuard implements CanActivate {
       }else {
         (this.getRequest(context) as any).user = user;
       }
-    } catch {
-      throw new UnauthorizedException('Invalid or expired token');
+    } catch(e) {
+      throw new UnauthorizedException('Invalid or expired token', {
+        cause: e
+      });
     }
 
     return true;

@@ -48,4 +48,8 @@ export class UserService {
     });
     return userAddressDto;
   }
+
+  public async userFull(userId: string){
+    return this.userRepository.getUserById(userId);
+  }
 }

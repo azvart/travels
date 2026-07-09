@@ -28,12 +28,16 @@ export class UserGrpcController {
     street?: string;
     city?: string;
   }) {
-    console.log('DATA', data);
     return this.userService.updateUserAddress(data.id, {
       country: data.country,
       countryCode: data.countryCode,
       street: data.street,
       city: data.city,
     });
+  }
+
+  @GrpcMethod('Account', 'userFull')
+  public async userFull(data: {userId: string}){
+    return this.userService.userFull(data.userId);
   }
 }

@@ -8,7 +8,7 @@ import { ILoginInput, IUpdateAccountInput } from 'libs/interfaces';
 import { ICreateNewAccount } from 'libs/interfaces/account/create-new-account.interface';
 import { GetAccountHandler } from '../use-case/get-account/get-account.handler';
 import { GetAccountByEmailHandler } from '../use-case/get-account-by-email/get-account-by-email.handler';
-
+import { RefreshTokenHandler } from '../use-case/refresh-token/refresh-token.handler';
 
 @Injectable()
 export class AccountPresentationService {
@@ -20,10 +20,15 @@ export class AccountPresentationService {
     private readonly logoutHandler: LogoutHandler,
     private readonly getAccountHandler: GetAccountHandler,
     private readonly getAccountByEmailHandler: GetAccountByEmailHandler,
+    private readonly refreshTokenHandler: RefreshTokenHandler
   ) {}
 
   public async createNewAccount(input: ICreateNewAccount) {
     return this.createNewAccountHandler.run(input);
+  }
+
+  public async refreshToken(refreshToken: string){
+      return this.refreshTokenHandler.run(refreshToken);
   }
 
   public async deleteAccount(id: string) {
@@ -43,9 +48,9 @@ export class AccountPresentationService {
   }
 
   public async getAccount(id: string) {
-      return this.getAccountHandler.run(id)
+    return this.getAccountHandler.run(id);
   }
-  public async getAccountByEmail(email:string){
+  public async getAccountByEmail(email: string) {
     return this.getAccountByEmailHandler.run(email);
   }
 }

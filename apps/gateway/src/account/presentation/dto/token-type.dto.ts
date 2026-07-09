@@ -1,1 +1,1 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';import { ITokenType } from 'libs/interfaces';@ObjectType()export class TokenType implements ITokenType {  @Field(() => ID)  public id!: string;  @Field(() => String)  public token!: string;}
+import { ObjectType, Field, ID } from '@nestjs/graphql';import { ITokenType } from 'libs/interfaces';@ObjectType()export class TokenType implements ITokenType {  @Field(() => ID)  public id!: string;  @Field(() => String)  public token!: string;  @Field(() => String)  public refreshToken!: string;}

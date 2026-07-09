@@ -1,37 +1,46 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException} from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, TokenExpiredError} from '@nestjs/jwt';
 import { Request } from 'express';
+import {ConfigService} from "@nestjs/config";
+
+export interface JWTPayload {
+ userId: string;
+ email: string;
+ accountId: string;
+}
+
 
 @Injectable()
 export class GqlAuthGuard implements CanActivate {
-  public constructor(private readonly jwtService: JwtService) {}
+  public constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService
+  ) {}
 
-  public canActivate(context: ExecutionContext): boolean {
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
     const request = ctx.getContext<{
-      req: Request & {
-        user: { userId: string; email: string; accountId: string };
-      };
+      req: Request & { user:JWTPayload };
     }>().req;
     const auth = request.headers['authorization'] || '';
     const token = auth.replace('Bearer ', '');
-    console.log(token);
-    if (!token) return false;
+    if (!token){
+      throw new UnauthorizedException('NO_TOKEN')
+    }
 
     try {
-      const user = this.jwtService.verify<{
-        userId: string;
-        email: string;
-        accountId: string;
-      }>(token, {
-        secret: 'secret',
+      const user = await this.jwtService.verifyAsync<JWTPayload>(token, {
+        secret: this.configService.get<string>("JWT_SECRET")
       });
 
       request.user = user;
       return true;
-    } catch {
-      return false;
+    } catch(error) {
+      if(error instanceof TokenExpiredError){
+        throw new UnauthorizedException('TOKEN_EXPIRED');
+      }
+      throw new UnauthorizedException('INVALID_TOKEN');
     }
   }
 }

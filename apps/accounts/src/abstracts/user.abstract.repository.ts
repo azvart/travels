@@ -7,4 +7,5 @@ export abstract class UserAbstractRepository {
     userId: string,
     updatedData: { firstName: string; lastName: string; age: number },
   ): Promise<User | null>;
+  abstract getUserById(userId: string):Promise<any>;
 }

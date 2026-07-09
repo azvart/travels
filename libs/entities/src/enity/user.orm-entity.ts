@@ -4,12 +4,8 @@ import {
   Column,
   OneToOne,
   JoinColumn,
-  ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import { AccountOrmEntity } from '@app/entities/enity/account.orm-entity';
-import { AchievementsEntity } from '@app/entities/enity/achievements.orm-entity';
-import { QuestOrmEntity } from '@app/entities/enity/quest.orm-entity';
 
 @Entity('users')
 export class UserOrmEntity {
@@ -31,12 +27,4 @@ export class UserOrmEntity {
   @OneToOne(() => AccountOrmEntity)
   @JoinColumn()
   public account: AccountOrmEntity;
-
-  @ManyToMany(() => AchievementsEntity, { nullable: true })
-  @JoinTable()
-  public achievements?: AchievementsEntity[];
-
-  @ManyToMany(() => QuestOrmEntity, { nullable: true })
-  @JoinTable()
-  public quests?: QuestOrmEntity[];
 }

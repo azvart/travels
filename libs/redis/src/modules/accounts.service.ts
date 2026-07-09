@@ -4,7 +4,6 @@ import { RedisService } from '@app/redis/redis.service';
 @Injectable()
 export class AccountsRedisService {
   constructor(private readonly redis: RedisService) {}
-
   async setAccount<T = any>(id: string, value: T): Promise<void> {
     await this.redis.getClient().hset('accounts', id, JSON.stringify(value));
   }
