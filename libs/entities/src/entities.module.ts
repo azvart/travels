@@ -9,8 +9,6 @@ import {
   WeatherOrmEntity,
   AchievementsEntity,
   UserAddressOrmEntity,
-  QuestOrmEntity,
-  QuestRewardOrmEntity,
 } from '@app/entities/enity';
 
 @Module({
@@ -23,8 +21,6 @@ import {
       WeatherOrmEntity,
       AchievementsEntity,
       UserAddressOrmEntity,
-      QuestOrmEntity,
-      QuestRewardOrmEntity,
     ]),
   ],
   exports: [
@@ -36,8 +32,6 @@ import {
       WeatherOrmEntity,
       AchievementsEntity,
       UserAddressOrmEntity,
-      QuestOrmEntity,
-      QuestRewardOrmEntity,
     ]),
   ],
 })

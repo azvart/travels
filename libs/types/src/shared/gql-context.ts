@@ -1,1 +1,1 @@
-import { Request, Response  } from 'express';export interface GqlContext {  req: Request;  res: Response;}export interface GqlSubscriptionContext {  connectionParams?: {    token?: string;    authorization?: string  };  extra: {    request?: Request;  }}
+import { Request, Response  } from 'express';export interface GqlContext {  req: Request;  res: Response;}export interface GqlSubscriptionContext {  connectionParams?: {    token?: string;    authorization?: string  };  extra: {    request?: Request;  }}

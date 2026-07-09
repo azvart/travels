@@ -8,6 +8,19 @@ type User {
   firstName: String
   lastName: String
   age: Float
+  account: Account
+}
+
+type UserFull {
+  id: ID!
+  accountId: String!
+  firstName: String
+  lastName: String
+  age: Float
+  country: String
+  countryCode: String
+  street: String
+  city: String
 }
 
 type Account {
@@ -28,6 +41,7 @@ type UpdateAccountOutput {
 type TokenType {
   id: ID!
   token: String!
+  refreshToken: String!
 }
 
 type GetAccountFromTokenOutput {
@@ -40,14 +54,18 @@ type Query {
   getAccount(id: String!): Account
   getAccountByEmail(email: String!): Account!
   getAccountByToken: GetAccountFromTokenOutput!
+  getUserFull: UserFull!
 }
 
 type Mutation {
   createNewAccount(input: CreateNewAccountInput!): TokenType!
+  refreshTokens(refreshToken: String!): TokenType!
   deleteAccount(id: String!): Boolean!
   login(input: LoginInputDTO!): TokenType!
   logout: Boolean!
   updateExistingAccount(input: UpdateAccountInput!): UpdateAccountOutput!
+  me: GetAccountFromTokenOutput!
+  updateUser(input: UpdateUserInput!): User!
 }
 
 input CreateNewAccountInput {
@@ -65,4 +83,11 @@ input UpdateAccountInput {
   id: ID!
   email: String
   password: String
+}
+
+input UpdateUserInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  age: Float
 }

@@ -9,26 +9,18 @@ import { IGetCurrentUser } from 'libs/interfaces';
 
 @Resolver(() => Account)
 export class AccountPresentationResolver {
-  public constructor(
-    private readonly accountPresentationService: AccountPresentationService,
-  ) {}
+  public constructor(private readonly accountPresentationService: AccountPresentationService) {}
 
   @Public()
   @Mutation(() => TokenType)
-  public async createNewAccount(
-    @Args('input') input: CreateNewAccountInput,
-    @Context() ctx,
-  ) {
-    const value = await this.accountPresentationService.createNewAccount(input);
+  public async createNewAccount(@Args('input') input: CreateNewAccountInput) {
+    return this.accountPresentationService.createNewAccount(input);
+  }
 
-    ctx.res.cookie('access_token', value.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60,
-    });
-
-    return value;
+  @Public()
+  @Mutation(() => TokenType)
+  public refreshTokens(@Args('refreshToken') refreshToken: string){
+    return this.accountPresentationService.refreshToken(refreshToken);
   }
 
   @Mutation(() => Boolean)
@@ -38,26 +30,8 @@ export class AccountPresentationResolver {
 
   @Public()
   @Mutation(() => TokenType)
-  public async login(@Args('input') input: LoginInputDTO, @Context() ctx) {
-    const credentials =  await this.accountPresentationService.login(input);
-
-    const response = ctx.res;
-
-    response.cookie('access_token', credentials.token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      path: '/',
-    });
-
-    response.cookie('refresh_token', credentials.token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      path: '/',
-    });
-
-    return credentials;
+  public async login(@Args('input') input: LoginInputDTO) {
+    return this.accountPresentationService.login(input);
   }
 
   @Mutation(() => Boolean)
@@ -71,21 +45,30 @@ export class AccountPresentationResolver {
   }
 
   @Query(() => Account, { nullable: true })
-  public async getAccount(@Args('id') id: string){
-    return this.accountPresentationService.getAccount(id)
+  public async getAccount(@Args('id') id: string) {
+    return this.accountPresentationService.getAccount(id);
   }
 
   @Query(() => Account)
-  public async getAccountByEmail(@Args("email") email: string){
-      return this.accountPresentationService.getAccountByEmail(email);
+  public async getAccountByEmail(@Args('email') email: string) {
+    return this.accountPresentationService.getAccountByEmail(email);
   }
 
   @Query(() => GetAccountFromTokenOutput)
-  public async getAccountByToken(@CurrentUser() user:IGetCurrentUser) {
+  public async getAccountByToken(@CurrentUser() user: IGetCurrentUser) {
     return {
       accountId: user.accountId,
       userId: user.userId,
       email: user.email,
-    }
+    };
+  }
+
+  @Mutation(() => GetAccountFromTokenOutput)
+  public async me(@CurrentUser() user: IGetCurrentUser){
+    return {
+      accountId: user.accountId,
+      userId: user.userId,
+      email: user.email,
+    };
   }
 }

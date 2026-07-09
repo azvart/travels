@@ -1,8 +1,7 @@
 import { QUEST_CONDITION, QUEST_TYPE } from 'libs/interfaces';
-import { QuestOrmEntity, QuestRewardOrmEntity } from '@app/entities/enity';
 
 export class QuestDto {
-  public static fromEntity(quest?: QuestOrmEntity | null) {
+  public static fromEntity(quest?: any | null) {
     return quest
       ? new QuestDto(
           quest.id,
@@ -13,7 +12,6 @@ export class QuestDto {
           quest.endDate,
           quest.progress,
           quest.condition,
-          quest.rewardPackage,
         )
       : null;
   }
@@ -27,7 +25,6 @@ export class QuestDto {
     private readonly _endDate: Date | undefined,
     private readonly _progress: number,
     private readonly _condition: QUEST_CONDITION,
-    private readonly _rewardPackage: QuestRewardOrmEntity, //DTO
   ) {}
 
   public get id() {
@@ -56,8 +53,5 @@ export class QuestDto {
   }
   public get condition() {
     return this._condition;
-  }
-  public get rewardPackage() {
-    return this._rewardPackage;
   }
 }
