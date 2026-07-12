@@ -19,6 +19,19 @@ export interface CreateRouteInput {
 export interface CreateRouteOutput {
   id: string;
   routeName: string;
+  userId: string;
+}
+
+export interface UpdateRouteInput {
+  id: string;
+  routeName: string;
+  userId: string;
+}
+
+export interface UpdateRouteOutput {
+  id: string;
+  routeName: string;
+  userId: string;
 }
 
 export const ROUTE_PACKAGE_NAME = "route";
@@ -61,7 +74,7 @@ export const CreateRouteInput: MessageFns<CreateRouteInput> = {
 };
 
 function createBaseCreateRouteOutput(): CreateRouteOutput {
-  return { id: "", routeName: "" };
+  return { id: "", routeName: "", userId: "" };
 }
 
 export const CreateRouteOutput: MessageFns<CreateRouteOutput> = {
@@ -71,6 +84,9 @@ export const CreateRouteOutput: MessageFns<CreateRouteOutput> = {
     }
     if (message.routeName !== "") {
       writer.uint32(18).string(message.routeName);
+    }
+    if (message.userId !== "") {
+      writer.uint32(26).string(message.userId);
     }
     return writer;
   },
@@ -98,6 +114,132 @@ export const CreateRouteOutput: MessageFns<CreateRouteOutput> = {
           message.routeName = reader.string();
           continue;
         }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseUpdateRouteInput(): UpdateRouteInput {
+  return { id: "", routeName: "", userId: "" };
+}
+
+export const UpdateRouteInput: MessageFns<UpdateRouteInput> = {
+  encode(message: UpdateRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.routeName !== "") {
+      writer.uint32(18).string(message.routeName);
+    }
+    if (message.userId !== "") {
+      writer.uint32(26).string(message.userId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateRouteInput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUpdateRouteInput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.routeName = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseUpdateRouteOutput(): UpdateRouteOutput {
+  return { id: "", routeName: "", userId: "" };
+}
+
+export const UpdateRouteOutput: MessageFns<UpdateRouteOutput> = {
+  encode(message: UpdateRouteOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.routeName !== "") {
+      writer.uint32(18).string(message.routeName);
+    }
+    if (message.userId !== "") {
+      writer.uint32(26).string(message.userId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateRouteOutput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUpdateRouteOutput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.routeName = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -110,6 +252,8 @@ export const CreateRouteOutput: MessageFns<CreateRouteOutput> = {
 
 export interface RouteClient {
   createRoute(request: CreateRouteInput, metadata?: Metadata): Observable<CreateRouteOutput>;
+
+  updateRoute(request: UpdateRouteInput, metadata?: Metadata): Observable<UpdateRouteOutput>;
 }
 
 export interface RouteController {
@@ -117,11 +261,16 @@ export interface RouteController {
     request: CreateRouteInput,
     metadata?: Metadata,
   ): Promise<CreateRouteOutput> | Observable<CreateRouteOutput> | CreateRouteOutput;
+
+  updateRoute(
+    request: UpdateRouteInput,
+    metadata?: Metadata,
+  ): Promise<UpdateRouteOutput> | Observable<UpdateRouteOutput> | UpdateRouteOutput;
 }
 
 export function RouteControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createRoute"];
+    const grpcMethods: string[] = ["createRoute", "updateRoute"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("Route", method)(constructor.prototype[method], method, descriptor);
@@ -147,10 +296,20 @@ export const RouteService = {
     responseSerialize: (value: CreateRouteOutput): Buffer => Buffer.from(CreateRouteOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): CreateRouteOutput => CreateRouteOutput.decode(value),
   },
+  updateRoute: {
+    path: "/route.Route/updateRoute",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: UpdateRouteInput): Buffer => Buffer.from(UpdateRouteInput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UpdateRouteInput => UpdateRouteInput.decode(value),
+    responseSerialize: (value: UpdateRouteOutput): Buffer => Buffer.from(UpdateRouteOutput.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UpdateRouteOutput => UpdateRouteOutput.decode(value),
+  },
 } as const;
 
 export interface RouteServer extends UntypedServiceImplementation {
   createRoute: handleUnaryCall<CreateRouteInput, CreateRouteOutput>;
+  updateRoute: handleUnaryCall<UpdateRouteInput, UpdateRouteOutput>;
 }
 
 export interface MessageFns<T> {

@@ -55,15 +55,6 @@
         "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
     },
-    "decorators": {
-      "type": "library",
-      "root": "libs/decorators",
-      "entryFile": "index",
-      "sourceRoot": "libs/decorators/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/decorators/tsconfig.lib.json"
-      }
-    },
     "dto": {
       "type": "library",
       "root": "libs/dto",
@@ -152,15 +143,6 @@
       "sourceRoot": "apps/routes/src",
       "compilerOptions": {
         "tsConfigPath": "apps/routes/tsconfig.app.json"
-      }
-    },
-    "travel-cards": {
-      "type": "application",
-      "root": "apps/travel-cards",
-      "entryFile": "main",
-      "sourceRoot": "apps/travel-cards/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/travel-cards/tsconfig.app.json"
       }
     },
     "types": {

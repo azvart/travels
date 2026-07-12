@@ -3,7 +3,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { CacheModule } from '@nestjs/cache-manager';
 import { join } from 'node:path';
-import { DecoratorsModule } from '@app/decorators';
 import { AppConfigModule } from '@app/app-config';
 import { PubSubModule } from '@app/pubsub';
 import { AuthModule } from '@app/auth';

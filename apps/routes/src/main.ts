@@ -24,12 +24,12 @@ async function bootstrap() {
     options: {
       package: 'route',
      protoPath,
-      url: `${routeGrpcHost}: ${routeGrpcPort}`,
+      url: `${routeGrpcHost}:${routeGrpcPort}`,
     }
   })
 
   await app.startAllMicroservices();
- await app.listen(routePort as string);
+  await app.listen(routePort as string);
  console.log(
    `Route service (gRPC) listening on ${routeGrpcHost}:${routeGrpcPort}`,
  );
