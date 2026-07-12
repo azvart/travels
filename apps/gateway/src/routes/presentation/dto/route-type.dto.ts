@@ -1,1 +1,1 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';import { Route } from 'libs/interfaces';@ObjectType()export class RouteType implements Route {  @Field(() => ID)  public id!: string;  @Field(() => String)  public routeName!: string;}
+import { ObjectType, Field, ID } from '@nestjs/graphql';import { Route } from 'libs/interfaces';@ObjectType()export class RouteType implements Route {  @Field(() => ID)  public id!: string;  @Field(() => String)  public routeName!: string;  @Field(() => String)  public userId!: string;}

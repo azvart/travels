@@ -1,1 +1,1 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';@Entity('route')export class RouteOrmEntity {  @PrimaryGeneratedColumn('uuid')  public id!: string;  @Column({    nullable: false,  })  public routeName!: string;}
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';@Entity('route')@Entity('routes')export class RouteOrmEntity {  @PrimaryGeneratedColumn('uuid')  public id!: string;  @Column({    nullable: false,  })  public routeName!: string;  @Column()  public userId!: string;}
