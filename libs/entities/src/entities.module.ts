@@ -7,7 +7,6 @@ import {
   UserOrmEntity,
   WeatherCardOrmEntity,
   WeatherOrmEntity,
-  AchievementsEntity,
   UserAddressOrmEntity,
 } from '@app/entities/enity';
 
@@ -19,7 +18,6 @@ import {
       TravelCardsOrmEntity,
       WeatherCardOrmEntity,
       WeatherOrmEntity,
-      AchievementsEntity,
       UserAddressOrmEntity,
     ]),
   ],
@@ -30,7 +28,6 @@ import {
       TravelCardsOrmEntity,
       WeatherCardOrmEntity,
       WeatherOrmEntity,
-      AchievementsEntity,
       UserAddressOrmEntity,
     ]),
   ],

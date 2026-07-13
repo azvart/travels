@@ -5,5 +5,3 @@ export * from './weather.orm-entity';
 export * from './weather-card.orm-entity';
 export * from './achievements.orm-entity';
 export * from './user-address.orm-entity';
-export * from './quest-reward.orm-entity';
-export * from './route.orm-entity';
