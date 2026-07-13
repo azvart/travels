@@ -19,15 +19,6 @@
         "tsConfigPath": "apps/accounts/tsconfig.app.json"
       }
     },
-    "achievements": {
-      "type": "application",
-      "root": "apps/achievements",
-      "entryFile": "main",
-      "sourceRoot": "apps/achievements/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/achievements/tsconfig.app.json"
-      }
-    },
     "app-config": {
       "type": "library",
       "root": "libs/app-config",
@@ -44,15 +35,6 @@
       "sourceRoot": "libs/auth/src",
       "compilerOptions": {
         "tsConfigPath": "libs/auth/tsconfig.lib.json"
-      }
-    },
-    "database": {
-      "type": "library",
-      "root": "libs/database",
-      "entryFile": "index",
-      "sourceRoot": "libs/database/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
     },
     "dto": {
@@ -161,24 +143,6 @@
       "sourceRoot": "libs/types/src",
       "compilerOptions": {
         "tsConfigPath": "libs/types/tsconfig.lib.json"
-      }
-    },
-    "weather": {
-      "type": "application",
-      "root": "apps/weather",
-      "entryFile": "main",
-      "sourceRoot": "apps/weather/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/weather/tsconfig.app.json"
-      }
-    },
-    "weather-processor": {
-      "type": "application",
-      "root": "apps/weather-processor",
-      "entryFile": "main",
-      "sourceRoot": "apps/weather-processor/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/weather-processor/tsconfig.app.json"
       }
     }
   }
