@@ -127,6 +127,15 @@
         "tsConfigPath": "libs/pubsub/tsconfig.lib.json"
       }
     },
+    "quest": {
+      "type": "application",
+      "root": "apps/quest",
+      "entryFile": "main",
+      "sourceRoot": "apps/quest/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/quest/tsconfig.app.json"
+      }
+    },
     "redis": {
       "type": "library",
       "root": "libs/redis",
