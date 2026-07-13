@@ -3,7 +3,6 @@ import { CreateRouteModule } from '../use-case/create-route/create-route.module'
 import { UpdateRouteModule } from '../use-case/update-route/update-route.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RouteOrmEntity } from '../infrastructure/repositories/route.entity';
-import { RouteRepositoryModule } from '../infrastructure/repositories/route.repository.module';
 
 
 @Module({
