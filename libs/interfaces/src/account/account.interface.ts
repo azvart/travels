@@ -1,1 +1,1 @@
-import { IUser } from 'libs/interfaces/user';export interface IAccount { id: string; email: string; password: string; registrationType: string; user: IUser}
+export interface IAccount { id: string; email: string; password: string; registrationType: string;}

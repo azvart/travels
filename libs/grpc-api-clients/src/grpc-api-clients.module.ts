@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AccountGrpcService } from '@app/grpc-api-clients/account';
-import { AchievementsGrpcService } from '@app/grpc-api-clients/achievements';
-import { WeatherGrpcService } from '@app/grpc-api-clients/weather';
+
 import { AppConfigModule } from '@app/app-config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { ACCOUNT_PACKAGE_NAME } from '@app/proto';
-import { join } from 'node:path';
-import { WEATHER_PACKAGE_NAME } from '@app/proto/generated/weather/weather';
 import { ROUTE_PACKAGE_NAME } from '@app/proto/generated/route/route';
+import { join } from 'node:path';
 import { RouteGrpcService } from '@app/grpc-api-clients/route';
+import { QUEST_PACKAGE_NAME } from '@app/proto/generated/quest/quest';
+import { QuestGrpcService } from '@app/grpc-api-clients/quest';
 
 @Module({
   imports: [
@@ -29,49 +29,39 @@ import { RouteGrpcService } from '@app/grpc-api-clients/route';
         },
         name: 'ACCOUNT_GRPC_SERVICE',
       },
-      // {
-      //   imports: [AppConfigModule.forRootAsync()],
-      //   inject: [ConfigService],
-      //   useFactory: (configService: ConfigService) => {
-      //     return {
-      //       transport: Transport.GRPC,
-      //       options: {
-      //         package: WEATHER_PACKAGE_NAME,
-      //         protoPath: join(process.cwd(), 'libs/proto/src/weather', 'weather.proto'),
-      //         url: `${configService.get<string>('WEATHER_GRPC_HOST')}:${configService.get('WEATHER_GRPC_PORT')}`,
-      //       },
-      //     };
-      //   },
-      //   name: 'WEATHER_GRPC_SERVICE',
-      // },
-      // {
-      //   imports: [AppConfigModule.forRootAsync()],
-      //   inject: [ConfigService],
-      //   useFactory: (configService: ConfigService) => {
-      //     return {
-      //       transport: Transport.GRPC,
-      //       options: {
-      //         package: ROUTE_PACKAGE_NAME,
-      //         protoPath: join(process.cwd(), 'libs/proto/src/route', 'route.proto'),
-      //         url: `${configService.get<string>('ROUTE_GRPC_HOST')}:${configService.get('ROUTE_GRPC_PORT')}`,
-      //       },
-      //     };
-      //   },
-      //   name: 'ROUTE_GRPC_SERVICE',
-      // },
+      {
+        imports: [AppConfigModule.forRootAsync()],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => {
+          return {
+            transport: Transport.GRPC,
+            options: {
+              package: ROUTE_PACKAGE_NAME,
+              protoPath: join(process.cwd(), 'libs/proto/src/route', 'route.proto'),
+              url: `${configService.get<string>('ROUTE_GRPC_HOST')}:${configService.get('ROUTE_GRPC_PORT')}`,
+            },
+          };
+        },
+        name: 'ROUTE_GRPC_SERVICE',
+      },
+      {
+        imports: [AppConfigModule.forRootAsync()],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => {
+          return {
+            transport: Transport.GRPC,
+            options: {
+              package: QUEST_PACKAGE_NAME,
+              protoPath: join(process.cwd(), 'libs/proto/src/quest', 'quest.proto'),
+              url: `${configService.get<string>('QUEST_GRPC_HOST')}:${configService.get('QUEST_GRPC_PORT')}`,
+            }
+          };
+        },
+        name: 'QUEST_GRPC_SERVICE'
+      },
     ]),
   ],
-  providers: [
-    AccountGrpcService,
-    AchievementsGrpcService,
-    // WeatherGrpcService,
-    // RouteGrpcService,
-  ],
-  exports: [
-    AccountGrpcService,
-    AchievementsGrpcService,
-    // WeatherGrpcService,
-    // RouteGrpcService,
-  ],
+  providers: [AccountGrpcService, RouteGrpcService, QuestGrpcService],
+  exports: [AccountGrpcService, RouteGrpcService, QuestGrpcService],
 })
 export class GrpcApiClientsModule {}

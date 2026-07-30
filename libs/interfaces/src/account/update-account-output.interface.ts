@@ -1,1 +1,0 @@
-import { IAccount } from 'libs/interfaces';export interface IUpdateAccountOutput extends Omit<IAccount, 'user'>{}

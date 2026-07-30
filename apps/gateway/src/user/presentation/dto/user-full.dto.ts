@@ -1,11 +1,11 @@
 import { ObjectType, Field, PickType } from '@nestjs/graphql';
 import { User } from './user.dto';
-import { IUserFullInterface } from 'libs/interfaces';
+import { IUser } from 'libs/interfaces';
 
 
 @ObjectType()
-export class UserFull extends PickType(User, ['id', 'accountId', 'age', 'firstName', 'lastName'])
-  implements IUserFullInterface{
+export class UserFull extends PickType(User, ['id', 'age', 'firstName', 'lastName'])
+  implements IUser {
 
   @Field(() => String, { nullable: true })
   public country?: string;

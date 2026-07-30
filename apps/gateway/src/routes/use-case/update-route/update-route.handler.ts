@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IUpdateRoute } from 'libs/interfaces';
-import { RouteGrpcService } from '@app/grpc-api-clients/route';
+import { RouteGrpcService } from '@app/grpc-api-clients';
 
 
 @Injectable()

@@ -37,15 +37,6 @@
         "tsConfigPath": "libs/auth/tsconfig.lib.json"
       }
     },
-    "dto": {
-      "type": "library",
-      "root": "libs/dto",
-      "entryFile": "index",
-      "sourceRoot": "libs/dto/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/dto/tsconfig.lib.json"
-      }
-    },
     "entities": {
       "type": "library",
       "root": "libs/entities",
@@ -118,6 +109,15 @@
         "tsConfigPath": "apps/quest/tsconfig.app.json"
       }
     },
+    "quest-processor": {
+      "type": "application",
+      "root": "apps/quest-processor",
+      "entryFile": "main",
+      "sourceRoot": "apps/quest-processor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/quest-processor/tsconfig.app.json"
+      }
+    },
     "redis": {
       "type": "library",
       "root": "libs/redis",
@@ -134,15 +134,6 @@
       "sourceRoot": "apps/routes/src",
       "compilerOptions": {
         "tsConfigPath": "apps/routes/tsconfig.app.json"
-      }
-    },
-    "types": {
-      "type": "library",
-      "root": "libs/types",
-      "entryFile": "index",
-      "sourceRoot": "libs/types/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/types/tsconfig.lib.json"
       }
     }
   }

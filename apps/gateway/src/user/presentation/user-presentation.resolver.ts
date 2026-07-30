@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { UpdateUserInput, User, UserFull } from './dto';
 import { UserPresentationService } from './user-presentation.service';
 import { CurrentUser } from '@app/auth';
-import { IGetCurrentUser } from 'libs/interfaces';
+import { IGetUser } from 'libs/interfaces';
 
 
 @Resolver(() => User)
@@ -18,8 +18,8 @@ export class UserPresentationResolver {
   }
 
   @Query(() => UserFull)
-  public async getUserFull(@CurrentUser() user:IGetCurrentUser){
-    return this.userPresentationService.getUserFull(user.userId)
+  public async getUserFull(@CurrentUser() user:IGetUser){
+    return this.userPresentationService.getUserFull(user)
   }
 
 }

@@ -12,73 +12,89 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "route";
 
-export interface CreateRouteInput {
-  routeName: string;
-}
-
-export interface CreateRouteOutput {
+export interface Routes {
   id: string;
   routeName: string;
   userId: string;
+  country: string;
+  distance: number;
+  durationLabel: string;
+  pointsCount: number;
+  difficulty: string;
+  points: RoutePoints[];
+}
+
+export interface RoutePoints {
+  id: string;
+  latitude: number;
+  longitude: number;
+  order: number;
+  title?: string | undefined;
+}
+
+export interface CreateRouteInput {
+  routeName: string;
+  country: string;
+  userId: string;
+  distance: number;
+  durationLabel: string;
+  pointsCount: number;
+  difficulty: string;
+  points: RoutePoints[];
 }
 
 export interface UpdateRouteInput {
   id: string;
   routeName: string;
   userId: string;
+  country?: string | undefined;
+  distance?: number | undefined;
+  durationLabel?: string | undefined;
+  pointsCount?: number | undefined;
+  difficulty?: string | undefined;
 }
 
-export interface UpdateRouteOutput {
-  id: string;
-  routeName: string;
+export interface FindManyRoutesInput {
+  country?: string | undefined;
+  externalRoutes: boolean;
   userId: string;
+}
+
+export interface FindManyRoutesOutput {
+  routes: Routes[];
+}
+
+export interface FindOneRouteInput {
+  id: string;
+}
+
+export interface DeleteUserRouteInput {
+  id: string;
+  userId: string;
+}
+
+export interface DeleteUserRouteOutput {
+  id: string;
 }
 
 export const ROUTE_PACKAGE_NAME = "route";
 
-function createBaseCreateRouteInput(): CreateRouteInput {
-  return { routeName: "" };
+function createBaseRoutes(): Routes {
+  return {
+    id: "",
+    routeName: "",
+    userId: "",
+    country: "",
+    distance: 0,
+    durationLabel: "",
+    pointsCount: 0,
+    difficulty: "",
+    points: [],
+  };
 }
 
-export const CreateRouteInput: MessageFns<CreateRouteInput> = {
-  encode(message: CreateRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.routeName !== "") {
-      writer.uint32(10).string(message.routeName);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateRouteInput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCreateRouteInput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.routeName = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseCreateRouteOutput(): CreateRouteOutput {
-  return { id: "", routeName: "", userId: "" };
-}
-
-export const CreateRouteOutput: MessageFns<CreateRouteOutput> = {
-  encode(message: CreateRouteOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const Routes: MessageFns<Routes> = {
+  encode(message: Routes, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -88,13 +104,31 @@ export const CreateRouteOutput: MessageFns<CreateRouteOutput> = {
     if (message.userId !== "") {
       writer.uint32(26).string(message.userId);
     }
+    if (message.country !== "") {
+      writer.uint32(34).string(message.country);
+    }
+    if (message.distance !== 0) {
+      writer.uint32(41).double(message.distance);
+    }
+    if (message.durationLabel !== "") {
+      writer.uint32(50).string(message.durationLabel);
+    }
+    if (message.pointsCount !== 0) {
+      writer.uint32(56).int32(message.pointsCount);
+    }
+    if (message.difficulty !== "") {
+      writer.uint32(66).string(message.difficulty);
+    }
+    for (const v of message.points) {
+      RoutePoints.encode(v!, writer.uint32(74).fork()).join();
+    }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateRouteOutput {
+  decode(input: BinaryReader | Uint8Array, length?: number): Routes {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCreateRouteOutput();
+    const message = createBaseRoutes();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -122,6 +156,258 @@ export const CreateRouteOutput: MessageFns<CreateRouteOutput> = {
           message.userId = reader.string();
           continue;
         }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 41) {
+            break;
+          }
+
+          message.distance = reader.double();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.durationLabel = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.pointsCount = reader.int32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.difficulty = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.points.push(RoutePoints.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseRoutePoints(): RoutePoints {
+  return { id: "", latitude: 0, longitude: 0, order: 0 };
+}
+
+export const RoutePoints: MessageFns<RoutePoints> = {
+  encode(message: RoutePoints, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.latitude !== 0) {
+      writer.uint32(17).double(message.latitude);
+    }
+    if (message.longitude !== 0) {
+      writer.uint32(25).double(message.longitude);
+    }
+    if (message.order !== 0) {
+      writer.uint32(32).int32(message.order);
+    }
+    if (message.title !== undefined) {
+      writer.uint32(42).string(message.title);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RoutePoints {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRoutePoints();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.latitude = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.longitude = reader.double();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.order = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.title = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseCreateRouteInput(): CreateRouteInput {
+  return {
+    routeName: "",
+    country: "",
+    userId: "",
+    distance: 0,
+    durationLabel: "",
+    pointsCount: 0,
+    difficulty: "",
+    points: [],
+  };
+}
+
+export const CreateRouteInput: MessageFns<CreateRouteInput> = {
+  encode(message: CreateRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.routeName !== "") {
+      writer.uint32(10).string(message.routeName);
+    }
+    if (message.country !== "") {
+      writer.uint32(18).string(message.country);
+    }
+    if (message.userId !== "") {
+      writer.uint32(26).string(message.userId);
+    }
+    if (message.distance !== 0) {
+      writer.uint32(33).double(message.distance);
+    }
+    if (message.durationLabel !== "") {
+      writer.uint32(42).string(message.durationLabel);
+    }
+    if (message.pointsCount !== 0) {
+      writer.uint32(48).int32(message.pointsCount);
+    }
+    if (message.difficulty !== "") {
+      writer.uint32(58).string(message.difficulty);
+    }
+    for (const v of message.points) {
+      RoutePoints.encode(v!, writer.uint32(66).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateRouteInput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateRouteInput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.routeName = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 4: {
+          if (tag !== 33) {
+            break;
+          }
+
+          message.distance = reader.double();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.durationLabel = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.pointsCount = reader.int32();
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.difficulty = reader.string();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.points.push(RoutePoints.decode(reader, reader.uint32()));
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -146,6 +432,21 @@ export const UpdateRouteInput: MessageFns<UpdateRouteInput> = {
     }
     if (message.userId !== "") {
       writer.uint32(26).string(message.userId);
+    }
+    if (message.country !== undefined) {
+      writer.uint32(34).string(message.country);
+    }
+    if (message.distance !== undefined) {
+      writer.uint32(40).int32(message.distance);
+    }
+    if (message.durationLabel !== undefined) {
+      writer.uint32(50).string(message.durationLabel);
+    }
+    if (message.pointsCount !== undefined) {
+      writer.uint32(56).int32(message.pointsCount);
+    }
+    if (message.difficulty !== undefined) {
+      writer.uint32(66).string(message.difficulty);
     }
     return writer;
   },
@@ -181,6 +482,46 @@ export const UpdateRouteInput: MessageFns<UpdateRouteInput> = {
           message.userId = reader.string();
           continue;
         }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.distance = reader.int32();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.durationLabel = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.pointsCount = reader.int32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.difficulty = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -191,17 +532,17 @@ export const UpdateRouteInput: MessageFns<UpdateRouteInput> = {
   },
 };
 
-function createBaseUpdateRouteOutput(): UpdateRouteOutput {
-  return { id: "", routeName: "", userId: "" };
+function createBaseFindManyRoutesInput(): FindManyRoutesInput {
+  return { externalRoutes: false, userId: "" };
 }
 
-export const UpdateRouteOutput: MessageFns<UpdateRouteOutput> = {
-  encode(message: UpdateRouteOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
+export const FindManyRoutesInput: MessageFns<FindManyRoutesInput> = {
+  encode(message: FindManyRoutesInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.country !== undefined) {
+      writer.uint32(10).string(message.country);
     }
-    if (message.routeName !== "") {
-      writer.uint32(18).string(message.routeName);
+    if (message.externalRoutes !== false) {
+      writer.uint32(16).bool(message.externalRoutes);
     }
     if (message.userId !== "") {
       writer.uint32(26).string(message.userId);
@@ -209,10 +550,10 @@ export const UpdateRouteOutput: MessageFns<UpdateRouteOutput> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): UpdateRouteOutput {
+  decode(input: BinaryReader | Uint8Array, length?: number): FindManyRoutesInput {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUpdateRouteOutput();
+    const message = createBaseFindManyRoutesInput();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -221,15 +562,15 @@ export const UpdateRouteOutput: MessageFns<UpdateRouteOutput> = {
             break;
           }
 
-          message.id = reader.string();
+          message.country = reader.string();
           continue;
         }
         case 2: {
-          if (tag !== 18) {
+          if (tag !== 16) {
             break;
           }
 
-          message.routeName = reader.string();
+          message.externalRoutes = reader.bool();
           continue;
         }
         case 3: {
@@ -250,27 +591,198 @@ export const UpdateRouteOutput: MessageFns<UpdateRouteOutput> = {
   },
 };
 
-export interface RouteClient {
-  createRoute(request: CreateRouteInput, metadata?: Metadata): Observable<CreateRouteOutput>;
+function createBaseFindManyRoutesOutput(): FindManyRoutesOutput {
+  return { routes: [] };
+}
 
-  updateRoute(request: UpdateRouteInput, metadata?: Metadata): Observable<UpdateRouteOutput>;
+export const FindManyRoutesOutput: MessageFns<FindManyRoutesOutput> = {
+  encode(message: FindManyRoutesOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.routes) {
+      Routes.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FindManyRoutesOutput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFindManyRoutesOutput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.routes.push(Routes.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseFindOneRouteInput(): FindOneRouteInput {
+  return { id: "" };
+}
+
+export const FindOneRouteInput: MessageFns<FindOneRouteInput> = {
+  encode(message: FindOneRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FindOneRouteInput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFindOneRouteInput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseDeleteUserRouteInput(): DeleteUserRouteInput {
+  return { id: "", userId: "" };
+}
+
+export const DeleteUserRouteInput: MessageFns<DeleteUserRouteInput> = {
+  encode(message: DeleteUserRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.userId !== "") {
+      writer.uint32(18).string(message.userId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteUserRouteInput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteUserRouteInput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseDeleteUserRouteOutput(): DeleteUserRouteOutput {
+  return { id: "" };
+}
+
+export const DeleteUserRouteOutput: MessageFns<DeleteUserRouteOutput> = {
+  encode(message: DeleteUserRouteOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteUserRouteOutput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteUserRouteOutput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+export interface RouteClient {
+  createRoute(request: CreateRouteInput, metadata?: Metadata): Observable<Routes>;
+
+  updateRoute(request: UpdateRouteInput, metadata?: Metadata): Observable<Routes>;
+
+  findManyRoutes(request: FindManyRoutesInput, metadata?: Metadata): Observable<FindManyRoutesOutput>;
+
+  findOneRoute(request: FindOneRouteInput, metadata?: Metadata): Observable<Routes>;
+
+  deleteUserRoute(request: DeleteUserRouteInput, metadata?: Metadata): Observable<DeleteUserRouteOutput>;
 }
 
 export interface RouteController {
-  createRoute(
-    request: CreateRouteInput,
-    metadata?: Metadata,
-  ): Promise<CreateRouteOutput> | Observable<CreateRouteOutput> | CreateRouteOutput;
+  createRoute(request: CreateRouteInput, metadata?: Metadata): Promise<Routes> | Observable<Routes> | Routes;
 
-  updateRoute(
-    request: UpdateRouteInput,
+  updateRoute(request: UpdateRouteInput, metadata?: Metadata): Promise<Routes> | Observable<Routes> | Routes;
+
+  findManyRoutes(
+    request: FindManyRoutesInput,
     metadata?: Metadata,
-  ): Promise<UpdateRouteOutput> | Observable<UpdateRouteOutput> | UpdateRouteOutput;
+  ): Promise<FindManyRoutesOutput> | Observable<FindManyRoutesOutput> | FindManyRoutesOutput;
+
+  findOneRoute(request: FindOneRouteInput, metadata?: Metadata): Promise<Routes> | Observable<Routes> | Routes;
+
+  deleteUserRoute(
+    request: DeleteUserRouteInput,
+    metadata?: Metadata,
+  ): Promise<DeleteUserRouteOutput> | Observable<DeleteUserRouteOutput> | DeleteUserRouteOutput;
 }
 
 export function RouteControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createRoute", "updateRoute"];
+    const grpcMethods: string[] = ["createRoute", "updateRoute", "findManyRoutes", "findOneRoute", "deleteUserRoute"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("Route", method)(constructor.prototype[method], method, descriptor);
@@ -293,8 +805,8 @@ export const RouteService = {
     responseStream: false,
     requestSerialize: (value: CreateRouteInput): Buffer => Buffer.from(CreateRouteInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): CreateRouteInput => CreateRouteInput.decode(value),
-    responseSerialize: (value: CreateRouteOutput): Buffer => Buffer.from(CreateRouteOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): CreateRouteOutput => CreateRouteOutput.decode(value),
+    responseSerialize: (value: Routes): Buffer => Buffer.from(Routes.encode(value).finish()),
+    responseDeserialize: (value: Buffer): Routes => Routes.decode(value),
   },
   updateRoute: {
     path: "/route.Route/updateRoute",
@@ -302,14 +814,46 @@ export const RouteService = {
     responseStream: false,
     requestSerialize: (value: UpdateRouteInput): Buffer => Buffer.from(UpdateRouteInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): UpdateRouteInput => UpdateRouteInput.decode(value),
-    responseSerialize: (value: UpdateRouteOutput): Buffer => Buffer.from(UpdateRouteOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): UpdateRouteOutput => UpdateRouteOutput.decode(value),
+    responseSerialize: (value: Routes): Buffer => Buffer.from(Routes.encode(value).finish()),
+    responseDeserialize: (value: Buffer): Routes => Routes.decode(value),
+  },
+  findManyRoutes: {
+    path: "/route.Route/findManyRoutes",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: FindManyRoutesInput): Buffer => Buffer.from(FindManyRoutesInput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): FindManyRoutesInput => FindManyRoutesInput.decode(value),
+    responseSerialize: (value: FindManyRoutesOutput): Buffer =>
+      Buffer.from(FindManyRoutesOutput.encode(value).finish()),
+    responseDeserialize: (value: Buffer): FindManyRoutesOutput => FindManyRoutesOutput.decode(value),
+  },
+  findOneRoute: {
+    path: "/route.Route/findOneRoute",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: FindOneRouteInput): Buffer => Buffer.from(FindOneRouteInput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): FindOneRouteInput => FindOneRouteInput.decode(value),
+    responseSerialize: (value: Routes): Buffer => Buffer.from(Routes.encode(value).finish()),
+    responseDeserialize: (value: Buffer): Routes => Routes.decode(value),
+  },
+  deleteUserRoute: {
+    path: "/route.Route/deleteUserRoute",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: DeleteUserRouteInput): Buffer => Buffer.from(DeleteUserRouteInput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): DeleteUserRouteInput => DeleteUserRouteInput.decode(value),
+    responseSerialize: (value: DeleteUserRouteOutput): Buffer =>
+      Buffer.from(DeleteUserRouteOutput.encode(value).finish()),
+    responseDeserialize: (value: Buffer): DeleteUserRouteOutput => DeleteUserRouteOutput.decode(value),
   },
 } as const;
 
 export interface RouteServer extends UntypedServiceImplementation {
-  createRoute: handleUnaryCall<CreateRouteInput, CreateRouteOutput>;
-  updateRoute: handleUnaryCall<UpdateRouteInput, UpdateRouteOutput>;
+  createRoute: handleUnaryCall<CreateRouteInput, Routes>;
+  updateRoute: handleUnaryCall<UpdateRouteInput, Routes>;
+  findManyRoutes: handleUnaryCall<FindManyRoutesInput, FindManyRoutesOutput>;
+  findOneRoute: handleUnaryCall<FindOneRouteInput, Routes>;
+  deleteUserRoute: handleUnaryCall<DeleteUserRouteInput, DeleteUserRouteOutput>;
 }
 
 export interface MessageFns<T> {

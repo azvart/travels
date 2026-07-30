@@ -5,7 +5,7 @@ import { TokenType } from './dto/token-type.dto';
 import { CurrentUser, Public } from '@app/auth';
 import { LoginInputDTO } from './dto/login-input.dto';
 import { GetAccountFromTokenOutput } from './dto/get-account-from-token-output.dto';
-import { IGetCurrentUser } from 'libs/interfaces';
+import {  IGetUser } from 'libs/interfaces';
 
 @Resolver(() => Account)
 export class AccountPresentationResolver {
@@ -19,7 +19,7 @@ export class AccountPresentationResolver {
 
   @Public()
   @Mutation(() => TokenType)
-  public refreshTokens(@Args('refreshToken') refreshToken: string){
+  public refreshTokens(@Args('refreshToken') refreshToken: string) {
     return this.accountPresentationService.refreshToken(refreshToken);
   }
 
@@ -34,28 +34,13 @@ export class AccountPresentationResolver {
     return this.accountPresentationService.login(input);
   }
 
-  @Mutation(() => Boolean)
-  public async logout(@Context() ctx) {
-    return this.accountPresentationService.logout(ctx);
-  }
-
   @Mutation(() => UpdateAccountOutput)
   public async updateExistingAccount(@Args('input') input: UpdateAccountInput) {
     return this.accountPresentationService.updateExistingAccount(input);
   }
 
-  @Query(() => Account, { nullable: true })
-  public async getAccount(@Args('id') id: string) {
-    return this.accountPresentationService.getAccount(id);
-  }
-
-  @Query(() => Account)
-  public async getAccountByEmail(@Args('email') email: string) {
-    return this.accountPresentationService.getAccountByEmail(email);
-  }
-
   @Query(() => GetAccountFromTokenOutput)
-  public async getAccountByToken(@CurrentUser() user: IGetCurrentUser) {
+  public async getAccountByToken(@CurrentUser() user: IGetUser) {
     return {
       accountId: user.accountId,
       userId: user.userId,
@@ -64,7 +49,7 @@ export class AccountPresentationResolver {
   }
 
   @Mutation(() => GetAccountFromTokenOutput)
-  public async me(@CurrentUser() user: IGetCurrentUser){
+  public async me(@CurrentUser() user: IGetUser) {
     return {
       accountId: user.accountId,
       userId: user.userId,

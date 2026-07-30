@@ -1,10 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { IGetAccountFromTokenOutput } from 'libs/interfaces';
+import { IGetUser } from 'libs/interfaces';
 
 
 @ObjectType()
 export class GetAccountFromTokenOutput
-  implements IGetAccountFromTokenOutput {
+  implements IGetUser {
   @Field(() => String)
   public accountId!: string;
 

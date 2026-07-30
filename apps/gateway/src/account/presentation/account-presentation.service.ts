@@ -3,11 +3,8 @@ import { CreateNewAccountHandler } from '../use-case/create-new-account/create-n
 import { DeleteAccountHandler } from '../use-case/delete-account/delete-account.handler';
 import { UpdateExistingAccountHandler } from '../use-case/update-exisitng-account/update-existng-account.handler';
 import { LoginHandler } from '../use-case/login/login.handler';
-import { LogoutHandler } from '../use-case/logout/logout.handler';
 import { ILoginInput, IUpdateAccountInput } from 'libs/interfaces';
 import { ICreateNewAccount } from 'libs/interfaces/account/create-new-account.interface';
-import { GetAccountHandler } from '../use-case/get-account/get-account.handler';
-import { GetAccountByEmailHandler } from '../use-case/get-account-by-email/get-account-by-email.handler';
 import { RefreshTokenHandler } from '../use-case/refresh-token/refresh-token.handler';
 
 @Injectable()
@@ -17,9 +14,6 @@ export class AccountPresentationService {
     private readonly deleteAccountHandler: DeleteAccountHandler,
     private readonly updateExistingAccountHandler: UpdateExistingAccountHandler,
     private readonly loginHandler: LoginHandler,
-    private readonly logoutHandler: LogoutHandler,
-    private readonly getAccountHandler: GetAccountHandler,
-    private readonly getAccountByEmailHandler: GetAccountByEmailHandler,
     private readonly refreshTokenHandler: RefreshTokenHandler
   ) {}
 
@@ -41,16 +35,5 @@ export class AccountPresentationService {
 
   public async login(input: ILoginInput) {
     return this.loginHandler.run(input);
-  }
-
-  public async logout(ctx) {
-    return this.logoutHandler.run(ctx);
-  }
-
-  public async getAccount(id: string) {
-    return this.getAccountHandler.run(id);
-  }
-  public async getAccountByEmail(email: string) {
-    return this.getAccountByEmailHandler.run(email);
   }
 }

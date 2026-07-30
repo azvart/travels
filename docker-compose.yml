@@ -29,6 +29,8 @@ services:
 
   zookeeper:
     image: wurstmeister/zookeeper
+    networks:
+      - common
     ports:
       - "2181:2181"
 

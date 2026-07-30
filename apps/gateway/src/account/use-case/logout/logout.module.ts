@@ -1,1 +1,0 @@
-import { Module } from '@nestjs/common';import { LogoutHandler } from './logout.handler';import { GrpcApiClientsModule } from '@app/grpc-api-clients';@Module({  imports: [    GrpcApiClientsModule,  ],  providers: [LogoutHandler],  exports: [LogoutHandler]})export class LogoutModule {}

@@ -8,6 +8,9 @@ import { PubSubModule } from '@app/pubsub';
 import { AuthModule } from '@app/auth';
 import { AccountPresentationModule } from './account';
 import { UserPresentationModule } from './user';
+import { RoutePresentationModule } from './routes';
+import { QuestsPresentationModule } from './quests';
+import { SubscriptionPresentationModule } from './subscriptions';
 
 @Module({
   imports: [
@@ -20,21 +23,25 @@ import { UserPresentationModule } from './user';
       autoSchemaFile: join(process.cwd(), 'apps/gateway/src/schema.gql'),
       subscriptions: {
         'graphql-ws': {
-          path: '/graphql',
           onConnect: (context) => {
-           return { connectionParams: context.connectionParams };
+            return {
+             connectionParams: context.connectionParams
+            };
           },
         },
       },
       playground: true,
       introspection: true,
       graphiql: true,
-      context: ({ req, res, extra }) => {
-        return { req, res, user: extra?.user };
+      context: ({ req, res, extra, connectionParams }) => {
+        return { req, res, user: extra?.user, connectionParams, extra };
       },
     }),
-   AccountPresentationModule,
+    AccountPresentationModule,
     UserPresentationModule,
+    RoutePresentationModule,
+    QuestsPresentationModule,
+    SubscriptionPresentationModule
   ],
 })
 export class GatewayModule {}

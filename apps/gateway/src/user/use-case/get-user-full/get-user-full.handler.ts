@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AccountGrpcService } from '@app/grpc-api-clients';
 import { firstValueFrom } from 'rxjs';
+import { IGetUser } from 'libs/interfaces';
 
 @Injectable()
 export class GetUserFullHandler {
@@ -11,10 +12,10 @@ export class GetUserFullHandler {
 
 
 
-  public async run(userId:string){
+  public async run(data: IGetUser){
     return firstValueFrom(
-      this.accountGrpcService.service.userFull({
-        userId
+      this.accountGrpcService.service.getUser({
+        ...data
       }),
     )
   }

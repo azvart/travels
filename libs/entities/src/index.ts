@@ -1,1 +1,1 @@
-export * from './entities.module';
+export * from './enity';

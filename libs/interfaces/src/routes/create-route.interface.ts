@@ -1,1 +1,1 @@
-export interface ICreateRoute {  routeName: string;  userId: string;}
+import { IRoutePoints } from 'libs/interfaces/routes/route-points.interface';export interface ICreateRoute {  routeName: string;  userId: string;  country: string;  distance: number;  durationLabel: string;  pointsCount: number;  difficulty: string;  points: IRoutePoints[]}

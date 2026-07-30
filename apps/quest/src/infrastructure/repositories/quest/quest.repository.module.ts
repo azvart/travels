@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { QuestEntity } from './quest.entity';
+import { QuestEntity, UserQuestEntity } from '@app/entities';
 import { QuestAbstractRepository } from './quest.abstract.repository';
 import { QuestRepository } from './quest.repository';
 
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([QuestEntity])
+    TypeOrmModule.forFeature([QuestEntity, UserQuestEntity])
   ],
   providers: [
     {
