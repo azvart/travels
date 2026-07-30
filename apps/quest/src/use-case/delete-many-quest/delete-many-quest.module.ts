@@ -6,7 +6,7 @@ import { DeleteManyQuestHandler } from './delete-many-quest.handler';
 
 @Module({
   imports: [QuestRepositoryModule],
-  providers: [DeleteOneQuestHandler],
+  providers: [DeleteManyQuestHandler],
   exports: [DeleteManyQuestHandler]
 })
 export class DeleteManyQuestModule {}

@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 
-import { AccountModule } from './modules/account.module';
 import { RedisModule } from '@app/redis';
 import { AppConfigModule } from '@app/app-config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AccountOrmEntity, UserAddressOrmEntity, UserOrmEntity } from '@app/entities/enity';
+import { AccountPresentationModule } from './presentation/account.presentation.module';
+import { AccountEntity, QuestEntity, UserEntity, UserQuestEntity } from '@app/entities/enity';
 
 @Module({
   imports: [
     AppConfigModule.forRootAsync(),
-    AccountModule,
     RedisModule,
+    AccountPresentationModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -20,7 +20,7 @@ import { AccountOrmEntity, UserAddressOrmEntity, UserOrmEntity } from '@app/enti
       password: 'root_password',
       autoLoadEntities: true,
       synchronize: true,
-      entities: [AccountOrmEntity, UserOrmEntity, UserAddressOrmEntity]
+      entities: [AccountEntity, UserEntity, UserQuestEntity, QuestEntity]
     }),
   ],
 })

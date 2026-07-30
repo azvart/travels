@@ -3,7 +3,9 @@ import { GatewayModule } from './gateway.module';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(GatewayModule);
+  const app = await NestFactory.create(GatewayModule, {
+    logger: ['error', 'debug', 'warn' ,'verbose', 'fatal']
+  });
   const configService = app.get(ConfigService);
   const port = configService.get<string>('GATEWAY_PORT');
   app.enableCors({

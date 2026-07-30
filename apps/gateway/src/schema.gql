@@ -2,33 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: ID!
-  accountId: String!
-  firstName: String
-  lastName: String
-  age: Float
-  account: Account
-}
-
-type UserFull {
-  id: ID!
-  accountId: String!
-  firstName: String
-  lastName: String
-  age: Float
-  country: String
-  countryCode: String
-  street: String
-  city: String
-}
-
 type Account {
   id: ID!
   email: String!
   password: String!
   registrationType: String!
-  user: User
 }
 
 type UpdateAccountOutput {
@@ -50,11 +28,139 @@ type GetAccountFromTokenOutput {
   email: String!
 }
 
+type User {
+  id: ID!
+  firstName: String
+  lastName: String
+  age: Float
+  country: String
+  countryCode: String
+  street: String
+  city: String
+  account: Account
+}
+
+type UserFull {
+  id: ID!
+  firstName: String
+  lastName: String
+  age: Float
+  country: String
+  countryCode: String
+  street: String
+  city: String
+}
+
+type RoutePointsDto {
+  id: String!
+  latitude: Float!
+  longitude: Float!
+  order: Float!
+  title: String
+}
+
+type RouteType {
+  id: ID!
+  routeName: String!
+  userId: String!
+  country: String!
+  distance: Float!
+  durationLabel: String!
+  pointsCount: Float!
+  difficulty: String!
+  points: [RoutePointsDto!]!
+}
+
+type DeleteUserRouteOutputDto {
+  id: ID!
+}
+
+type QuestDto {
+  id: ID!
+  questDescription: String!
+  questName: String!
+  questCountry: String!
+  questReward: String!
+  questCondition: String!
+  questType: QuestType
+  attached: Boolean
+}
+
+enum QuestType {
+  DEFAULT
+  DAILY
+  WEEKLY
+}
+
+type DeleteManyQuestsOutputDto {
+  id: [ID!]!
+}
+
+type UserQuestDto {
+  id: ID!
+  userId: String!
+  questId: String!
+  status: QuestStatusEnum!
+  progress: Float!
+  finishResult: String!
+  completedAt: DateTime
+  createdAt: DateTime!
+  questEntity: QuestDto
+}
+
+enum QuestStatusEnum {
+  IN_PROGRESS
+  FINISHED
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type DeleteOneQuestOutputDto {
+  id: ID!
+}
+
+type QuestSubscriptionDto {
+  questId: ID!
+  progress: Float!
+  status: QuestStatusEnum!
+  finishResult: Float!
+}
+
 type Query {
-  getAccount(id: String!): Account
-  getAccountByEmail(email: String!): Account!
   getAccountByToken: GetAccountFromTokenOutput!
   getUserFull: UserFull!
+  findManyRoutes(input: FindManyRoutesDto!): [RouteType!]!
+  findOneRoute(input: FindOneRouteDto!): RouteType!
+  findOneQuest(input: FindOneQuestDto!): QuestDto!
+  findManyQuests(input: FindManyQuestsDto!): [QuestDto!]!
+  findOneUserQuest(questId: String!): UserQuestDto!
+  findManyUserQuests(input: FindManyUserQuestDto!): [UserQuestDto!]!
+}
+
+input FindManyRoutesDto {
+  country: String
+  externalRoutes: Boolean! = true
+}
+
+input FindOneRouteDto {
+  id: ID!
+}
+
+input FindOneQuestDto {
+  id: ID!
+}
+
+input FindManyQuestsDto {
+  questCountry: String
+  questType: QuestType
+}
+
+input FindManyUserQuestDto {
+  questId: ID
+  status: QuestStatusEnum
 }
 
 type Mutation {
@@ -62,16 +168,22 @@ type Mutation {
   refreshTokens(refreshToken: String!): TokenType!
   deleteAccount(id: String!): Boolean!
   login(input: LoginInputDTO!): TokenType!
-  logout: Boolean!
   updateExistingAccount(input: UpdateAccountInput!): UpdateAccountOutput!
   me: GetAccountFromTokenOutput!
   updateUser(input: UpdateUserInput!): User!
+  createRoute(input: CreateRouteDto!): RouteType!
+  updateRoute(input: UpdateRoute!): RouteType!
+  deleteUserRoute(input: DeleteUserRouteDto!): DeleteUserRouteOutputDto!
+  createQuest(input: CreateQuestDto!): QuestDto!
+  updateQuest(input: UpdateQuestDto!): QuestDto!
+  deleteOneQuest(input: DeleteOneQuestInputDto!): DeleteOneQuestOutputDto!
+  deleteManyQuests(input: DeleteManyQuestsInputDto!): DeleteManyQuestsOutputDto!
+  attacheQuestToUser(input: AttachQuestToUserDto!): UserQuestDto!
 }
 
 input CreateNewAccountInput {
   email: String!
   password: String!
-  registrationType: String!
 }
 
 input LoginInputDTO {
@@ -90,4 +202,76 @@ input UpdateUserInput {
   firstName: String
   lastName: String
   age: Float
+  country: String
+  countryCode: String
+  street: String
+  city: String
+}
+
+input CreateRouteDto {
+  routeName: String!
+  country: String!
+  distance: Float!
+  durationLabel: String!
+  pointsCount: Float!
+  difficulty: String!
+  points: [CreateRoutePointsDto!]!
+}
+
+input CreateRoutePointsDto {
+  id: String!
+  latitude: Float!
+  longitude: Float!
+  order: Float!
+  title: String
+}
+
+input UpdateRoute {
+  id: ID!
+  routeName: String!
+  country: String
+  distance: Float
+  durationLabel: String
+  pointsCount: Float
+  difficulty: String
+  coverImageUrl: String
+}
+
+input DeleteUserRouteDto {
+  id: ID!
+}
+
+input CreateQuestDto {
+  questName: String!
+  questDescription: String!
+  questCondition: String!
+  questCountry: String!
+  questReward: String!
+  questType: QuestType
+}
+
+input UpdateQuestDto {
+  id: ID!
+  questName: String
+  questDescription: String
+  questCondition: String
+  questCountry: String
+  questReward: String
+  questType: QuestType
+}
+
+input DeleteOneQuestInputDto {
+  id: ID!
+}
+
+input DeleteManyQuestsInputDto {
+  id: [ID!]!
+}
+
+input AttachQuestToUserDto {
+  questId: ID!
+}
+
+type Subscription {
+  questSubscription: QuestSubscriptionDto!
 }

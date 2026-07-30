@@ -14,7 +14,8 @@ export class UpdateRouteHandler {
   public async run(data: IUpdateRoute){
      return this.routeRepository.updateByIdAndFetch(data.id, {
        routeName: data.routeName,
-       userId: data.userId
+       userId: data.userId,
+       country: data.country
     })
   }
 }

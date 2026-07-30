@@ -1,1 +1,1 @@
-export interface Route {  id: string;  routeName: string;  userId: string;}
+import { IRoutePoints } from "./route-points.interface";export interface Route {  id: string;  routeName: string;  userId: string;  country: string;  distance: number;  durationLabel: string;  pointsCount: number;  difficulty: string;  points: IRoutePoints[]}

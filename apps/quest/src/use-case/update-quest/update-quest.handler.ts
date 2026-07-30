@@ -11,7 +11,7 @@ export class UpdateQuestHandler {
   ) {
   }
 
-  public async run(questId: string, data: IUpdateQuest){
+  public async run(questId: string, data: Omit<IUpdateQuest, 'id'>){
     return this.questRepository.updateOne(questId, data);
   }
 }

@@ -1,1 +1,0 @@
-syntax = 'proto3';package weather;import "google/protobuf/empty.proto";service Weather {  rpc weatherData(google.protobuf.Empty) returns (google.protobuf.Empty);}

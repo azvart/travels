@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IUpdateUserInputInterface } from 'libs/interfaces';
+import { IGetUser, IUpdateUserInputInterface } from 'libs/interfaces';
 import { UpdateUserHandler } from '../use-case/update-user/update-user.handler';
 import { GetUserFullHandler } from '../use-case/get-user-full/get-user-full.handler';
 
@@ -16,8 +16,8 @@ export class UserPresentationService{
   }
 
 
-  public async getUserFull(userId: string){
-    return this.getUserFullHandler.run(userId);
+  public async getUserFull(data: IGetUser){
+    return this.getUserFullHandler.run(data);
   }
 
 }

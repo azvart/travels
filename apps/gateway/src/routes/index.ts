@@ -1,1 +1,1 @@
-export * from './presentation/route-presentation.resolver';
+export * from './presentation/route-presentation.module';

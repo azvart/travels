@@ -13,133 +13,139 @@ import { BoolValue } from "../google/protobuf/wrappers";
 
 export const protobufPackage = "account";
 
-export interface AccountOutput {
-  id: string;
-  email: string;
-  password: string;
-  registrationType: string;
-}
-
-export interface CreateNewAccountInput {
-  email: string;
-  password: string;
-  registrationType: string;
-}
-
-export interface CreateNewAccountOutput {
+export interface TokenType {
   id: string;
   token: string;
   refreshToken: string;
 }
 
-export interface RefreshTokenInput {
-  refreshToken: string;
+export interface AccountInterface {
+  id: string;
+  email: string;
+  password: string;
+  registrationType: string;
 }
 
-export interface UpdateExistAccount {
+export interface UserInterface {
+  id: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  age?: number | undefined;
+  country?: string | undefined;
+  countryCode?: string | undefined;
+  street?: string | undefined;
+  city?: string | undefined;
+  account?: AccountInterface | undefined;
+}
+
+export interface CreateAccount {
+  email: string;
+  password: string;
+}
+
+export interface UpdateAccount {
   id: string;
   email?: string | undefined;
   password?: string | undefined;
 }
 
-export interface DeleteAccountInput {
-  id: string;
+export interface DeleteAccount {
+  accountId: string;
 }
 
-export interface DeleteAccountOutput {
-  boolean: boolean;
-}
-
-export interface GetAccountInput {
-  id: string;
-}
-
-export interface GetAccountByEmailInput {
-  email: string;
-}
-
-export interface VerifyEmailAccount {
-  email: string;
-  id: string;
-}
-
-export interface LoginAccount {
+export interface Login {
   email: string;
   password: string;
 }
 
-export interface LoginToken {
-  token: string;
-}
-
-export interface LoginTokenOutput {
-  accountId: string;
-  email: string;
-  userId: string;
-}
-
-export interface UpdateUserInput {
-  id: string;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  age?: number | undefined;
-}
-
-export interface UpdateUserOutput {
-  id: string;
-  accountId: string;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  age?: number | undefined;
-  account?: AccountOutput | undefined;
-}
-
-export interface UserFullInput {
-  userId: string;
-}
-
-export interface UserFullOutput {
-  id: string;
-  accountId: string;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  age?: number | undefined;
-  country?: string | undefined;
-  countryCode?: string | undefined;
-  street?: string | undefined;
-  city?: string | undefined;
-}
-
-export interface LogoutInput {
-  userId: string;
-  accountId: string;
-}
-
-export interface UpdateUserAddressInput {
-  id: string;
-  country?: string | undefined;
-  countryCode?: string | undefined;
-  street?: string | undefined;
-  city?: string | undefined;
-}
-
 export interface UpdateUser {
   id: string;
-  userId: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  age?: number | undefined;
   country?: string | undefined;
   countryCode?: string | undefined;
   street?: string | undefined;
   city?: string | undefined;
+}
+
+export interface RefreshToken {
+  refreshToken: string;
+}
+
+export interface GetUser {
+  userId: string;
+  accountId: string;
+  email: string;
 }
 
 export const ACCOUNT_PACKAGE_NAME = "account";
 
-function createBaseAccountOutput(): AccountOutput {
+function createBaseTokenType(): TokenType {
+  return { id: "", token: "", refreshToken: "" };
+}
+
+export const TokenType: MessageFns<TokenType> = {
+  encode(message: TokenType, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.token !== "") {
+      writer.uint32(18).string(message.token);
+    }
+    if (message.refreshToken !== "") {
+      writer.uint32(26).string(message.refreshToken);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TokenType {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTokenType();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.token = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.refreshToken = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseAccountInterface(): AccountInterface {
   return { id: "", email: "", password: "", registrationType: "" };
 }
 
-export const AccountOutput: MessageFns<AccountOutput> = {
-  encode(message: AccountOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const AccountInterface: MessageFns<AccountInterface> = {
+  encode(message: AccountInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -155,10 +161,10 @@ export const AccountOutput: MessageFns<AccountOutput> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): AccountOutput {
+  decode(input: BinaryReader | Uint8Array, length?: number): AccountInterface {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseAccountOutput();
+    const message = createBaseAccountInterface();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -204,566 +210,12 @@ export const AccountOutput: MessageFns<AccountOutput> = {
   },
 };
 
-function createBaseCreateNewAccountInput(): CreateNewAccountInput {
-  return { email: "", password: "", registrationType: "" };
-}
-
-export const CreateNewAccountInput: MessageFns<CreateNewAccountInput> = {
-  encode(message: CreateNewAccountInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.email !== "") {
-      writer.uint32(10).string(message.email);
-    }
-    if (message.password !== "") {
-      writer.uint32(18).string(message.password);
-    }
-    if (message.registrationType !== "") {
-      writer.uint32(26).string(message.registrationType);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateNewAccountInput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCreateNewAccountInput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.email = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.password = reader.string();
-          continue;
-        }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.registrationType = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseCreateNewAccountOutput(): CreateNewAccountOutput {
-  return { id: "", token: "", refreshToken: "" };
-}
-
-export const CreateNewAccountOutput: MessageFns<CreateNewAccountOutput> = {
-  encode(message: CreateNewAccountOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
-    }
-    if (message.token !== "") {
-      writer.uint32(18).string(message.token);
-    }
-    if (message.refreshToken !== "") {
-      writer.uint32(26).string(message.refreshToken);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateNewAccountOutput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCreateNewAccountOutput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.id = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.token = reader.string();
-          continue;
-        }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.refreshToken = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseRefreshTokenInput(): RefreshTokenInput {
-  return { refreshToken: "" };
-}
-
-export const RefreshTokenInput: MessageFns<RefreshTokenInput> = {
-  encode(message: RefreshTokenInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.refreshToken !== "") {
-      writer.uint32(10).string(message.refreshToken);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): RefreshTokenInput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRefreshTokenInput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.refreshToken = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseUpdateExistAccount(): UpdateExistAccount {
+function createBaseUserInterface(): UserInterface {
   return { id: "" };
 }
 
-export const UpdateExistAccount: MessageFns<UpdateExistAccount> = {
-  encode(message: UpdateExistAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
-    }
-    if (message.email !== undefined) {
-      writer.uint32(18).string(message.email);
-    }
-    if (message.password !== undefined) {
-      writer.uint32(26).string(message.password);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): UpdateExistAccount {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUpdateExistAccount();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.id = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.email = reader.string();
-          continue;
-        }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.password = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseDeleteAccountInput(): DeleteAccountInput {
-  return { id: "" };
-}
-
-export const DeleteAccountInput: MessageFns<DeleteAccountInput> = {
-  encode(message: DeleteAccountInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): DeleteAccountInput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseDeleteAccountInput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.id = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseDeleteAccountOutput(): DeleteAccountOutput {
-  return { boolean: false };
-}
-
-export const DeleteAccountOutput: MessageFns<DeleteAccountOutput> = {
-  encode(message: DeleteAccountOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.boolean !== false) {
-      writer.uint32(8).bool(message.boolean);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): DeleteAccountOutput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseDeleteAccountOutput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.boolean = reader.bool();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseGetAccountInput(): GetAccountInput {
-  return { id: "" };
-}
-
-export const GetAccountInput: MessageFns<GetAccountInput> = {
-  encode(message: GetAccountInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): GetAccountInput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseGetAccountInput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.id = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseGetAccountByEmailInput(): GetAccountByEmailInput {
-  return { email: "" };
-}
-
-export const GetAccountByEmailInput: MessageFns<GetAccountByEmailInput> = {
-  encode(message: GetAccountByEmailInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.email !== "") {
-      writer.uint32(10).string(message.email);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): GetAccountByEmailInput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseGetAccountByEmailInput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.email = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseVerifyEmailAccount(): VerifyEmailAccount {
-  return { email: "", id: "" };
-}
-
-export const VerifyEmailAccount: MessageFns<VerifyEmailAccount> = {
-  encode(message: VerifyEmailAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.email !== "") {
-      writer.uint32(10).string(message.email);
-    }
-    if (message.id !== "") {
-      writer.uint32(18).string(message.id);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): VerifyEmailAccount {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseVerifyEmailAccount();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.email = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.id = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseLoginAccount(): LoginAccount {
-  return { email: "", password: "" };
-}
-
-export const LoginAccount: MessageFns<LoginAccount> = {
-  encode(message: LoginAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.email !== "") {
-      writer.uint32(10).string(message.email);
-    }
-    if (message.password !== "") {
-      writer.uint32(18).string(message.password);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): LoginAccount {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseLoginAccount();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.email = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.password = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseLoginToken(): LoginToken {
-  return { token: "" };
-}
-
-export const LoginToken: MessageFns<LoginToken> = {
-  encode(message: LoginToken, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.token !== "") {
-      writer.uint32(10).string(message.token);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): LoginToken {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseLoginToken();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.token = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseLoginTokenOutput(): LoginTokenOutput {
-  return { accountId: "", email: "", userId: "" };
-}
-
-export const LoginTokenOutput: MessageFns<LoginTokenOutput> = {
-  encode(message: LoginTokenOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.accountId !== "") {
-      writer.uint32(10).string(message.accountId);
-    }
-    if (message.email !== "") {
-      writer.uint32(18).string(message.email);
-    }
-    if (message.userId !== "") {
-      writer.uint32(26).string(message.userId);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): LoginTokenOutput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseLoginTokenOutput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.accountId = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.email = reader.string();
-          continue;
-        }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.userId = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseUpdateUserInput(): UpdateUserInput {
-  return { id: "" };
-}
-
-export const UpdateUserInput: MessageFns<UpdateUserInput> = {
-  encode(message: UpdateUserInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const UserInterface: MessageFns<UserInterface> = {
+  encode(message: UserInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -776,13 +228,28 @@ export const UpdateUserInput: MessageFns<UpdateUserInput> = {
     if (message.age !== undefined) {
       writer.uint32(32).int32(message.age);
     }
+    if (message.country !== undefined) {
+      writer.uint32(42).string(message.country);
+    }
+    if (message.countryCode !== undefined) {
+      writer.uint32(50).string(message.countryCode);
+    }
+    if (message.street !== undefined) {
+      writer.uint32(58).string(message.street);
+    }
+    if (message.city !== undefined) {
+      writer.uint32(66).string(message.city);
+    }
+    if (message.account !== undefined) {
+      AccountInterface.encode(message.account, writer.uint32(74).fork()).join();
+    }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): UpdateUserInput {
+  decode(input: BinaryReader | Uint8Array, length?: number): UserInterface {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUpdateUserInput();
+    const message = createBaseUserInterface();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -818,234 +285,20 @@ export const UpdateUserInput: MessageFns<UpdateUserInput> = {
           message.age = reader.int32();
           continue;
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseUpdateUserOutput(): UpdateUserOutput {
-  return { id: "", accountId: "" };
-}
-
-export const UpdateUserOutput: MessageFns<UpdateUserOutput> = {
-  encode(message: UpdateUserOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
-    }
-    if (message.accountId !== "") {
-      writer.uint32(18).string(message.accountId);
-    }
-    if (message.firstName !== undefined) {
-      writer.uint32(26).string(message.firstName);
-    }
-    if (message.lastName !== undefined) {
-      writer.uint32(34).string(message.lastName);
-    }
-    if (message.age !== undefined) {
-      writer.uint32(40).int32(message.age);
-    }
-    if (message.account !== undefined) {
-      AccountOutput.encode(message.account, writer.uint32(50).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): UpdateUserOutput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUpdateUserOutput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.id = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.accountId = reader.string();
-          continue;
-        }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.firstName = reader.string();
-          continue;
-        }
-        case 4: {
-          if (tag !== 34) {
-            break;
-          }
-
-          message.lastName = reader.string();
-          continue;
-        }
         case 5: {
-          if (tag !== 40) {
-            break;
-          }
-
-          message.age = reader.int32();
-          continue;
-        }
-        case 6: {
-          if (tag !== 50) {
-            break;
-          }
-
-          message.account = AccountOutput.decode(reader, reader.uint32());
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseUserFullInput(): UserFullInput {
-  return { userId: "" };
-}
-
-export const UserFullInput: MessageFns<UserFullInput> = {
-  encode(message: UserFullInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== "") {
-      writer.uint32(10).string(message.userId);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): UserFullInput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUserFullInput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.userId = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-};
-
-function createBaseUserFullOutput(): UserFullOutput {
-  return { id: "", accountId: "" };
-}
-
-export const UserFullOutput: MessageFns<UserFullOutput> = {
-  encode(message: UserFullOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
-    }
-    if (message.accountId !== "") {
-      writer.uint32(18).string(message.accountId);
-    }
-    if (message.firstName !== undefined) {
-      writer.uint32(26).string(message.firstName);
-    }
-    if (message.lastName !== undefined) {
-      writer.uint32(34).string(message.lastName);
-    }
-    if (message.age !== undefined) {
-      writer.uint32(40).int32(message.age);
-    }
-    if (message.country !== undefined) {
-      writer.uint32(50).string(message.country);
-    }
-    if (message.countryCode !== undefined) {
-      writer.uint32(58).string(message.countryCode);
-    }
-    if (message.street !== undefined) {
-      writer.uint32(66).string(message.street);
-    }
-    if (message.city !== undefined) {
-      writer.uint32(74).string(message.city);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): UserFullOutput {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUserFullOutput();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.id = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.accountId = reader.string();
-          continue;
-        }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.firstName = reader.string();
-          continue;
-        }
-        case 4: {
-          if (tag !== 34) {
-            break;
-          }
-
-          message.lastName = reader.string();
-          continue;
-        }
-        case 5: {
-          if (tag !== 40) {
-            break;
-          }
-
-          message.age = reader.int32();
-          continue;
-        }
-        case 6: {
-          if (tag !== 50) {
+          if (tag !== 42) {
             break;
           }
 
           message.country = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.countryCode = reader.string();
           continue;
         }
         case 7: {
@@ -1053,7 +306,7 @@ export const UserFullOutput: MessageFns<UserFullOutput> = {
             break;
           }
 
-          message.countryCode = reader.string();
+          message.street = reader.string();
           continue;
         }
         case 8: {
@@ -1061,7 +314,7 @@ export const UserFullOutput: MessageFns<UserFullOutput> = {
             break;
           }
 
-          message.street = reader.string();
+          message.city = reader.string();
           continue;
         }
         case 9: {
@@ -1069,7 +322,7 @@ export const UserFullOutput: MessageFns<UserFullOutput> = {
             break;
           }
 
-          message.city = reader.string();
+          message.account = AccountInterface.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -1082,25 +335,25 @@ export const UserFullOutput: MessageFns<UserFullOutput> = {
   },
 };
 
-function createBaseLogoutInput(): LogoutInput {
-  return { userId: "", accountId: "" };
+function createBaseCreateAccount(): CreateAccount {
+  return { email: "", password: "" };
 }
 
-export const LogoutInput: MessageFns<LogoutInput> = {
-  encode(message: LogoutInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== "") {
-      writer.uint32(10).string(message.userId);
+export const CreateAccount: MessageFns<CreateAccount> = {
+  encode(message: CreateAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.email !== "") {
+      writer.uint32(10).string(message.email);
     }
-    if (message.accountId !== "") {
-      writer.uint32(18).string(message.accountId);
+    if (message.password !== "") {
+      writer.uint32(18).string(message.password);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): LogoutInput {
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateAccount {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseLogoutInput();
+    const message = createBaseCreateAccount();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -1109,7 +362,7 @@ export const LogoutInput: MessageFns<LogoutInput> = {
             break;
           }
 
-          message.userId = reader.string();
+          message.email = reader.string();
           continue;
         }
         case 2: {
@@ -1117,7 +370,7 @@ export const LogoutInput: MessageFns<LogoutInput> = {
             break;
           }
 
-          message.accountId = reader.string();
+          message.password = reader.string();
           continue;
         }
       }
@@ -1130,34 +383,28 @@ export const LogoutInput: MessageFns<LogoutInput> = {
   },
 };
 
-function createBaseUpdateUserAddressInput(): UpdateUserAddressInput {
+function createBaseUpdateAccount(): UpdateAccount {
   return { id: "" };
 }
 
-export const UpdateUserAddressInput: MessageFns<UpdateUserAddressInput> = {
-  encode(message: UpdateUserAddressInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const UpdateAccount: MessageFns<UpdateAccount> = {
+  encode(message: UpdateAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.country !== undefined) {
-      writer.uint32(18).string(message.country);
+    if (message.email !== undefined) {
+      writer.uint32(18).string(message.email);
     }
-    if (message.countryCode !== undefined) {
-      writer.uint32(26).string(message.countryCode);
-    }
-    if (message.street !== undefined) {
-      writer.uint32(34).string(message.street);
-    }
-    if (message.city !== undefined) {
-      writer.uint32(42).string(message.city);
+    if (message.password !== undefined) {
+      writer.uint32(26).string(message.password);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): UpdateUserAddressInput {
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateAccount {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUpdateUserAddressInput();
+    const message = createBaseUpdateAccount();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -1174,7 +421,7 @@ export const UpdateUserAddressInput: MessageFns<UpdateUserAddressInput> = {
             break;
           }
 
-          message.country = reader.string();
+          message.email = reader.string();
           continue;
         }
         case 3: {
@@ -1182,23 +429,92 @@ export const UpdateUserAddressInput: MessageFns<UpdateUserAddressInput> = {
             break;
           }
 
-          message.countryCode = reader.string();
+          message.password = reader.string();
           continue;
         }
-        case 4: {
-          if (tag !== 34) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseDeleteAccount(): DeleteAccount {
+  return { accountId: "" };
+}
+
+export const DeleteAccount: MessageFns<DeleteAccount> = {
+  encode(message: DeleteAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.accountId !== "") {
+      writer.uint32(10).string(message.accountId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DeleteAccount {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteAccount();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
             break;
           }
 
-          message.street = reader.string();
+          message.accountId = reader.string();
           continue;
         }
-        case 5: {
-          if (tag !== 42) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseLogin(): Login {
+  return { email: "", password: "" };
+}
+
+export const Login: MessageFns<Login> = {
+  encode(message: Login, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.email !== "") {
+      writer.uint32(10).string(message.email);
+    }
+    if (message.password !== "") {
+      writer.uint32(18).string(message.password);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Login {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseLogin();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
             break;
           }
 
-          message.city = reader.string();
+          message.email = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.password = reader.string();
           continue;
         }
       }
@@ -1212,7 +528,7 @@ export const UpdateUserAddressInput: MessageFns<UpdateUserAddressInput> = {
 };
 
 function createBaseUpdateUser(): UpdateUser {
-  return { id: "", userId: "" };
+  return { id: "" };
 }
 
 export const UpdateUser: MessageFns<UpdateUser> = {
@@ -1220,20 +536,26 @@ export const UpdateUser: MessageFns<UpdateUser> = {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.userId !== "") {
-      writer.uint32(18).string(message.userId);
+    if (message.firstName !== undefined) {
+      writer.uint32(18).string(message.firstName);
+    }
+    if (message.lastName !== undefined) {
+      writer.uint32(26).string(message.lastName);
+    }
+    if (message.age !== undefined) {
+      writer.uint32(32).int32(message.age);
     }
     if (message.country !== undefined) {
-      writer.uint32(26).string(message.country);
+      writer.uint32(42).string(message.country);
     }
     if (message.countryCode !== undefined) {
-      writer.uint32(34).string(message.countryCode);
+      writer.uint32(50).string(message.countryCode);
     }
     if (message.street !== undefined) {
-      writer.uint32(42).string(message.street);
+      writer.uint32(58).string(message.street);
     }
     if (message.city !== undefined) {
-      writer.uint32(50).string(message.city);
+      writer.uint32(66).string(message.city);
     }
     return writer;
   },
@@ -1258,7 +580,7 @@ export const UpdateUser: MessageFns<UpdateUser> = {
             break;
           }
 
-          message.userId = reader.string();
+          message.firstName = reader.string();
           continue;
         }
         case 3: {
@@ -1266,15 +588,15 @@ export const UpdateUser: MessageFns<UpdateUser> = {
             break;
           }
 
-          message.country = reader.string();
+          message.lastName = reader.string();
           continue;
         }
         case 4: {
-          if (tag !== 34) {
+          if (tag !== 32) {
             break;
           }
 
-          message.countryCode = reader.string();
+          message.age = reader.int32();
           continue;
         }
         case 5: {
@@ -1282,11 +604,27 @@ export const UpdateUser: MessageFns<UpdateUser> = {
             break;
           }
 
-          message.street = reader.string();
+          message.country = reader.string();
           continue;
         }
         case 6: {
           if (tag !== 50) {
+            break;
+          }
+
+          message.countryCode = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.street = reader.string();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
             break;
           }
 
@@ -1303,114 +641,150 @@ export const UpdateUser: MessageFns<UpdateUser> = {
   },
 };
 
+function createBaseRefreshToken(): RefreshToken {
+  return { refreshToken: "" };
+}
+
+export const RefreshToken: MessageFns<RefreshToken> = {
+  encode(message: RefreshToken, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.refreshToken !== "") {
+      writer.uint32(10).string(message.refreshToken);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RefreshToken {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRefreshToken();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.refreshToken = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseGetUser(): GetUser {
+  return { userId: "", accountId: "", email: "" };
+}
+
+export const GetUser: MessageFns<GetUser> = {
+  encode(message: GetUser, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.accountId !== "") {
+      writer.uint32(18).string(message.accountId);
+    }
+    if (message.email !== "") {
+      writer.uint32(26).string(message.email);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetUser {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetUser();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.accountId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.email = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
 export interface AccountClient {
-  createNewAccount(request: CreateNewAccountInput, metadata?: Metadata): Observable<CreateNewAccountOutput>;
+  createAccount(request: CreateAccount, metadata?: Metadata): Observable<TokenType>;
 
-  updateExistAccount(request: UpdateExistAccount, metadata?: Metadata): Observable<AccountOutput>;
+  updateAccount(request: UpdateAccount, metadata?: Metadata): Observable<AccountInterface>;
 
-  deleteAccount(request: DeleteAccountInput, metadata?: Metadata): Observable<BoolValue>;
+  deleteAccount(request: DeleteAccount, metadata?: Metadata): Observable<BoolValue>;
 
-  getAccount(request: GetAccountInput, metadata?: Metadata): Observable<AccountOutput>;
+  login(request: Login, metadata?: Metadata): Observable<TokenType>;
 
-  getAccountByEmail(request: GetAccountByEmailInput, metadata?: Metadata): Observable<AccountOutput>;
+  updateUser(request: UpdateUser, metadata?: Metadata): Observable<UserInterface>;
 
-  verifyEmailAccount(request: VerifyEmailAccount, metadata?: Metadata): Observable<AccountOutput>;
+  refreshToken(request: RefreshToken, metadata?: Metadata): Observable<TokenType>;
 
-  login(request: LoginAccount, metadata?: Metadata): Observable<CreateNewAccountOutput>;
-
-  loginByToken(request: LoginToken, metadata?: Metadata): Observable<LoginTokenOutput>;
-
-  logout(request: LogoutInput, metadata?: Metadata): Observable<BoolValue>;
-
-  updateUser(request: UpdateUserInput, metadata?: Metadata): Observable<UpdateUserOutput>;
-
-  updateUserAddress(request: UpdateUserAddressInput, metadata?: Metadata): Observable<UpdateUser>;
-
-  refreshToken(request: RefreshTokenInput, metadata?: Metadata): Observable<CreateNewAccountOutput>;
-
-  userFull(request: UserFullInput, metadata?: Metadata): Observable<UserFullOutput>;
+  getUser(request: GetUser, metadata?: Metadata): Observable<UserInterface>;
 }
 
 export interface AccountController {
-  createNewAccount(
-    request: CreateNewAccountInput,
-    metadata?: Metadata,
-  ): Promise<CreateNewAccountOutput> | Observable<CreateNewAccountOutput> | CreateNewAccountOutput;
+  createAccount(request: CreateAccount, metadata?: Metadata): Promise<TokenType> | Observable<TokenType> | TokenType;
 
-  updateExistAccount(
-    request: UpdateExistAccount,
+  updateAccount(
+    request: UpdateAccount,
     metadata?: Metadata,
-  ): Promise<AccountOutput> | Observable<AccountOutput> | AccountOutput;
+  ): Promise<AccountInterface> | Observable<AccountInterface> | AccountInterface;
 
-  deleteAccount(
-    request: DeleteAccountInput,
-    metadata?: Metadata,
-  ): Promise<BoolValue> | Observable<BoolValue> | BoolValue;
+  deleteAccount(request: DeleteAccount, metadata?: Metadata): Promise<BoolValue> | Observable<BoolValue> | BoolValue;
 
-  getAccount(
-    request: GetAccountInput,
-    metadata?: Metadata,
-  ): Promise<AccountOutput> | Observable<AccountOutput> | AccountOutput;
-
-  getAccountByEmail(
-    request: GetAccountByEmailInput,
-    metadata?: Metadata,
-  ): Promise<AccountOutput> | Observable<AccountOutput> | AccountOutput;
-
-  verifyEmailAccount(
-    request: VerifyEmailAccount,
-    metadata?: Metadata,
-  ): Promise<AccountOutput> | Observable<AccountOutput> | AccountOutput;
-
-  login(
-    request: LoginAccount,
-    metadata?: Metadata,
-  ): Promise<CreateNewAccountOutput> | Observable<CreateNewAccountOutput> | CreateNewAccountOutput;
-
-  loginByToken(
-    request: LoginToken,
-    metadata?: Metadata,
-  ): Promise<LoginTokenOutput> | Observable<LoginTokenOutput> | LoginTokenOutput;
-
-  logout(request: LogoutInput, metadata?: Metadata): Promise<BoolValue> | Observable<BoolValue> | BoolValue;
+  login(request: Login, metadata?: Metadata): Promise<TokenType> | Observable<TokenType> | TokenType;
 
   updateUser(
-    request: UpdateUserInput,
+    request: UpdateUser,
     metadata?: Metadata,
-  ): Promise<UpdateUserOutput> | Observable<UpdateUserOutput> | UpdateUserOutput;
+  ): Promise<UserInterface> | Observable<UserInterface> | UserInterface;
 
-  updateUserAddress(
-    request: UpdateUserAddressInput,
-    metadata?: Metadata,
-  ): Promise<UpdateUser> | Observable<UpdateUser> | UpdateUser;
+  refreshToken(request: RefreshToken, metadata?: Metadata): Promise<TokenType> | Observable<TokenType> | TokenType;
 
-  refreshToken(
-    request: RefreshTokenInput,
-    metadata?: Metadata,
-  ): Promise<CreateNewAccountOutput> | Observable<CreateNewAccountOutput> | CreateNewAccountOutput;
-
-  userFull(
-    request: UserFullInput,
-    metadata?: Metadata,
-  ): Promise<UserFullOutput> | Observable<UserFullOutput> | UserFullOutput;
+  getUser(request: GetUser, metadata?: Metadata): Promise<UserInterface> | Observable<UserInterface> | UserInterface;
 }
 
 export function AccountControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      "createNewAccount",
-      "updateExistAccount",
+      "createAccount",
+      "updateAccount",
       "deleteAccount",
-      "getAccount",
-      "getAccountByEmail",
-      "verifyEmailAccount",
       "login",
-      "loginByToken",
-      "logout",
       "updateUser",
-      "updateUserAddress",
       "refreshToken",
-      "userFull",
+      "getUser",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
@@ -1428,147 +802,80 @@ export const ACCOUNT_SERVICE_NAME = "Account";
 
 export type AccountService = typeof AccountService;
 export const AccountService = {
-  createNewAccount: {
-    path: "/account.Account/createNewAccount",
+  createAccount: {
+    path: "/account.Account/createAccount",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: CreateNewAccountInput): Buffer =>
-      Buffer.from(CreateNewAccountInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): CreateNewAccountInput => CreateNewAccountInput.decode(value),
-    responseSerialize: (value: CreateNewAccountOutput): Buffer =>
-      Buffer.from(CreateNewAccountOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): CreateNewAccountOutput => CreateNewAccountOutput.decode(value),
+    requestSerialize: (value: CreateAccount): Buffer => Buffer.from(CreateAccount.encode(value).finish()),
+    requestDeserialize: (value: Buffer): CreateAccount => CreateAccount.decode(value),
+    responseSerialize: (value: TokenType): Buffer => Buffer.from(TokenType.encode(value).finish()),
+    responseDeserialize: (value: Buffer): TokenType => TokenType.decode(value),
   },
-  updateExistAccount: {
-    path: "/account.Account/updateExistAccount",
+  updateAccount: {
+    path: "/account.Account/updateAccount",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UpdateExistAccount): Buffer => Buffer.from(UpdateExistAccount.encode(value).finish()),
-    requestDeserialize: (value: Buffer): UpdateExistAccount => UpdateExistAccount.decode(value),
-    responseSerialize: (value: AccountOutput): Buffer => Buffer.from(AccountOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): AccountOutput => AccountOutput.decode(value),
+    requestSerialize: (value: UpdateAccount): Buffer => Buffer.from(UpdateAccount.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UpdateAccount => UpdateAccount.decode(value),
+    responseSerialize: (value: AccountInterface): Buffer => Buffer.from(AccountInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): AccountInterface => AccountInterface.decode(value),
   },
   deleteAccount: {
     path: "/account.Account/deleteAccount",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: DeleteAccountInput): Buffer => Buffer.from(DeleteAccountInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): DeleteAccountInput => DeleteAccountInput.decode(value),
+    requestSerialize: (value: DeleteAccount): Buffer => Buffer.from(DeleteAccount.encode(value).finish()),
+    requestDeserialize: (value: Buffer): DeleteAccount => DeleteAccount.decode(value),
     responseSerialize: (value: boolean | undefined): Buffer =>
       Buffer.from(BoolValue.encode({ value: value ?? false }).finish()),
     responseDeserialize: (value: Buffer): boolean | undefined => BoolValue.decode(value).value,
-  },
-  getAccount: {
-    path: "/account.Account/getAccount",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: GetAccountInput): Buffer => Buffer.from(GetAccountInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): GetAccountInput => GetAccountInput.decode(value),
-    responseSerialize: (value: AccountOutput): Buffer => Buffer.from(AccountOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): AccountOutput => AccountOutput.decode(value),
-  },
-  getAccountByEmail: {
-    path: "/account.Account/getAccountByEmail",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: GetAccountByEmailInput): Buffer =>
-      Buffer.from(GetAccountByEmailInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): GetAccountByEmailInput => GetAccountByEmailInput.decode(value),
-    responseSerialize: (value: AccountOutput): Buffer => Buffer.from(AccountOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): AccountOutput => AccountOutput.decode(value),
-  },
-  verifyEmailAccount: {
-    path: "/account.Account/verifyEmailAccount",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: VerifyEmailAccount): Buffer => Buffer.from(VerifyEmailAccount.encode(value).finish()),
-    requestDeserialize: (value: Buffer): VerifyEmailAccount => VerifyEmailAccount.decode(value),
-    responseSerialize: (value: AccountOutput): Buffer => Buffer.from(AccountOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): AccountOutput => AccountOutput.decode(value),
   },
   login: {
     path: "/account.Account/login",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: LoginAccount): Buffer => Buffer.from(LoginAccount.encode(value).finish()),
-    requestDeserialize: (value: Buffer): LoginAccount => LoginAccount.decode(value),
-    responseSerialize: (value: CreateNewAccountOutput): Buffer =>
-      Buffer.from(CreateNewAccountOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): CreateNewAccountOutput => CreateNewAccountOutput.decode(value),
-  },
-  loginByToken: {
-    path: "/account.Account/loginByToken",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: LoginToken): Buffer => Buffer.from(LoginToken.encode(value).finish()),
-    requestDeserialize: (value: Buffer): LoginToken => LoginToken.decode(value),
-    responseSerialize: (value: LoginTokenOutput): Buffer => Buffer.from(LoginTokenOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): LoginTokenOutput => LoginTokenOutput.decode(value),
-  },
-  logout: {
-    path: "/account.Account/logout",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: LogoutInput): Buffer => Buffer.from(LogoutInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): LogoutInput => LogoutInput.decode(value),
-    responseSerialize: (value: boolean | undefined): Buffer =>
-      Buffer.from(BoolValue.encode({ value: value ?? false }).finish()),
-    responseDeserialize: (value: Buffer): boolean | undefined => BoolValue.decode(value).value,
+    requestSerialize: (value: Login): Buffer => Buffer.from(Login.encode(value).finish()),
+    requestDeserialize: (value: Buffer): Login => Login.decode(value),
+    responseSerialize: (value: TokenType): Buffer => Buffer.from(TokenType.encode(value).finish()),
+    responseDeserialize: (value: Buffer): TokenType => TokenType.decode(value),
   },
   updateUser: {
     path: "/account.Account/updateUser",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UpdateUserInput): Buffer => Buffer.from(UpdateUserInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): UpdateUserInput => UpdateUserInput.decode(value),
-    responseSerialize: (value: UpdateUserOutput): Buffer => Buffer.from(UpdateUserOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): UpdateUserOutput => UpdateUserOutput.decode(value),
-  },
-  updateUserAddress: {
-    path: "/account.Account/updateUserAddress",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: UpdateUserAddressInput): Buffer =>
-      Buffer.from(UpdateUserAddressInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): UpdateUserAddressInput => UpdateUserAddressInput.decode(value),
-    responseSerialize: (value: UpdateUser): Buffer => Buffer.from(UpdateUser.encode(value).finish()),
-    responseDeserialize: (value: Buffer): UpdateUser => UpdateUser.decode(value),
+    requestSerialize: (value: UpdateUser): Buffer => Buffer.from(UpdateUser.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UpdateUser => UpdateUser.decode(value),
+    responseSerialize: (value: UserInterface): Buffer => Buffer.from(UserInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserInterface => UserInterface.decode(value),
   },
   refreshToken: {
     path: "/account.Account/refreshToken",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: RefreshTokenInput): Buffer => Buffer.from(RefreshTokenInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): RefreshTokenInput => RefreshTokenInput.decode(value),
-    responseSerialize: (value: CreateNewAccountOutput): Buffer =>
-      Buffer.from(CreateNewAccountOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): CreateNewAccountOutput => CreateNewAccountOutput.decode(value),
+    requestSerialize: (value: RefreshToken): Buffer => Buffer.from(RefreshToken.encode(value).finish()),
+    requestDeserialize: (value: Buffer): RefreshToken => RefreshToken.decode(value),
+    responseSerialize: (value: TokenType): Buffer => Buffer.from(TokenType.encode(value).finish()),
+    responseDeserialize: (value: Buffer): TokenType => TokenType.decode(value),
   },
-  userFull: {
-    path: "/account.Account/userFull",
+  getUser: {
+    path: "/account.Account/getUser",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UserFullInput): Buffer => Buffer.from(UserFullInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): UserFullInput => UserFullInput.decode(value),
-    responseSerialize: (value: UserFullOutput): Buffer => Buffer.from(UserFullOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): UserFullOutput => UserFullOutput.decode(value),
+    requestSerialize: (value: GetUser): Buffer => Buffer.from(GetUser.encode(value).finish()),
+    requestDeserialize: (value: Buffer): GetUser => GetUser.decode(value),
+    responseSerialize: (value: UserInterface): Buffer => Buffer.from(UserInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserInterface => UserInterface.decode(value),
   },
 } as const;
 
 export interface AccountServer extends UntypedServiceImplementation {
-  createNewAccount: handleUnaryCall<CreateNewAccountInput, CreateNewAccountOutput>;
-  updateExistAccount: handleUnaryCall<UpdateExistAccount, AccountOutput>;
-  deleteAccount: handleUnaryCall<DeleteAccountInput, boolean | undefined>;
-  getAccount: handleUnaryCall<GetAccountInput, AccountOutput>;
-  getAccountByEmail: handleUnaryCall<GetAccountByEmailInput, AccountOutput>;
-  verifyEmailAccount: handleUnaryCall<VerifyEmailAccount, AccountOutput>;
-  login: handleUnaryCall<LoginAccount, CreateNewAccountOutput>;
-  loginByToken: handleUnaryCall<LoginToken, LoginTokenOutput>;
-  logout: handleUnaryCall<LogoutInput, boolean | undefined>;
-  updateUser: handleUnaryCall<UpdateUserInput, UpdateUserOutput>;
-  updateUserAddress: handleUnaryCall<UpdateUserAddressInput, UpdateUser>;
-  refreshToken: handleUnaryCall<RefreshTokenInput, CreateNewAccountOutput>;
-  userFull: handleUnaryCall<UserFullInput, UserFullOutput>;
+  createAccount: handleUnaryCall<CreateAccount, TokenType>;
+  updateAccount: handleUnaryCall<UpdateAccount, AccountInterface>;
+  deleteAccount: handleUnaryCall<DeleteAccount, boolean | undefined>;
+  login: handleUnaryCall<Login, TokenType>;
+  updateUser: handleUnaryCall<UpdateUser, UserInterface>;
+  refreshToken: handleUnaryCall<RefreshToken, TokenType>;
+  getUser: handleUnaryCall<GetUser, UserInterface>;
 }
 
 export interface MessageFns<T> {

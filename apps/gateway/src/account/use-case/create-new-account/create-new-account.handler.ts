@@ -8,6 +8,6 @@ export class CreateNewAccountHandler {
   public constructor(public readonly accountGrpcService: AccountGrpcService) {}
 
   public async run(input: ICreateNewAccount) {
-    return firstValueFrom(this.accountGrpcService.service.createNewAccount(input));
+    return firstValueFrom(this.accountGrpcService.service.createAccount(input));
   }
 }

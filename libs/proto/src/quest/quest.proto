@@ -1,0 +1,144 @@
+syntax = 'proto3';
+
+package quest;
+
+service Quest {
+  rpc createQuest(CreateQuest) returns (QuestEntity);
+  rpc updateQuest(UpdateQuest) returns (QuestEntity);
+  rpc findMany(FindManyQuests) returns (FindManyQuestsResult);
+  rpc findOne(FindOneQuest) returns(QuestEntity);
+  rpc deleteOne(DeleteOneQuest) returns (DeleteOneQuestResult);
+  rpc deleteMany(DeleteManyQuests) returns(DeletedManyQuestsResult);
+  rpc attachQuestToUser(AttacheQuestToUser) returns(UserQuestEntity);
+  rpc completeQuest(CompleteQuest) returns(UserQuestEntity);
+  rpc deleteQuests(DeleteUserQuestInput) returns(DeleteUserQuests);
+  rpc updateQuests(UpdateUserQuest) returns(UserQuestEntity);
+  rpc findManyUserQuests(FindManyUserQuests) returns(FindManyUserQuestsOutput);
+  rpc findOneUserQuest(FindOneUserQuest) returns(UserQuestEntity);
+  rpc findAllUserQuests(FindAllUserQuests) returns(FindManyUserQuestsOutput);
+}
+
+
+message UserQuestEntity {
+  string id = 1;
+  string userId = 2;
+  string questId = 3;
+  string status = 4;
+  int32 progress = 5;
+  int32 finishResult = 6;
+  optional string completedAt = 7;
+  string createdAt = 8;
+}
+
+message FindManyUserQuestsOutput {
+  repeated UserQuestEntity userQuests = 1;
+}
+
+message FindAllUserQuests {
+  optional string userId = 1;
+}
+
+message DeleteUserQuests {
+  string id = 1;
+}
+
+message DeleteUserQuestInput {
+  string questId = 1;
+}
+
+message AttacheQuestToUser {
+  string userId = 1;
+  string questId = 2;
+}
+
+message CompleteQuest {
+  string userId = 1;
+  string questId = 2;
+}
+
+message UpdateUserQuestData {
+  optional int32 progress = 1;
+  optional string status = 2;
+  optional int32 finishResult = 3;
+  optional string completedAt = 4;
+}
+
+message UpdateUserQuest {
+  string userId = 1;
+  UpdateUserQuestData data = 2;
+}
+
+message FindManyUserQuestsData  {
+  optional string questId = 1;
+  optional string status = 2;
+  optional string createdAt = 3;
+  optional string completedAt = 4;
+
+}
+
+message FindManyUserQuests {
+    string userId = 1;
+    FindManyUserQuestsData data = 2;
+}
+
+message FindOneUserQuest {
+  string userId = 1;
+  string questId = 2;
+}
+
+message QuestEntity {
+  string id = 1;
+  string questName = 2;
+  string questDescription = 3;
+  string questReward = 4;
+  string questCondition = 5;
+  optional string questType = 6;
+  string questCountry = 7;
+}
+
+message CreateQuest {
+  string questName = 1;
+  string questDescription = 2;
+  string questReward = 3;
+  string questCondition = 4;
+  optional string questType = 5;
+  string questCountry = 6;
+}
+
+message UpdateQuest {
+  string id = 1;
+  optional string questName = 2;
+  optional string questDescription = 3;
+  optional string questReward = 4;
+  optional string questCondition = 5;
+  optional string questType = 6;
+  optional string questCountry = 7;
+}
+
+message FindManyQuests {
+  optional string questType = 1;
+  optional string questCountry = 2;
+}
+
+message FindManyQuestsResult {
+  repeated QuestEntity quests = 1;
+}
+
+message FindOneQuest {
+  string id = 1;
+}
+
+message DeleteOneQuest {
+  string id = 1;
+}
+
+message DeleteOneQuestResult {
+  string id = 1;
+}
+
+message DeleteManyQuests {
+  repeated string id = 1;
+}
+message DeletedManyQuestsResult {
+  repeated string id = 1;
+}

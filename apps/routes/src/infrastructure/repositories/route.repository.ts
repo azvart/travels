@@ -3,7 +3,13 @@ import { RouteAbstractRepository } from './route.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RouteOrmEntity } from './route.entity';
 import { Repository } from 'typeorm';
-import { ICreateRoute, IUpdateRoute } from 'libs/interfaces';
+import {
+  ICreateRoute,
+  IDeleteUserRoute,
+  IFindManyRoutes,
+  IFindOneRoute,
+  IUpdateRoute,
+} from 'libs/interfaces';
 
 @Injectable()
 export class RouteRepository implements RouteAbstractRepository {
@@ -13,17 +19,18 @@ export class RouteRepository implements RouteAbstractRepository {
   ) {}
 
   public async create(data: ICreateRoute) {
-    return this.routeRepository.create(data);
+    return this.routeRepository.save(this.routeRepository.create(data));
   }
 
   public async updateByIdAndFetch(routeId: string, data: Omit<IUpdateRoute, 'id'>) {
     const updatedEntity = await this.routeRepository.update(
       {
         id: routeId,
-        userId: data.userId
+        userId: data.userId,
       },
       {
-        routeName: data.routeName
+        routeName: data.routeName,
+        country: data.country
       },
     );
 
@@ -34,8 +41,42 @@ export class RouteRepository implements RouteAbstractRepository {
     return this.routeRepository.findOneOrFail({
       where: {
         id: routeId,
-        userId: data.userId
+        userId: data.userId,
       },
     });
+  }
+
+  public async findOneRoute(data:IFindOneRoute){
+    return this.routeRepository.findOneOrFail({
+      where: {
+        id: data.id
+      }
+    })
+  }
+
+  public async findManyRoutes(data:IFindManyRoutes & { userId: string }){
+    if(!data.externalRoutes){
+      return this.routeRepository.findBy({
+        country: data.country,
+        userId: data.userId,
+      });
+    }
+    return this.routeRepository.findBy({
+      country: data.country
+    })
+  }
+
+  public async deleteUserRoute(data: IDeleteUserRoute & { userId: string }){
+    const deletedUserRoute = await this.routeRepository.delete({
+      id: data.id,
+      userId: data.userId
+    });
+    console.log(deletedUserRoute.affected);
+    if(deletedUserRoute.affected === 0){
+      throw new Error(`Can't delete route with id: ${data.id}`)
+    }
+    return {
+      id: data.id
+    }
   }
 }

@@ -1,1 +1,1 @@
-export interface ITokenType {  id: string;  token: string;}
+export interface ITokenType {  id: string;  token: string;  refreshToken: string;}
