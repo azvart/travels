@@ -32,6 +32,9 @@ export class CreateAccountHandler {
 
     const user = await this.userRepository.createUser(account.id);
 
+    await this.userRepository.createUserGamification(user.id);
+    await this.userRepository.createUserTelemetry(user.id);
+
     await queryRunner.commitTransaction();
 
     return this.generateTokenPairHandler.run({

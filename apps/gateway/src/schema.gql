@@ -51,6 +51,23 @@ type UserFull {
   city: String
 }
 
+type UserTelemetryDto {
+  id: ID!
+  user: User
+  duration: Float!
+  steps: Float!
+  avgPace: Float!
+  routeId: String!
+  distance: Float!
+}
+
+type UserGamificationDto {
+  id: ID!
+  user: User
+  userLevel: Float!
+  userLevelProgress: Float!
+}
+
 type RoutePointsDto {
   id: String!
   latitude: Float!
@@ -129,9 +146,19 @@ type QuestSubscriptionDto {
   finishResult: Float!
 }
 
+type UserTelemetrySubscriptionDto {
+  id: ID!
+  steps: Float!
+  avgPace: Float!
+  duration: Float!
+  distance: Float!
+}
+
 type Query {
   getAccountByToken: GetAccountFromTokenOutput!
   getUserFull: UserFull!
+  getUserTelemetry(routeId: String!): UserTelemetryDto!
+  getUserGamification: UserGamificationDto!
   findManyRoutes(input: FindManyRoutesDto!): [RouteType!]!
   findOneRoute(input: FindOneRouteDto!): RouteType!
   findOneQuest(input: FindOneQuestDto!): QuestDto!
@@ -274,4 +301,13 @@ input AttachQuestToUserDto {
 
 type Subscription {
   questSubscription: QuestSubscriptionDto!
+  userTelemetrySubscription(input: UserTelemetryInputDto!): UserTelemetrySubscriptionDto!
+}
+
+input UserTelemetryInputDto {
+  routeId: ID!
+  steps: Float!
+  avgPace: Float!
+  duration: Float!
+  distance: Float!
 }

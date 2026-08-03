@@ -135,6 +135,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/routes/tsconfig.app.json"
       }
+    },
+    "user-processor": {
+      "type": "application",
+      "root": "apps/user-processor",
+      "entryFile": "main",
+      "sourceRoot": "apps/user-processor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user-processor/tsconfig.app.json"
+      }
     }
   }
 }

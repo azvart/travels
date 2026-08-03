@@ -14,7 +14,13 @@ import {
   IRefreshToken,
   IUpdateAccountInput,
   IUpdateUserInputInterface,
+  IUpdateUserTelemetry,
+  IUserTelemetry,
 } from 'libs/interfaces';
+import { GetUserTelemetryHandler } from '../use-case/get-user-telemetry/get-user-telemetry.handler';
+import { GetUserGamificationHandler } from '../use-case/get-user-gamification/get-user-gamification.handler';
+import { UpdateUserTelemetryHandler } from '../use-case/update-user-telemetry/update-user-telemetry.handler';
+import { CreateUserTelemetryHandler } from '../use-case/create-user-telemetry/create-user-telemetry.handler';
 
 @Injectable()
 export class AccountPresentationService {
@@ -26,7 +32,11 @@ export class AccountPresentationService {
     private readonly loginHandler: LoginHandler,
     private readonly refreshTokenHandler: RefreshTokenHandler,
     private readonly updateUserHandler: UpdateUserHandler,
-    private readonly getUserHandler: GetUserHandler
+    private readonly getUserHandler: GetUserHandler,
+    private readonly getUserTelemetryHandler: GetUserTelemetryHandler,
+    private readonly getUserGamificationHandler: GetUserGamificationHandler,
+    private readonly updateUserTelemetryHandler: UpdateUserTelemetryHandler,
+    private readonly createUserTelemetryHandler: CreateUserTelemetryHandler
   ){}
 
 
@@ -69,5 +79,22 @@ export class AccountPresentationService {
 
   public async getUser(data:IGetUser){
     return this.getUserHandler.run(data);
+  }
+
+
+  public async getUserTelemetry(data: { userId: string, routeId: string }){
+    return this.getUserTelemetryHandler.run(data);
+  }
+
+  public async getUserGamification(userId: string){
+    return this.getUserGamificationHandler.run(userId);
+  }
+
+  public async updateUserTelemetry(data: IUpdateUserTelemetry){
+    return this.updateUserTelemetryHandler.run(data);
+  }
+
+  public async createUserTelemetry(data: {userId: string, routeId: string}){
+    return this.createUserTelemetryHandler.run(data);
   }
 }

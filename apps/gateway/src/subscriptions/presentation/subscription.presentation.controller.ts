@@ -1,6 +1,6 @@
-import { Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Resolver, Subscription } from '@nestjs/graphql';
 import { SubscriptionPresentationService } from './subscription.presentation.service';
-import { QuestSubscriptionDto } from './dto';
+import { QuestSubscriptionDto, UserTelemetryInputDto, UserTelemetrySubscriptionDto } from './dto';
 import { Logger } from '@nestjs/common';
 import { CurrentUser } from '@app/auth';
 import { IGetUser } from 'libs/interfaces';
@@ -21,6 +21,12 @@ export class SubscriptionPresentationController {
   public async questSubscription(@CurrentUser() user: IGetUser){
     this.logger.debug('Incoming args', user);
     return this.subscriptionPresentationService.questSubscription(user.userId)
+  }
+
+  @Subscription(() => UserTelemetrySubscriptionDto)
+  public async userTelemetrySubscription(@Args('input') data: UserTelemetryInputDto,  @CurrentUser() user: IGetUser){
+    this.logger.debug(`${this.questSubscription.name}: Execute method`);
+    return this.subscriptionPresentationService.userTelemetrySubscription(user.userId, data);
   }
 
 }

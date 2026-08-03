@@ -8,6 +8,7 @@ import {
   IRefreshToken,
   IUpdateAccountInput,
   IUpdateUserInputInterface,
+  IUpdateUserTelemetry,
 } from 'libs/interfaces';
 
 
@@ -52,5 +53,25 @@ export class AccountPresentationController {
   @GrpcMethod('Account', 'getUser')
   public async getUser(data:IGetUser){
     return this.accountPresentationService.getUser(data);
+  }
+
+  @GrpcMethod('Account', 'getUserTelemetry')
+  public async getUserTelemetry(data:{ userId: string, routeId: string }){
+    return this.accountPresentationService.getUserTelemetry(data)
+  }
+
+  @GrpcMethod('Account', 'getUserGamification')
+  public async getUserGamification(data: IGetUser){
+    return this.accountPresentationService.getUserGamification(data.userId);
+  }
+
+  @GrpcMethod('Account', 'updateUserTelemetry')
+  public async updateUserTelemetry(data: IUpdateUserTelemetry){
+    return this.accountPresentationService.updateUserTelemetry(data);
+  }
+
+  @GrpcMethod('Account', 'createUserTelemetry')
+  public async createUserTelemetry(data: { userId: string, routeId: string }){
+    return this.accountPresentationService.createUserTelemetry(data);
   }
 }
