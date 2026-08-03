@@ -4,14 +4,9 @@ import { AccountRepositoryModule } from '../../infrastructure/account';
 import { UserRepositoryModule } from '../../infrastructure/user';
 import { GenerateTokenPairModule } from '../generate-token-pair/generate-token-pair.module';
 
-
 @Module({
-  imports: [
-    AccountRepositoryModule,
-    UserRepositoryModule,
-    GenerateTokenPairModule
-  ],
+  imports: [AccountRepositoryModule, UserRepositoryModule, GenerateTokenPairModule],
   providers: [LoginHandler],
-  exports: [LoginHandler]
+  exports: [LoginHandler],
 })
 export class LoginModule {}

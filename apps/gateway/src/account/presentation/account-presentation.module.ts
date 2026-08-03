@@ -7,14 +7,13 @@ import { UpdateExistingAccountModule } from '../use-case/update-exisitng-account
 import { LoginModule } from '../use-case/login/login.module';
 import { RefreshTokenModule } from '../use-case/refresh-token/refresh-token.module';
 
-
 @Module({
   imports: [
     CreateNewAccountModule,
     DeleteAccountModule,
     UpdateExistingAccountModule,
     LoginModule,
-    RefreshTokenModule
+    RefreshTokenModule,
   ],
   providers: [AccountPresentationResolver, AccountPresentationService],
 })

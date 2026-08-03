@@ -16,7 +16,7 @@ import { UserTelemetryService } from '@app/redis/modules/user-telemetry.service'
     AccountsRedisService,
     UserRedisService,
     UserQuestService,
-    UserTelemetryService
+    UserTelemetryService,
   ],
   exports: [
     RedisService,
@@ -24,7 +24,7 @@ import { UserTelemetryService } from '@app/redis/modules/user-telemetry.service'
     AccountsRedisService,
     UserRedisService,
     UserQuestService,
-    UserTelemetryService
+    UserTelemetryService,
   ],
 })
 export class RedisModule {}

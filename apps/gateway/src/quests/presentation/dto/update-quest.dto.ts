@@ -1,21 +1,17 @@
 import { InputType, Field, ID, registerEnumType } from '@nestjs/graphql';
 import { IUpdateQuest, QUEST_TYPE } from 'libs/interfaces';
 
-
 registerEnumType(QUEST_TYPE, {
-  name: 'QuestType'
-})
+  name: 'QuestType',
+});
 
 @InputType()
 export class UpdateQuestDto implements IUpdateQuest {
-
   @Field(() => ID)
   public id!: string;
 
-
   @Field(() => String, { nullable: true })
   public questName?: string;
-
 
   @Field(() => String, { nullable: true })
   public questDescription?: string;

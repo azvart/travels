@@ -4,22 +4,19 @@ import { QuestEntity, UserQuestEntity } from '@app/entities';
 import { QuestAbstractRepository } from './quest.abstract.repository';
 import { QuestRepository } from './quest.repository';
 
-
 @Module({
-  imports:[
-    TypeOrmModule.forFeature([QuestEntity, UserQuestEntity])
-  ],
+  imports: [TypeOrmModule.forFeature([QuestEntity, UserQuestEntity])],
   providers: [
     {
       provide: QuestAbstractRepository,
-      useClass: QuestRepository
-    }
+      useClass: QuestRepository,
+    },
   ],
   exports: [
     {
       provide: QuestAbstractRepository,
-      useClass: QuestRepository
-    }
-  ]
+      useClass: QuestRepository,
+    },
+  ],
 })
 export class QuestRepositoryModule {}

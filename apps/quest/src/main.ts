@@ -7,24 +7,20 @@ import { Transport } from '@nestjs/microservices';
 async function bootstrap() {
   const app = await NestFactory.create(QuestModule);
   const configService = app.get(ConfigService);
-  const questPort = configService.get<string>("QUEST_PORT");
+  const questPort = configService.get<string>('QUEST_PORT');
   const questGrpcHost = configService.get<string>('QUEST_GRPC_HOST');
   const questGrpcPort = configService.get<string>('QUEST_GRPC_PORT');
 
-  const protoPath = join(
-    process.cwd(),
-    "libs/proto/src/quest",
-    "quest.proto"
-  )
+  const protoPath = join(process.cwd(), 'libs/proto/src/quest', 'quest.proto');
 
   app.connectMicroservice({
     transport: Transport.GRPC,
     options: {
       package: 'quest',
       protoPath,
-      url: `${questGrpcHost}:${questGrpcPort}`
-    }
-  })
+      url: `${questGrpcHost}:${questGrpcPort}`,
+    },
+  });
 
   await app.startAllMicroservices();
 

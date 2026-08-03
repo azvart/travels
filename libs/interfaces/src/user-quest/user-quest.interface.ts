@@ -1,6 +1,5 @@
 import { QuestStatusEnum } from './quest-status.enum';
 
-
 export interface IUserQuest {
   id: string;
   userId: string;

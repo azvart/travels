@@ -5,7 +5,6 @@ import { QuestEntity } from '@app/entities';
 import { Repository } from 'typeorm';
 import { ICreateQuest, IDeleteQuest, IFindManyQuests, IQuest, IUpdateQuest } from 'libs/interfaces';
 
-
 @Injectable()
 export class QuestRepository implements QuestAbstractRepository {
   public constructor(

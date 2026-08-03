@@ -53,36 +53,36 @@ export class QuestPresentationController {
   }
 
   @GrpcMethod('Quest', 'attachQuestToUser')
-  public async attachQuestToUser(data: {userId: string, questId: string | string[]}){
+  public async attachQuestToUser(data: { userId: string; questId: string | string[] }) {
     return this.questsPresentationService.attachQuestToUser(data);
   }
 
   @GrpcMethod('Quest', 'completeQuest')
-  public async completeQuest(data: {userId: string, questId: string | string[]}) {
+  public async completeQuest(data: { userId: string; questId: string | string[] }) {
     return this.questsPresentationService.completeQuest(data);
   }
 
   @GrpcMethod('Quest', 'deleteQuests')
-  public async deleteQuests(data: {questId: string | string[]}){
+  public async deleteQuests(data: { questId: string | string[] }) {
     return this.questsPresentationService.deleteQuests(data);
   }
 
   @GrpcMethod('Quest', 'updateQuests')
-  public async updateQuests(data: {userQuestId: string, data: IUpdateUserQuest}){
+  public async updateQuests(data: { userQuestId: string; data: IUpdateUserQuest }) {
     return this.questsPresentationService.updateQuests(data);
   }
-  @GrpcMethod("Quest", "findManyUserQuests")
-  public async findManyUserQuests(data: {userId: string, data: IFindManyUserQuests}){
+  @GrpcMethod('Quest', 'findManyUserQuests')
+  public async findManyUserQuests(data: { userId: string; data: IFindManyUserQuests }) {
     return this.questsPresentationService.findManyUserQuests(data);
   }
 
-  @GrpcMethod("Quest", "findOneUserQuest")
-  public async findOneUserQuest(data: {userId: string, questId: string}){
+  @GrpcMethod('Quest', 'findOneUserQuest')
+  public async findOneUserQuest(data: { userId: string; questId: string }) {
     return this.questsPresentationService.findOneUserQuest(data);
   }
 
-  @GrpcMethod('Quest', "findAllUserQuests")
-  public async findAllUserQuests(data: {userId?: string}){
-    return this.questsPresentationService.findAllUserQuests(data)
+  @GrpcMethod('Quest', 'findAllUserQuests')
+  public async findAllUserQuests(data: { userId?: string }) {
+    return this.questsPresentationService.findAllUserQuests(data);
   }
 }

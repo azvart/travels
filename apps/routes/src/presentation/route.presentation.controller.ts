@@ -1,7 +1,13 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { RoutePresentationService } from './route.presentation.service';
-import { ICreateRoute, IDeleteUserRoute, IFindManyRoutes, IFindOneRoute, IUpdateRoute } from 'libs/interfaces';
+import {
+  ICreateRoute,
+  IDeleteUserRoute,
+  IFindManyRoutes,
+  IFindOneRoute,
+  IUpdateRoute,
+} from 'libs/interfaces';
 
 @Controller()
 export class RoutePresentationController {
@@ -18,17 +24,17 @@ export class RoutePresentationController {
   }
 
   @GrpcMethod('Route', 'findManyRoutes')
-  public async findManyRoutes(data: IFindManyRoutes & { userId: string }){
+  public async findManyRoutes(data: IFindManyRoutes & { userId: string }) {
     return this.routePresentationService.findManyRoutes(data);
   }
 
   @GrpcMethod('Route', 'findOneRoute')
-  public async findOneRoute(data: IFindOneRoute){
+  public async findOneRoute(data: IFindOneRoute) {
     return this.routePresentationService.findOneRoute(data);
   }
 
   @GrpcMethod('Route', 'deleteUserRoute')
-  public async deleteUserRoute(data: IDeleteUserRoute & { userId: string }){
+  public async deleteUserRoute(data: IDeleteUserRoute & { userId: string }) {
     return this.routePresentationService.deleteUserRoute(data);
   }
 }

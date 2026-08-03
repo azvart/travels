@@ -97,6 +97,8 @@
     }
   },
   "include": [
-    "libs/types/src/shared/express.d.ts"
+    "libs/types/src/shared/express.d.ts",
+    "apps/**/*",
+    "libs/**/*"
   ]
 }

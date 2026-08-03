@@ -4,9 +4,6 @@ import { RedisModule } from '@app/redis';
 import { UserProcessorPresentationModule } from './presentation';
 
 @Module({
-  imports: [
-    AppConfigModule.forRootAsync(),
-    UserProcessorPresentationModule
-  ]
+  imports: [AppConfigModule.forRootAsync(), UserProcessorPresentationModule],
 })
 export class UserProcessorModule {}

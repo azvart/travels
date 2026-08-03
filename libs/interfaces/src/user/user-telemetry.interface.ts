@@ -2,7 +2,7 @@ import { IUser } from './user.interface';
 
 export interface IUserTelemetry {
   id: string;
-  user?:IUser;
+  user?: IUser;
   duration: number;
   steps: number;
   avgPace: number;

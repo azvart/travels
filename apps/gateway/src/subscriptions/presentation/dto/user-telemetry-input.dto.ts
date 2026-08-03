@@ -1,11 +1,8 @@
 import { InputType, Field, ID } from '@nestjs/graphql';
 import { IUpdateUserTelemetry, IUserTelemetry } from 'libs/interfaces';
 
-
 @InputType()
-export class UserTelemetryInputDto
-  implements Omit<IUpdateUserTelemetry, 'userId'> {
-
+export class UserTelemetryInputDto implements Omit<IUpdateUserTelemetry, 'userId'> {
   @Field(() => ID)
   public routeId!: string;
 
@@ -16,7 +13,7 @@ export class UserTelemetryInputDto
   public avgPace!: number;
 
   @Field(() => Number)
-  public duration: number
+  public duration: number;
 
   @Field(() => Number)
   public distance: number;

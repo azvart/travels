@@ -1,15 +1,10 @@
 import { Inject, Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import {
-  ROUTE_SERVICE_NAME,
-  RouteClient,
-} from '@app/proto/generated/route/route';
+import { ROUTE_SERVICE_NAME, RouteClient } from '@app/proto/generated/route/route';
 
 @Injectable()
 export class RouteGrpcService implements OnModuleInit {
-  public constructor(
-    @Inject('ROUTE_GRPC_SERVICE') private readonly client: ClientGrpc,
-  ) {}
+  public constructor(@Inject('ROUTE_GRPC_SERVICE') private readonly client: ClientGrpc) {}
 
   public service!: RouteClient;
   public logger: Logger = new Logger();

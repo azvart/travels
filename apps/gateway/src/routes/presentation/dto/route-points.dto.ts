@@ -1,15 +1,13 @@
-import { ObjectType, Field, } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { IRoutePoints } from 'libs/interfaces';
 
-
 @ObjectType()
-export class RoutePointsDto implements IRoutePoints{
-
+export class RoutePointsDto implements IRoutePoints {
   @Field(() => String)
   public id!: string;
 
   @Field(() => Number)
-  public latitude!:number;
+  public latitude!: number;
 
   @Field(() => Number)
   public longitude!: number;
@@ -17,7 +15,6 @@ export class RoutePointsDto implements IRoutePoints{
   @Field(() => Number)
   public order!: number;
 
-  @Field(() => String, {nullable: true})
+  @Field(() => String, { nullable: true })
   public title?: string;
-
 }

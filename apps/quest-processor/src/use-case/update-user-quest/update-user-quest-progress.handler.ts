@@ -36,10 +36,12 @@ export class UpdateUserQuestProgressHandler {
         updatedMessage.questId,
         finishedStatusQuest,
       );
-      await firstValueFrom(this.questGrpcService.service.completeQuest({
-        questId: payload.questId,
-        userId: payload.userId
-      }));
+      await firstValueFrom(
+        this.questGrpcService.service.completeQuest({
+          questId: payload.questId,
+          userId: payload.userId,
+        }),
+      );
 
       this.kafkaClient.emit('user-quest-update', {
         userId: finishedStatusQuest.userId,

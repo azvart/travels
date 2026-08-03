@@ -2,14 +2,11 @@ import { InputType, Field, registerEnumType } from '@nestjs/graphql';
 import { ICreateQuest, QUEST_TYPE } from 'libs/interfaces';
 
 registerEnumType(QUEST_TYPE, {
-  name: 'QuestType'
-})
-
+  name: 'QuestType',
+});
 
 @InputType()
-export class CreateQuestDto
-  implements ICreateQuest {
-
+export class CreateQuestDto implements ICreateQuest {
   @Field(() => String)
   public questName: string;
 
@@ -26,5 +23,5 @@ export class CreateQuestDto
   public questReward!: string;
 
   @Field(() => QUEST_TYPE, { nullable: true })
-  public questType?: QUEST_TYPE
+  public questType?: QUEST_TYPE;
 }

@@ -5,14 +5,14 @@
 // source: weather/weather.proto
 
 /* eslint-disable */
-import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { Empty } from "../google/protobuf/empty";
+import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from '@grpc/grpc-js';
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { Empty } from '../google/protobuf/empty';
 
-export const protobufPackage = "weather";
+export const protobufPackage = 'weather';
 
-export const WEATHER_PACKAGE_NAME = "weather";
+export const WEATHER_PACKAGE_NAME = 'weather';
 
 export interface WeatherClient {
   weatherData(request: Empty, metadata?: Metadata): Observable<Empty>;
@@ -24,25 +24,25 @@ export interface WeatherController {
 
 export function WeatherControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["weatherData"];
+    const grpcMethods: string[] = ['weatherData'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("Weather", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('Weather', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("Weather", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('Weather', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const WEATHER_SERVICE_NAME = "Weather";
+export const WEATHER_SERVICE_NAME = 'Weather';
 
 export type WeatherService = typeof WeatherService;
 export const WeatherService = {
   weatherData: {
-    path: "/weather.Weather/weatherData",
+    path: '/weather.Weather/weatherData',
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: Empty): Buffer => Buffer.from(Empty.encode(value).finish()),

@@ -27,7 +27,10 @@ export class RoutePresentationResolver {
   }
 
   @Query(() => [RouteType])
-  public async findManyRoutes(@Args('input') input: FindManyRoutesDto, @CurrentUser() user: IGetUser) {
+  public async findManyRoutes(
+    @Args('input') input: FindManyRoutesDto,
+    @CurrentUser() user: IGetUser,
+  ) {
     return this.routePresentationService.findManyRoutes(input, user);
   }
 
@@ -37,7 +40,10 @@ export class RoutePresentationResolver {
   }
 
   @Mutation(() => DeleteUserRouteOutputDto)
-  public async deleteUserRoute(@Args('input') input: DeleteUserRouteDto, @CurrentUser() user: IGetUser) {
+  public async deleteUserRoute(
+    @Args('input') input: DeleteUserRouteDto,
+    @CurrentUser() user: IGetUser,
+  ) {
     return this.routePresentationService.deleteUserRoute(input, user);
   }
 }

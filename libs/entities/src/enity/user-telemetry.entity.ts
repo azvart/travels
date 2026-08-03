@@ -1,7 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from 'typeorm';
-import { UserEntity } from './user.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { IUserTelemetry } from 'libs/interfaces';
-
 
 @Entity()
 export class UserTelemetryEntity implements IUserTelemetry {

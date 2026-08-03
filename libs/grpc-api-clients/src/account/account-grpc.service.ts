@@ -4,9 +4,7 @@ import { ACCOUNT_SERVICE_NAME, AccountClient } from '@app/proto';
 
 @Injectable()
 export class AccountGrpcService implements OnModuleInit {
-  public constructor(
-    @Inject('ACCOUNT_GRPC_SERVICE') private readonly client: ClientGrpc,
-  ) {}
+  public constructor(@Inject('ACCOUNT_GRPC_SERVICE') private readonly client: ClientGrpc) {}
 
   public service!: AccountClient;
 

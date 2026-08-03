@@ -1,1 +1,13 @@
-import { Injectable } from '@nestjs/common';import { ILoginInput } from 'libs/interfaces';import { AccountGrpcService } from '@app/grpc-api-clients';import { firstValueFrom } from 'rxjs';@Injectable()export class LoginHandler {  public constructor(    private readonly accountGrpcService: AccountGrpcService  ){}  public async run(input:ILoginInput){    return firstValueFrom(      this.accountGrpcService.service.login(input)    )  }}
+import { Injectable } from '@nestjs/common';
+import { ILoginInput } from 'libs/interfaces';
+import { AccountGrpcService } from '@app/grpc-api-clients';
+import { firstValueFrom } from 'rxjs';
+
+@Injectable()
+export class LoginHandler {
+  public constructor(private readonly accountGrpcService: AccountGrpcService) {}
+
+  public async run(input: ILoginInput) {
+    return firstValueFrom(this.accountGrpcService.service.login(input));
+  }
+}

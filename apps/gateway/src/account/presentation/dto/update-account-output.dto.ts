@@ -3,6 +3,4 @@ import { Account } from './account.dto';
 import { IAccount } from 'libs/interfaces';
 
 @ObjectType()
-export class UpdateAccountOutput
-  extends Account
-  implements IAccount {}
+export class UpdateAccountOutput extends Account implements IAccount {}

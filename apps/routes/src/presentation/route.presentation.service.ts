@@ -19,7 +19,7 @@ export class RoutePresentationService {
     private readonly updateRouteHandler: UpdateRouteHandler,
     private readonly deleteUserRouteHandler: DeleteUserRouteHandler,
     private readonly findOneRouteHandler: FindOneRouteHandler,
-    private readonly findManyRoutesHandler: FindManyRoutesHandler
+    private readonly findManyRoutesHandler: FindManyRoutesHandler,
   ) {}
 
   public async createRoute(data: ICreateRoute) {
@@ -29,15 +29,15 @@ export class RoutePresentationService {
   public async updateRoute(data: IUpdateRoute) {
     return this.updateRouteHandler.run(data);
   }
-  public async findOneRoute(data: IFindOneRoute){
+  public async findOneRoute(data: IFindOneRoute) {
     return this.findOneRouteHandler.run(data);
   }
 
-  public async findManyRoutes(data:IFindManyRoutes & { userId: string }){
+  public async findManyRoutes(data: IFindManyRoutes & { userId: string }) {
     return this.findManyRoutesHandler.run(data);
   }
 
-  public async deleteUserRoute(data:IDeleteUserRoute & { userId: string }){
+  public async deleteUserRoute(data: IDeleteUserRoute & { userId: string }) {
     return this.deleteUserRouteHandler.run(data);
   }
 }

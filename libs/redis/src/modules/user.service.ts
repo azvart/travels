@@ -20,21 +20,22 @@ export class UserRedisService {
     await this.redis.getClient().hset('users', id, JSON.stringify(value));
   }
 
-
-  public async saveUserRefreshToken(userId: string, refreshToken:string){
-    return await this.redis.getClient().set(
-      this.userRedisRefreshKey(userId),
-      this.hashToken(refreshToken),
-      'EX',
-      this.REFRESH_TTL_SECONDS
-    )
+  public async saveUserRefreshToken(userId: string, refreshToken: string) {
+    return await this.redis
+      .getClient()
+      .set(
+        this.userRedisRefreshKey(userId),
+        this.hashToken(refreshToken),
+        'EX',
+        this.REFRESH_TTL_SECONDS,
+      );
   }
 
-  public async getUserRefreshToken(userId: string){
+  public async getUserRefreshToken(userId: string) {
     return await this.redis.getClient().get(this.userRedisRefreshKey(userId));
   }
 
-  public async deleteUserRefreshToken(userId: string){
+  public async deleteUserRefreshToken(userId: string) {
     return await this.redis.getClient().del(this.userRedisRefreshKey(userId));
   }
 }

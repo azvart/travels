@@ -3,7 +3,6 @@ import { UserQuestService } from '@app/redis';
 import { ClientKafkaProxy } from '@nestjs/microservices';
 import { IUserQuest } from 'libs/interfaces';
 
-
 @Injectable()
 export class QuestProgressAction {
   private readonly logger: Logger = new Logger(QuestProgressAction.name);

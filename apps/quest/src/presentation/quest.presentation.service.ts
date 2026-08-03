@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateQuestHandler } from '../use-case/create-quest/create-quest.handler';
-import { ICreateQuest, IFindManyQuests, IFindManyUserQuests, IUpdateQuest, IUpdateUserQuest } from 'libs/interfaces';
+import {
+  ICreateQuest,
+  IFindManyQuests,
+  IFindManyUserQuests,
+  IUpdateQuest,
+  IUpdateUserQuest,
+} from 'libs/interfaces';
 import { UpdateQuestHandler } from '../use-case/update-quest/update-quest.handler';
 import { FindManyQuestHandler } from '../use-case/find-many-quest/find-many-quest.handler';
 import { FindOneQuestHandler } from '../use-case/find-one-quest/find-one-quest.handler';
@@ -26,10 +32,10 @@ export class QuestPresentationService {
     private readonly attachQuestToUserHandler: AttachQuestToUserHandler,
     private readonly completeQuestHandler: CompleteQuestsHandler,
     private readonly deleteQuestsHandler: DeleteQuestsHandler,
-    private readonly updateUserQuestsHandler:UpdateUserQuestsHandler,
-    private readonly findManyUserQuestsHandler:FindManyUserQuestsHandler,
+    private readonly updateUserQuestsHandler: UpdateUserQuestsHandler,
+    private readonly findManyUserQuestsHandler: FindManyUserQuestsHandler,
     private readonly findOneUserQuestHandler: FindOneUserQuestHandler,
-    private readonly findAllUserQuestsHandler: FindAllUserQuestsHandler
+    private readonly findAllUserQuestsHandler: FindAllUserQuestsHandler,
   ) {}
 
   public async createQuest(data: ICreateQuest) {
@@ -76,11 +82,11 @@ export class QuestPresentationService {
     return this.findManyUserQuestsHandler.run(data.userId, data.data);
   }
 
-  public async findOneUserQuest(data: { userId: string, questId: string }) {
+  public async findOneUserQuest(data: { userId: string; questId: string }) {
     return this.findOneUserQuestHandler.run(data.userId, data.questId);
   }
 
-  public async findAllUserQuests(data: {userId?:string}){
+  public async findAllUserQuests(data: { userId?: string }) {
     return this.findAllUserQuestsHandler.run(data.userId);
   }
 }

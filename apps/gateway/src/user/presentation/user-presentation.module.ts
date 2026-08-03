@@ -11,4 +11,3 @@ import { GetUserGamificationModule } from '../use-case/get-user-gamification/get
   providers: [UserPresentationResolver, UserPresentationService],
 })
 export class UserPresentationModule {}
-

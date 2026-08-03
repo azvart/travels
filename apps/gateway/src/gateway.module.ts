@@ -25,7 +25,7 @@ import { SubscriptionPresentationModule } from './subscriptions';
         'graphql-ws': {
           onConnect: (context) => {
             return {
-             connectionParams: context.connectionParams
+              connectionParams: context.connectionParams,
             };
           },
         },
@@ -41,7 +41,7 @@ import { SubscriptionPresentationModule } from './subscriptions';
     UserPresentationModule,
     RoutePresentationModule,
     QuestsPresentationModule,
-    SubscriptionPresentationModule
+    SubscriptionPresentationModule,
   ],
 })
 export class GatewayModule {}

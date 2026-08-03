@@ -2,16 +2,13 @@ import { ObjectType, ID, Field } from '@nestjs/graphql';
 import { IUserTelemetry } from 'libs/interfaces';
 import { User } from './user.dto';
 
-
 @ObjectType()
-export class UserTelemetryDto
-  implements IUserTelemetry {
-
+export class UserTelemetryDto implements IUserTelemetry {
   @Field(() => ID)
   public id: string;
 
   @Field(() => User, { nullable: true })
-  public user?: User
+  public user?: User;
 
   @Field(() => Number)
   public duration: number;
@@ -27,5 +24,4 @@ export class UserTelemetryDto
 
   @Field(() => Number)
   public distance: number;
-
 }

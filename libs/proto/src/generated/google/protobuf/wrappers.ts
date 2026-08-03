@@ -4,10 +4,9 @@
 //   protoc               v7.35.1
 // source: google/protobuf/wrappers.proto
 
-/* eslint-disable */
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
 
-export const protobufPackage = "google.protobuf";
+export const protobufPackage = 'google.protobuf';
 
 /**
  * Wrapper message for `double`.
@@ -126,7 +125,7 @@ export interface BytesValue {
   value: Uint8Array;
 }
 
-export const GOOGLE_PROTOBUF_PACKAGE_NAME = "google.protobuf";
+export const GOOGLE_PROTOBUF_PACKAGE_NAME = 'google.protobuf';
 
 function createBaseDoubleValue(): DoubleValue {
   return { value: 0 };
@@ -388,12 +387,12 @@ export const BoolValue: MessageFns<BoolValue> = {
 };
 
 function createBaseStringValue(): StringValue {
-  return { value: "" };
+  return { value: '' };
 }
 
 export const StringValue: MessageFns<StringValue> = {
   encode(message: StringValue, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.value !== "") {
+    if (message.value !== '') {
       writer.uint32(10).string(message.value);
     }
     return writer;
@@ -464,10 +463,10 @@ export const BytesValue: MessageFns<BytesValue> = {
 function longToNumber(int64: { toString(): string }): number {
   const num = globalThis.Number(int64.toString());
   if (num > globalThis.Number.MAX_SAFE_INTEGER) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new globalThis.Error('Value is larger than Number.MAX_SAFE_INTEGER');
   }
   if (num < globalThis.Number.MIN_SAFE_INTEGER) {
-    throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
+    throw new globalThis.Error('Value is smaller than Number.MIN_SAFE_INTEGER');
   }
   return num;
 }

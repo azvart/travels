@@ -6,17 +6,12 @@ import { JobProcessorPresentationService } from './job-processor.presentation.se
 import { QuestProgressActionModule } from '../processor-actions/quest-progress.action.module';
 import { UpdateUserTelemetryModule } from '../use-case/update-user-telemetry/update-user-telemetry.module';
 
-
 @Module({
-  imports: [
-    QuestProgressModule,
-    QuestProgressActionModule,
-    UpdateUserTelemetryModule
-  ],
-  providers:[
+  imports: [QuestProgressModule, QuestProgressActionModule, UpdateUserTelemetryModule],
+  providers: [
     JobsProcessorPresentationController,
     JobsProcessorPresentationProcessorService,
-    JobProcessorPresentationService
+    JobProcessorPresentationService,
   ],
 })
 export class JobsProcessorPresentationModule {}

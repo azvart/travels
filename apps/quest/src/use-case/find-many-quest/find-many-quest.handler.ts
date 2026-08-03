@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { QuestAbstractRepository } from '../../infrastructure/repositories/quest';
-import {  IFindManyQuests } from 'libs/interfaces';
-
+import { IFindManyQuests } from 'libs/interfaces';
 
 @Injectable()
 export class FindManyQuestHandler {
@@ -10,7 +9,7 @@ export class FindManyQuestHandler {
   public async run(data: IFindManyQuests) {
     const quests = await this.questRepository.findMany(data);
     return {
-      quests
-    }
+      quests,
+    };
   }
 }

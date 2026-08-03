@@ -1,1 +1,13 @@
-import { Injectable } from '@nestjs/common';import { ICreateRoute, Route } from 'libs/interfaces';import { RouteGrpcService } from '@app/grpc-api-clients';import { firstValueFrom } from 'rxjs';@Injectable()export class CreateRouteHandler {  public constructor(    private readonly routeGrpcService: RouteGrpcService,  ){}  public async run(input: ICreateRoute):Promise<Route>{    return await firstValueFrom(this.routeGrpcService.service.createRoute(input));  }}
+import { Injectable } from '@nestjs/common';
+import { ICreateRoute, Route } from 'libs/interfaces';
+import { RouteGrpcService } from '@app/grpc-api-clients';
+import { firstValueFrom } from 'rxjs';
+
+@Injectable()
+export class CreateRouteHandler {
+  public constructor(private readonly routeGrpcService: RouteGrpcService) {}
+
+  public async run(input: ICreateRoute): Promise<Route> {
+    return await firstValueFrom(this.routeGrpcService.service.createRoute(input));
+  }
+}
