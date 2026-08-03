@@ -1,6 +1,6 @@
 import { Controller, Logger } from '@nestjs/common';
 import { QuestProcessorPresentationService } from './quest-processor.presentation.service';
-import { MessagePattern, Payload, Ctx, KafkaContext } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { IUserQuest } from 'libs/interfaces';
 
 

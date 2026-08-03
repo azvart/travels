@@ -13,6 +13,40 @@ import { BoolValue } from "../google/protobuf/wrappers";
 
 export const protobufPackage = "account";
 
+export interface UserGamificationInterface {
+  id: string;
+  user?: UserInterface | undefined;
+  userLevel: number;
+  userLevelProgress: number;
+}
+
+export interface CreateUserTelemetry {
+  userId: string;
+  routeId: string;
+}
+
+export interface GetUserTelemetry {
+  userId: string;
+  routeId: string;
+}
+
+export interface UpdateUserTelemetry {
+  userId: string;
+  routeId: string;
+  steps: number;
+  duration: number;
+  avgPace: number;
+}
+
+export interface UserTelemetryInterface {
+  id: string;
+  userId: string;
+  duration: number;
+  steps: number;
+  avgPace: number;
+  routeId: string;
+}
+
 export interface TokenType {
   id: string;
   token: string;
@@ -80,6 +114,345 @@ export interface GetUser {
 }
 
 export const ACCOUNT_PACKAGE_NAME = "account";
+
+function createBaseUserGamificationInterface(): UserGamificationInterface {
+  return { id: "", userLevel: 0, userLevelProgress: 0 };
+}
+
+export const UserGamificationInterface: MessageFns<UserGamificationInterface> = {
+  encode(message: UserGamificationInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.user !== undefined) {
+      UserInterface.encode(message.user, writer.uint32(18).fork()).join();
+    }
+    if (message.userLevel !== 0) {
+      writer.uint32(24).int32(message.userLevel);
+    }
+    if (message.userLevelProgress !== 0) {
+      writer.uint32(32).int32(message.userLevelProgress);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UserGamificationInterface {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUserGamificationInterface();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.user = UserInterface.decode(reader, reader.uint32());
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.userLevel = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.userLevelProgress = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseCreateUserTelemetry(): CreateUserTelemetry {
+  return { userId: "", routeId: "" };
+}
+
+export const CreateUserTelemetry: MessageFns<CreateUserTelemetry> = {
+  encode(message: CreateUserTelemetry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.routeId !== "") {
+      writer.uint32(18).string(message.routeId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateUserTelemetry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateUserTelemetry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.routeId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseGetUserTelemetry(): GetUserTelemetry {
+  return { userId: "", routeId: "" };
+}
+
+export const GetUserTelemetry: MessageFns<GetUserTelemetry> = {
+  encode(message: GetUserTelemetry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.routeId !== "") {
+      writer.uint32(18).string(message.routeId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetUserTelemetry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetUserTelemetry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.routeId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseUpdateUserTelemetry(): UpdateUserTelemetry {
+  return { userId: "", routeId: "", steps: 0, duration: 0, avgPace: 0 };
+}
+
+export const UpdateUserTelemetry: MessageFns<UpdateUserTelemetry> = {
+  encode(message: UpdateUserTelemetry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.routeId !== "") {
+      writer.uint32(18).string(message.routeId);
+    }
+    if (message.steps !== 0) {
+      writer.uint32(24).int32(message.steps);
+    }
+    if (message.duration !== 0) {
+      writer.uint32(32).int32(message.duration);
+    }
+    if (message.avgPace !== 0) {
+      writer.uint32(40).int32(message.avgPace);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateUserTelemetry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUpdateUserTelemetry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.routeId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.steps = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.duration = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.avgPace = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseUserTelemetryInterface(): UserTelemetryInterface {
+  return { id: "", userId: "", duration: 0, steps: 0, avgPace: 0, routeId: "" };
+}
+
+export const UserTelemetryInterface: MessageFns<UserTelemetryInterface> = {
+  encode(message: UserTelemetryInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.userId !== "") {
+      writer.uint32(18).string(message.userId);
+    }
+    if (message.duration !== 0) {
+      writer.uint32(24).int32(message.duration);
+    }
+    if (message.steps !== 0) {
+      writer.uint32(32).int32(message.steps);
+    }
+    if (message.avgPace !== 0) {
+      writer.uint32(40).int32(message.avgPace);
+    }
+    if (message.routeId !== "") {
+      writer.uint32(50).string(message.routeId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UserTelemetryInterface {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUserTelemetryInterface();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.duration = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.steps = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.avgPace = reader.int32();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.routeId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
 
 function createBaseTokenType(): TokenType {
   return { id: "", token: "", refreshToken: "" };
@@ -751,6 +1124,14 @@ export interface AccountClient {
   refreshToken(request: RefreshToken, metadata?: Metadata): Observable<TokenType>;
 
   getUser(request: GetUser, metadata?: Metadata): Observable<UserInterface>;
+
+  getUserTelemetry(request: GetUserTelemetry, metadata?: Metadata): Observable<UserTelemetryInterface>;
+
+  getUserGamification(request: GetUser, metadata?: Metadata): Observable<UserGamificationInterface>;
+
+  updateUserTelemetry(request: UpdateUserTelemetry, metadata?: Metadata): Observable<BoolValue>;
+
+  createUserTelemetry(request: CreateUserTelemetry, metadata?: Metadata): Observable<UserTelemetryInterface>;
 }
 
 export interface AccountController {
@@ -773,6 +1154,26 @@ export interface AccountController {
   refreshToken(request: RefreshToken, metadata?: Metadata): Promise<TokenType> | Observable<TokenType> | TokenType;
 
   getUser(request: GetUser, metadata?: Metadata): Promise<UserInterface> | Observable<UserInterface> | UserInterface;
+
+  getUserTelemetry(
+    request: GetUserTelemetry,
+    metadata?: Metadata,
+  ): Promise<UserTelemetryInterface> | Observable<UserTelemetryInterface> | UserTelemetryInterface;
+
+  getUserGamification(
+    request: GetUser,
+    metadata?: Metadata,
+  ): Promise<UserGamificationInterface> | Observable<UserGamificationInterface> | UserGamificationInterface;
+
+  updateUserTelemetry(
+    request: UpdateUserTelemetry,
+    metadata?: Metadata,
+  ): Promise<BoolValue> | Observable<BoolValue> | BoolValue;
+
+  createUserTelemetry(
+    request: CreateUserTelemetry,
+    metadata?: Metadata,
+  ): Promise<UserTelemetryInterface> | Observable<UserTelemetryInterface> | UserTelemetryInterface;
 }
 
 export function AccountControllerMethods() {
@@ -785,6 +1186,10 @@ export function AccountControllerMethods() {
       "updateUser",
       "refreshToken",
       "getUser",
+      "getUserTelemetry",
+      "getUserGamification",
+      "updateUserTelemetry",
+      "createUserTelemetry",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
@@ -866,6 +1271,46 @@ export const AccountService = {
     responseSerialize: (value: UserInterface): Buffer => Buffer.from(UserInterface.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserInterface => UserInterface.decode(value),
   },
+  getUserTelemetry: {
+    path: "/account.Account/getUserTelemetry",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: GetUserTelemetry): Buffer => Buffer.from(GetUserTelemetry.encode(value).finish()),
+    requestDeserialize: (value: Buffer): GetUserTelemetry => GetUserTelemetry.decode(value),
+    responseSerialize: (value: UserTelemetryInterface): Buffer =>
+      Buffer.from(UserTelemetryInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserTelemetryInterface => UserTelemetryInterface.decode(value),
+  },
+  getUserGamification: {
+    path: "/account.Account/getUserGamification",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: GetUser): Buffer => Buffer.from(GetUser.encode(value).finish()),
+    requestDeserialize: (value: Buffer): GetUser => GetUser.decode(value),
+    responseSerialize: (value: UserGamificationInterface): Buffer =>
+      Buffer.from(UserGamificationInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserGamificationInterface => UserGamificationInterface.decode(value),
+  },
+  updateUserTelemetry: {
+    path: "/account.Account/updateUserTelemetry",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: UpdateUserTelemetry): Buffer => Buffer.from(UpdateUserTelemetry.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UpdateUserTelemetry => UpdateUserTelemetry.decode(value),
+    responseSerialize: (value: boolean | undefined): Buffer =>
+      Buffer.from(BoolValue.encode({ value: value ?? false }).finish()),
+    responseDeserialize: (value: Buffer): boolean | undefined => BoolValue.decode(value).value,
+  },
+  createUserTelemetry: {
+    path: "/account.Account/createUserTelemetry",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: CreateUserTelemetry): Buffer => Buffer.from(CreateUserTelemetry.encode(value).finish()),
+    requestDeserialize: (value: Buffer): CreateUserTelemetry => CreateUserTelemetry.decode(value),
+    responseSerialize: (value: UserTelemetryInterface): Buffer =>
+      Buffer.from(UserTelemetryInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserTelemetryInterface => UserTelemetryInterface.decode(value),
+  },
 } as const;
 
 export interface AccountServer extends UntypedServiceImplementation {
@@ -876,6 +1321,10 @@ export interface AccountServer extends UntypedServiceImplementation {
   updateUser: handleUnaryCall<UpdateUser, UserInterface>;
   refreshToken: handleUnaryCall<RefreshToken, TokenType>;
   getUser: handleUnaryCall<GetUser, UserInterface>;
+  getUserTelemetry: handleUnaryCall<GetUserTelemetry, UserTelemetryInterface>;
+  getUserGamification: handleUnaryCall<GetUser, UserGamificationInterface>;
+  updateUserTelemetry: handleUnaryCall<UpdateUserTelemetry, boolean | undefined>;
+  createUserTelemetry: handleUnaryCall<CreateUserTelemetry, UserTelemetryInterface>;
 }
 
 export interface MessageFns<T> {

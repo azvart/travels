@@ -21,4 +21,10 @@ export class JobsProcessorPresentationController {
     return this.jobsProcessorPresentationService.questProgress();
   }
 
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  public async updateUserTelemetry(){
+    this.logger.debug(this.updateUserTelemetry.name)
+      return this.jobsProcessorPresentationService.updateUserTelemetry();
+  }
+
 }

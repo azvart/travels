@@ -4,7 +4,14 @@ import { RedisModule } from '@app/redis';
 import { AppConfigModule } from '@app/app-config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountPresentationModule } from './presentation/account.presentation.module';
-import { AccountEntity, QuestEntity, UserEntity, UserQuestEntity } from '@app/entities/enity';
+import {
+  AccountEntity,
+  QuestEntity,
+  UserEntity,
+  UserQuestEntity,
+  UserGamificationEntity,
+  UserTelemetryEntity
+} from '@app/entities/enity';
 
 @Module({
   imports: [
@@ -20,7 +27,14 @@ import { AccountEntity, QuestEntity, UserEntity, UserQuestEntity } from '@app/en
       password: 'root_password',
       autoLoadEntities: true,
       synchronize: true,
-      entities: [AccountEntity, UserEntity, UserQuestEntity, QuestEntity]
+      entities: [
+        AccountEntity,
+        UserEntity,
+        UserQuestEntity,
+        QuestEntity,
+        UserGamificationEntity,
+        UserTelemetryEntity
+      ]
     }),
   ],
 })
