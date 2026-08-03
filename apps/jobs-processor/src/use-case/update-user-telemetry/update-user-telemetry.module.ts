@@ -3,13 +3,9 @@ import { RedisModule } from '@app/redis';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 import { UpdateUserTelemetryHandler } from './update-user-telemetry.handler';
 
-
 @Module({
-  imports: [
-    RedisModule,
-    GrpcApiClientsModule
-  ],
+  imports: [RedisModule, GrpcApiClientsModule],
   providers: [UpdateUserTelemetryHandler],
-  exports: [UpdateUserTelemetryHandler]
+  exports: [UpdateUserTelemetryHandler],
 })
 export class UpdateUserTelemetryModule {}

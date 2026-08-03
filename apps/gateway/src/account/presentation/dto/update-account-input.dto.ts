@@ -1,1 +1,13 @@
-import { InputType, Field, ID } from '@nestjs/graphql';import { IUpdateAccountInput } from 'libs/interfaces';@InputType()export class UpdateAccountInput implements IUpdateAccountInput {  @Field(() => ID)  public id!: string;  @Field(() => String, { nullable: true })  public email?: string;  @Field(() => String, { nullable: true })  public password?: string;}
+import { InputType, Field, ID } from '@nestjs/graphql';
+import { IUpdateAccountInput } from 'libs/interfaces';
+@InputType()
+export class UpdateAccountInput implements IUpdateAccountInput {
+  @Field(() => ID)
+  public id!: string;
+
+  @Field(() => String, { nullable: true })
+  public email?: string;
+
+  @Field(() => String, { nullable: true })
+  public password?: string;
+}

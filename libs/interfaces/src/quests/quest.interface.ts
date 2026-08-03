@@ -6,6 +6,6 @@ export interface IQuest {
   questDescription: string;
   questReward: string;
   questCondition: string;
-  questType?: QUEST_TYPE
+  questType?: QUEST_TYPE;
   questCountry: string;
 }

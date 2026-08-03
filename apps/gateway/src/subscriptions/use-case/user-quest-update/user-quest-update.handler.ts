@@ -3,7 +3,6 @@ import { Kafka } from 'kafkajs';
 import { PubSub } from 'graphql-subscriptions';
 import { IUserQuest } from 'libs/interfaces';
 
-
 @Injectable()
 export class UserQuestUpdateHandler implements OnModuleInit {
   private readonly kafka = new Kafka({
@@ -29,12 +28,14 @@ export class UserQuestUpdateHandler implements OnModuleInit {
     await this.consumer.run({
       eachMessage: async ({ message }) => {
         const payload = JSON.parse(message.value?.toString() as string) as IUserQuest;
-        await this.pubSub.publish(`user-quest-sub-${payload.userId}`, {questSubscription:{
-          questId: payload.questId,
-          progress: payload.progress,
-          finishResult: payload.finishResult,
-          status: payload.status
-        }});
+        await this.pubSub.publish(`user-quest-sub-${payload.userId}`, {
+          questSubscription: {
+            questId: payload.questId,
+            progress: payload.progress,
+            finishResult: payload.finishResult,
+            status: payload.status,
+          },
+        });
       },
     });
   }

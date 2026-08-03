@@ -1,8 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IRoutePoints } from 'libs/interfaces';
 
-
-
 @InputType()
 export class CreateRoutePointsDto implements IRoutePoints {
   @Field(() => String)

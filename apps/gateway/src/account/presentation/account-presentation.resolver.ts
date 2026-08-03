@@ -5,7 +5,7 @@ import { TokenType } from './dto/token-type.dto';
 import { CurrentUser, Public } from '@app/auth';
 import { LoginInputDTO } from './dto/login-input.dto';
 import { GetAccountFromTokenOutput } from './dto/get-account-from-token-output.dto';
-import {  IGetUser } from 'libs/interfaces';
+import { IGetUser } from 'libs/interfaces';
 
 @Resolver(() => Account)
 export class AccountPresentationResolver {

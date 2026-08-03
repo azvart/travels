@@ -10,7 +10,7 @@ import {
   UserEntity,
   UserQuestEntity,
   UserGamificationEntity,
-  UserTelemetryEntity
+  UserTelemetryEntity,
 } from '@app/entities/enity';
 
 @Module({
@@ -33,8 +33,8 @@ import {
         UserQuestEntity,
         QuestEntity,
         UserGamificationEntity,
-        UserTelemetryEntity
-      ]
+        UserTelemetryEntity,
+      ],
     }),
   ],
 })

@@ -5,7 +5,6 @@ import { PubSubModule } from '@app/pubsub';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
 
-
 @Module({
   imports: [
     RedisModule,
@@ -25,7 +24,7 @@ import { GrpcApiClientsModule } from '@app/grpc-api-clients';
         },
       },
     ]),
-    GrpcApiClientsModule
+    GrpcApiClientsModule,
   ],
   providers: [UpdateUserQuestProgressHandler],
   exports: [UpdateUserQuestProgressHandler],

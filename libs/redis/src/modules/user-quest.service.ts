@@ -2,7 +2,6 @@ import { RedisService } from '../redis.service';
 import { Injectable } from '@nestjs/common';
 import { IUserQuest } from 'libs/interfaces';
 
-
 @Injectable()
 export class UserQuestService {
   public constructor(private readonly redis: RedisService) {}
@@ -18,9 +17,7 @@ export class UserQuestService {
   }
 
   public async updateQuest(userId: string, questId: string, data: IUserQuest) {
-    return this.redis
-      .getClient()
-      .hset(this.userQuestKey(userId), questId, JSON.stringify(data));
+    return this.redis.getClient().hset(this.userQuestKey(userId), questId, JSON.stringify(data));
   }
 
   public deserialize(raw: any): IUserQuest {
@@ -35,7 +32,7 @@ export class UserQuestService {
     return this.redis.getClient().hdel(this.userQuestKey(userId), questId);
   }
 
-  public async getAllQuests(userId: string){
+  public async getAllQuests(userId: string) {
     return this.redis.getClient().hgetall(this.userQuestKey(userId));
   }
 }

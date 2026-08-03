@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule, {
-    logger: ['error', 'debug', 'warn' ,'verbose', 'fatal']
+    logger: ['error', 'debug', 'warn', 'verbose', 'fatal'],
   });
   const configService = app.get(ConfigService);
   const port = configService.get<string>('GATEWAY_PORT');

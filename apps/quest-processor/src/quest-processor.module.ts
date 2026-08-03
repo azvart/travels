@@ -3,12 +3,7 @@ import { AppConfigModule } from '@app/app-config';
 import { QuestProcessorPresentationModule } from './presentation';
 import { RedisModule } from '@app/redis';
 
-
 @Module({
-  imports: [
-    AppConfigModule.forRootAsync(),
-    QuestProcessorPresentationModule,
-    RedisModule
-  ]
+  imports: [AppConfigModule.forRootAsync(), QuestProcessorPresentationModule, RedisModule],
 })
 export class QuestProcessorModule {}

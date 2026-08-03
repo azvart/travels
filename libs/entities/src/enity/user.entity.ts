@@ -1,17 +1,10 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  JoinColumn,
-  OneToMany
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { AccountEntity } from '@app/entities/enity/account.entity';
 import { IUser } from 'libs/interfaces';
 import { UserQuestEntity } from './user-quest.entity';
 
 @Entity('users')
-export class UserEntity implements IUser{
+export class UserEntity implements IUser {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
@@ -33,7 +26,7 @@ export class UserEntity implements IUser{
   @Column({ nullable: true })
   public street?: string;
 
-  @Column({ nullable: true  })
+  @Column({ nullable: true })
   public city?: string;
 
   @OneToOne(() => AccountEntity, { nullable: true })
@@ -41,5 +34,5 @@ export class UserEntity implements IUser{
   public account?: AccountEntity;
 
   @OneToMany(() => UserQuestEntity, (uq) => uq.quest)
-  public userQuests: UserQuestEntity[]
+  public userQuests: UserQuestEntity[];
 }

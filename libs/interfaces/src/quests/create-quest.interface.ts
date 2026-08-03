@@ -1,6 +1,5 @@
 import { QUEST_TYPE } from 'libs/interfaces';
 
-
 export interface ICreateQuest {
   questName: string;
   questDescription: string;

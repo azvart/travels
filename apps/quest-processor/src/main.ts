@@ -10,8 +10,8 @@ async function bootstrap() {
       brokers: ['localhost:9092'],
     },
     consumer: {
-      groupId: 'quest-processor'
-    }
+      groupId: 'quest-processor',
+    },
   });
   await app.listen();
 }

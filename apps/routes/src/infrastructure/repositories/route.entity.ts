@@ -17,7 +17,7 @@ export class RouteOrmEntity {
   @Column()
   public country!: string;
 
-  @Column({type: 'double'})
+  @Column({ type: 'double' })
   public distance!: number;
 
   @Column()
@@ -30,5 +30,5 @@ export class RouteOrmEntity {
   public difficulty!: string;
 
   @Column({ type: 'json' })
-  public points!: IRoutePoints[]
+  public points!: IRoutePoints[];
 }

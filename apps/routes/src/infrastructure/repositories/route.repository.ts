@@ -30,7 +30,7 @@ export class RouteRepository implements RouteAbstractRepository {
       },
       {
         routeName: data.routeName,
-        country: data.country
+        country: data.country,
       },
     );
 
@@ -46,37 +46,37 @@ export class RouteRepository implements RouteAbstractRepository {
     });
   }
 
-  public async findOneRoute(data:IFindOneRoute){
+  public async findOneRoute(data: IFindOneRoute) {
     return this.routeRepository.findOneOrFail({
       where: {
-        id: data.id
-      }
-    })
+        id: data.id,
+      },
+    });
   }
 
-  public async findManyRoutes(data:IFindManyRoutes & { userId: string }){
-    if(!data.externalRoutes){
+  public async findManyRoutes(data: IFindManyRoutes & { userId: string }) {
+    if (!data.externalRoutes) {
       return this.routeRepository.findBy({
         country: data.country,
         userId: data.userId,
       });
     }
     return this.routeRepository.findBy({
-      country: data.country
-    })
+      country: data.country,
+    });
   }
 
-  public async deleteUserRoute(data: IDeleteUserRoute & { userId: string }){
+  public async deleteUserRoute(data: IDeleteUserRoute & { userId: string }) {
     const deletedUserRoute = await this.routeRepository.delete({
       id: data.id,
-      userId: data.userId
+      userId: data.userId,
     });
     console.log(deletedUserRoute.affected);
-    if(deletedUserRoute.affected === 0){
-      throw new Error(`Can't delete route with id: ${data.id}`)
+    if (deletedUserRoute.affected === 0) {
+      throw new Error(`Can't delete route with id: ${data.id}`);
     }
     return {
-      id: data.id
-    }
+      id: data.id,
+    };
   }
 }

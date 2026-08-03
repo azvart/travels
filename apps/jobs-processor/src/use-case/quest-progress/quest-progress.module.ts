@@ -20,6 +20,6 @@ import { GrpcApiClientsModule } from '@app/grpc-api-clients';
     GrpcApiClientsModule,
   ],
   providers: [QuestProgressHandler],
-  exports: [BullModule,QuestProgressHandler],
+  exports: [BullModule, QuestProgressHandler],
 })
 export class QuestProgressModule {}

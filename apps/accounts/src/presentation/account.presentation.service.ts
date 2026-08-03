@@ -24,7 +24,6 @@ import { CreateUserTelemetryHandler } from '../use-case/create-user-telemetry/cr
 
 @Injectable()
 export class AccountPresentationService {
-
   public constructor(
     private readonly createAccountHandler: CreateAccountHandler,
     private readonly updateAccountHandler: UpdateAccountHandler,
@@ -36,65 +35,63 @@ export class AccountPresentationService {
     private readonly getUserTelemetryHandler: GetUserTelemetryHandler,
     private readonly getUserGamificationHandler: GetUserGamificationHandler,
     private readonly updateUserTelemetryHandler: UpdateUserTelemetryHandler,
-    private readonly createUserTelemetryHandler: CreateUserTelemetryHandler
-  ){}
+    private readonly createUserTelemetryHandler: CreateUserTelemetryHandler,
+  ) {}
 
-
-  public async createAccount(data:ICreateNewAccount){
+  public async createAccount(data: ICreateNewAccount) {
     return this.createAccountHandler.run(data);
   }
 
-  public async updateAccount(data:IUpdateAccountInput){
-    const accountObj:Omit<IUpdateAccountInput, 'id'> = {
-      email:data.email,
-      password: data.password
-    }
+  public async updateAccount(data: IUpdateAccountInput) {
+    const accountObj: Omit<IUpdateAccountInput, 'id'> = {
+      email: data.email,
+      password: data.password,
+    };
     return this.updateAccountHandler.run(data.id, accountObj);
   }
 
-  public async deleteAccount(data: {accountId: string}){
+  public async deleteAccount(data: { accountId: string }) {
     return this.deleteAccountHandler.run(data);
   }
 
-  public async login(data:ILoginInput){
+  public async login(data: ILoginInput) {
     return this.loginHandler.run(data);
   }
 
-  public async refreshToken(data:IRefreshToken){
+  public async refreshToken(data: IRefreshToken) {
     return this.refreshTokenHandler.run(data.refreshToken);
   }
 
-  public async updateUser(data:IUpdateUserInputInterface){
-    const userObj:Omit<IUpdateUserInputInterface, 'id'> = {
+  public async updateUser(data: IUpdateUserInputInterface) {
+    const userObj: Omit<IUpdateUserInputInterface, 'id'> = {
       firstName: data.firstName,
       lastName: data.lastName,
       age: data.age,
       city: data.city,
       country: data.country,
       countryCode: data.countryCode,
-      street: data.street
-    }
+      street: data.street,
+    };
     return this.updateUserHandler.run(data.id, userObj);
   }
 
-  public async getUser(data:IGetUser){
+  public async getUser(data: IGetUser) {
     return this.getUserHandler.run(data);
   }
 
-
-  public async getUserTelemetry(data: { userId: string, routeId: string }){
+  public async getUserTelemetry(data: { userId: string; routeId: string }) {
     return this.getUserTelemetryHandler.run(data);
   }
 
-  public async getUserGamification(userId: string){
+  public async getUserGamification(userId: string) {
     return this.getUserGamificationHandler.run(userId);
   }
 
-  public async updateUserTelemetry(data: IUpdateUserTelemetry){
+  public async updateUserTelemetry(data: IUpdateUserTelemetry) {
     return this.updateUserTelemetryHandler.run(data);
   }
 
-  public async createUserTelemetry(data: {userId: string, routeId: string}){
+  public async createUserTelemetry(data: { userId: string; routeId: string }) {
     return this.createUserTelemetryHandler.run(data);
   }
 }

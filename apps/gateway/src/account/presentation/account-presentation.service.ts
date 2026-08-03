@@ -14,15 +14,15 @@ export class AccountPresentationService {
     private readonly deleteAccountHandler: DeleteAccountHandler,
     private readonly updateExistingAccountHandler: UpdateExistingAccountHandler,
     private readonly loginHandler: LoginHandler,
-    private readonly refreshTokenHandler: RefreshTokenHandler
+    private readonly refreshTokenHandler: RefreshTokenHandler,
   ) {}
 
   public async createNewAccount(input: ICreateNewAccount) {
     return this.createNewAccountHandler.run(input);
   }
 
-  public async refreshToken(refreshToken: string){
-      return this.refreshTokenHandler.run(refreshToken);
+  public async refreshToken(refreshToken: string) {
+    return this.refreshTokenHandler.run(refreshToken);
   }
 
   public async deleteAccount(id: string) {

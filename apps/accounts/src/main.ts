@@ -10,11 +10,7 @@ async function bootstrap() {
   const accountPort = configService.get<string>('ACCOUNTS_PORT');
   const accountGrpcHost = configService.get<string>('ACCOUNTS_GRPC_HOST');
   const accountGrpcPort = configService.get<string>('ACCOUNTS_GRPC_PORT');
-  const protoPath = join(
-    process.cwd(),
-    'libs/proto/src/account',
-    'account.proto',
-  );
+  const protoPath = join(process.cwd(), 'libs/proto/src/account', 'account.proto');
 
   app.connectMicroservice({
     transport: Transport.GRPC,
@@ -27,8 +23,6 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
   await app.listen(accountPort as string);
-  console.log(
-    `Account service (gRPC) listening on ${accountGrpcHost}:${accountGrpcPort}`,
-  );
+  console.log(`Account service (gRPC) listening on ${accountGrpcHost}:${accountGrpcPort}`);
 }
-bootstrap();
+void bootstrap();

@@ -1,1 +1,10 @@
-import { Module } from '@nestjs/common';import { CreateQuestHandler } from './create-quest.handler';import { GrpcApiClientsModule } from '@app/grpc-api-clients';@Module({  imports: [GrpcApiClientsModule],  providers: [CreateQuestHandler],  exports: [CreateQuestHandler],})export class CreateQuestModule {}
+import { Module } from '@nestjs/common';
+import { CreateQuestHandler } from './create-quest.handler';
+import { GrpcApiClientsModule } from '@app/grpc-api-clients';
+
+@Module({
+  imports: [GrpcApiClientsModule],
+  providers: [CreateQuestHandler],
+  exports: [CreateQuestHandler],
+})
+export class CreateQuestModule {}

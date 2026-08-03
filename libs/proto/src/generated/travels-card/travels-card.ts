@@ -5,13 +5,13 @@
 // source: travels-card/travels-card.proto
 
 /* eslint-disable */
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { Empty } from "../google/protobuf/empty";
+import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
+import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from '@grpc/grpc-js';
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { Empty } from '../google/protobuf/empty';
 
-export const protobufPackage = "travelCards";
+export const protobufPackage = 'travelCards';
 
 export interface TravelCardsOutput {
   id: string;
@@ -67,21 +67,21 @@ export interface TravelCardMany {
   cards: TravelCardsOutput[];
 }
 
-export const TRAVEL_CARDS_PACKAGE_NAME = "travelCards";
+export const TRAVEL_CARDS_PACKAGE_NAME = 'travelCards';
 
 function createBaseTravelCardsOutput(): TravelCardsOutput {
-  return { id: "", userId: "", title: "" };
+  return { id: '', userId: '', title: '' };
 }
 
 export const TravelCardsOutput: MessageFns<TravelCardsOutput> = {
   encode(message: TravelCardsOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(18).string(message.userId);
     }
-    if (message.title !== "") {
+    if (message.title !== '') {
       writer.uint32(26).string(message.title);
     }
     if (message.description !== undefined) {
@@ -217,15 +217,15 @@ export const TravelCardsOutput: MessageFns<TravelCardsOutput> = {
 };
 
 function createBaseCreateNewTravelCards(): CreateNewTravelCards {
-  return { userId: "", title: "" };
+  return { userId: '', title: '' };
 }
 
 export const CreateNewTravelCards: MessageFns<CreateNewTravelCards> = {
   encode(message: CreateNewTravelCards, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(10).string(message.userId);
     }
-    if (message.title !== "") {
+    if (message.title !== '') {
       writer.uint32(18).string(message.title);
     }
     if (message.description !== undefined) {
@@ -309,12 +309,12 @@ export const CreateNewTravelCards: MessageFns<CreateNewTravelCards> = {
 };
 
 function createBaseGetTravelCardById(): GetTravelCardById {
-  return { id: "" };
+  return { id: '' };
 }
 
 export const GetTravelCardById: MessageFns<GetTravelCardById> = {
   encode(message: GetTravelCardById, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -346,15 +346,15 @@ export const GetTravelCardById: MessageFns<GetTravelCardById> = {
 };
 
 function createBaseUpdateTravelCardInput(): UpdateTravelCardInput {
-  return { id: "", userId: "" };
+  return { id: '', userId: '' };
 }
 
 export const UpdateTravelCardInput: MessageFns<UpdateTravelCardInput> = {
   encode(message: UpdateTravelCardInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(18).string(message.userId);
     }
     if (message.title !== undefined) {
@@ -493,15 +493,15 @@ export const UpdateTravelCardInput: MessageFns<UpdateTravelCardInput> = {
 };
 
 function createBaseDeleteTravelCardInput(): DeleteTravelCardInput {
-  return { id: "", userId: "" };
+  return { id: '', userId: '' };
 }
 
 export const DeleteTravelCardInput: MessageFns<DeleteTravelCardInput> = {
   encode(message: DeleteTravelCardInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(18).string(message.userId);
     }
     return writer;
@@ -615,13 +615,22 @@ export const TravelCardMany: MessageFns<TravelCardMany> = {
 };
 
 export interface TravelCardClient {
-  createNewTravelCards(request: CreateNewTravelCards, metadata?: Metadata): Observable<TravelCardsOutput>;
+  createNewTravelCards(
+    request: CreateNewTravelCards,
+    metadata?: Metadata,
+  ): Observable<TravelCardsOutput>;
 
   getCardById(request: GetTravelCardById, metadata?: Metadata): Observable<TravelCardsOutput>;
 
-  updateExistTravelCard(request: UpdateTravelCardInput, metadata?: Metadata): Observable<TravelCardsOutput>;
+  updateExistTravelCard(
+    request: UpdateTravelCardInput,
+    metadata?: Metadata,
+  ): Observable<TravelCardsOutput>;
 
-  deleteExistTravelCard(request: DeleteTravelCardInput, metadata?: Metadata): Observable<DeleteTravelCardOutput>;
+  deleteExistTravelCard(
+    request: DeleteTravelCardInput,
+    metadata?: Metadata,
+  ): Observable<DeleteTravelCardOutput>;
 
   getCards(request: Empty, metadata?: Metadata): Observable<TravelCardMany>;
 }
@@ -647,80 +656,92 @@ export interface TravelCardController {
     metadata?: Metadata,
   ): Promise<DeleteTravelCardOutput> | Observable<DeleteTravelCardOutput> | DeleteTravelCardOutput;
 
-  getCards(request: Empty, metadata?: Metadata): Promise<TravelCardMany> | Observable<TravelCardMany> | TravelCardMany;
+  getCards(
+    request: Empty,
+    metadata?: Metadata,
+  ): Promise<TravelCardMany> | Observable<TravelCardMany> | TravelCardMany;
 }
 
 export function TravelCardControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      "createNewTravelCards",
-      "getCardById",
-      "updateExistTravelCard",
-      "deleteExistTravelCard",
-      "getCards",
+      'createNewTravelCards',
+      'getCardById',
+      'updateExistTravelCard',
+      'deleteExistTravelCard',
+      'getCards',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("TravelCard", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('TravelCard', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("TravelCard", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('TravelCard', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const TRAVEL_CARD_SERVICE_NAME = "TravelCard";
+export const TRAVEL_CARD_SERVICE_NAME = 'TravelCard';
 
 export type TravelCardService = typeof TravelCardService;
 export const TravelCardService = {
   createNewTravelCards: {
-    path: "/travelCards.TravelCard/createNewTravelCards",
+    path: '/travelCards.TravelCard/createNewTravelCards',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: CreateNewTravelCards): Buffer => Buffer.from(CreateNewTravelCards.encode(value).finish()),
+    requestSerialize: (value: CreateNewTravelCards): Buffer =>
+      Buffer.from(CreateNewTravelCards.encode(value).finish()),
     requestDeserialize: (value: Buffer): CreateNewTravelCards => CreateNewTravelCards.decode(value),
-    responseSerialize: (value: TravelCardsOutput): Buffer => Buffer.from(TravelCardsOutput.encode(value).finish()),
+    responseSerialize: (value: TravelCardsOutput): Buffer =>
+      Buffer.from(TravelCardsOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): TravelCardsOutput => TravelCardsOutput.decode(value),
   },
   getCardById: {
-    path: "/travelCards.TravelCard/getCardById",
+    path: '/travelCards.TravelCard/getCardById',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: GetTravelCardById): Buffer => Buffer.from(GetTravelCardById.encode(value).finish()),
+    requestSerialize: (value: GetTravelCardById): Buffer =>
+      Buffer.from(GetTravelCardById.encode(value).finish()),
     requestDeserialize: (value: Buffer): GetTravelCardById => GetTravelCardById.decode(value),
-    responseSerialize: (value: TravelCardsOutput): Buffer => Buffer.from(TravelCardsOutput.encode(value).finish()),
+    responseSerialize: (value: TravelCardsOutput): Buffer =>
+      Buffer.from(TravelCardsOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): TravelCardsOutput => TravelCardsOutput.decode(value),
   },
   updateExistTravelCard: {
-    path: "/travelCards.TravelCard/updateExistTravelCard",
+    path: '/travelCards.TravelCard/updateExistTravelCard',
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: UpdateTravelCardInput): Buffer =>
       Buffer.from(UpdateTravelCardInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): UpdateTravelCardInput => UpdateTravelCardInput.decode(value),
-    responseSerialize: (value: TravelCardsOutput): Buffer => Buffer.from(TravelCardsOutput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UpdateTravelCardInput =>
+      UpdateTravelCardInput.decode(value),
+    responseSerialize: (value: TravelCardsOutput): Buffer =>
+      Buffer.from(TravelCardsOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): TravelCardsOutput => TravelCardsOutput.decode(value),
   },
   deleteExistTravelCard: {
-    path: "/travelCards.TravelCard/deleteExistTravelCard",
+    path: '/travelCards.TravelCard/deleteExistTravelCard',
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: DeleteTravelCardInput): Buffer =>
       Buffer.from(DeleteTravelCardInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): DeleteTravelCardInput => DeleteTravelCardInput.decode(value),
+    requestDeserialize: (value: Buffer): DeleteTravelCardInput =>
+      DeleteTravelCardInput.decode(value),
     responseSerialize: (value: DeleteTravelCardOutput): Buffer =>
       Buffer.from(DeleteTravelCardOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): DeleteTravelCardOutput => DeleteTravelCardOutput.decode(value),
+    responseDeserialize: (value: Buffer): DeleteTravelCardOutput =>
+      DeleteTravelCardOutput.decode(value),
   },
   getCards: {
-    path: "/travelCards.TravelCard/getCards",
+    path: '/travelCards.TravelCard/getCards',
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: Empty): Buffer => Buffer.from(Empty.encode(value).finish()),
     requestDeserialize: (value: Buffer): Empty => Empty.decode(value),
-    responseSerialize: (value: TravelCardMany): Buffer => Buffer.from(TravelCardMany.encode(value).finish()),
+    responseSerialize: (value: TravelCardMany): Buffer =>
+      Buffer.from(TravelCardMany.encode(value).finish()),
     responseDeserialize: (value: Buffer): TravelCardMany => TravelCardMany.decode(value),
   },
 } as const;

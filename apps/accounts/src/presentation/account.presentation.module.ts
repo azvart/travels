@@ -13,7 +13,6 @@ import { GetUserGamificationModule } from '../use-case/get-user-gamification/get
 import { UpdateUserTelemetryModule } from '../use-case/update-user-telemetry/update-user-telemetry.module';
 import { CreateUserTelemetryModule } from '../use-case/create-user-telemetry/create-user-telemetry.module';
 
-
 @Module({
   imports: [
     CreateAccountModule,
@@ -26,9 +25,9 @@ import { CreateUserTelemetryModule } from '../use-case/create-user-telemetry/cre
     GetUserTelemetryModule,
     GetUserGamificationModule,
     UpdateUserTelemetryModule,
-    CreateUserTelemetryModule
+    CreateUserTelemetryModule,
   ],
   controllers: [AccountPresentationController],
-  providers: [AccountPresentationService]
+  providers: [AccountPresentationService],
 })
 export class AccountPresentationModule {}

@@ -9,7 +9,7 @@ import { JobsProcessorPresentationModule } from './presentation/jobs-processor.p
     AppConfigModule.forRootAsync(),
     ScheduleModule.forRoot(),
     RedisModule,
-    JobsProcessorPresentationModule
+    JobsProcessorPresentationModule,
   ],
 })
 export class AppModule {}

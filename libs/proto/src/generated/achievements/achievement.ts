@@ -5,16 +5,15 @@
 // source: achievements/achievement.proto
 
 /* eslint-disable */
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { BoolValue } from "../google/protobuf/wrappers";
+import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
+import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from '@grpc/grpc-js';
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { BoolValue } from '../google/protobuf/wrappers';
 
-export const protobufPackage = "achievement";
+export const protobufPackage = 'achievement';
 
-export interface AchievementInput {
-}
+export interface AchievementInput {}
 
 export interface AchievementOutput {
   id: string;
@@ -39,7 +38,7 @@ export interface deleteAchievementInput {
   id: string;
 }
 
-export const ACHIEVEMENT_PACKAGE_NAME = "achievement";
+export const ACHIEVEMENT_PACKAGE_NAME = 'achievement';
 
 function createBaseAchievementInput(): AchievementInput {
   return {};
@@ -68,15 +67,15 @@ export const AchievementInput: MessageFns<AchievementInput> = {
 };
 
 function createBaseAchievementOutput(): AchievementOutput {
-  return { id: "", name: "", points: 0 };
+  return { id: '', name: '', points: 0 };
 }
 
 export const AchievementOutput: MessageFns<AchievementOutput> = {
   encode(message: AchievementOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
-    if (message.name !== "") {
+    if (message.name !== '') {
       writer.uint32(18).string(message.name);
     }
     if (message.points !== 0) {
@@ -164,12 +163,15 @@ export const getAchievementsMany: MessageFns<getAchievementsMany> = {
 };
 
 function createBasegetAchievementByIdInput(): getAchievementByIdInput {
-  return { id: "" };
+  return { id: '' };
 }
 
 export const getAchievementByIdInput: MessageFns<getAchievementByIdInput> = {
-  encode(message: getAchievementByIdInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+  encode(
+    message: getAchievementByIdInput,
+    writer: BinaryWriter = new BinaryWriter(),
+  ): BinaryWriter {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -201,12 +203,12 @@ export const getAchievementByIdInput: MessageFns<getAchievementByIdInput> = {
 };
 
 function createBasecreateAchievementInput(): createAchievementInput {
-  return { name: "", points: 0 };
+  return { name: '', points: 0 };
 }
 
 export const createAchievementInput: MessageFns<createAchievementInput> = {
   encode(message: createAchievementInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.name !== "") {
+    if (message.name !== '') {
       writer.uint32(10).string(message.name);
     }
     if (message.points !== 0) {
@@ -249,12 +251,12 @@ export const createAchievementInput: MessageFns<createAchievementInput> = {
 };
 
 function createBasedeleteAchievementInput(): deleteAchievementInput {
-  return { id: "" };
+  return { id: '' };
 }
 
 export const deleteAchievementInput: MessageFns<deleteAchievementInput> = {
   encode(message: deleteAchievementInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -288,9 +290,15 @@ export const deleteAchievementInput: MessageFns<deleteAchievementInput> = {
 export interface AchievementsClient {
   getAchievements(request: AchievementInput, metadata?: Metadata): Observable<getAchievementsMany>;
 
-  getAchievement(request: getAchievementByIdInput, metadata?: Metadata): Observable<AchievementOutput>;
+  getAchievement(
+    request: getAchievementByIdInput,
+    metadata?: Metadata,
+  ): Observable<AchievementOutput>;
 
-  createAchievement(request: createAchievementInput, metadata?: Metadata): Observable<AchievementOutput>;
+  createAchievement(
+    request: createAchievementInput,
+    metadata?: Metadata,
+  ): Observable<AchievementOutput>;
 
   deleteAchievement(request: deleteAchievementInput, metadata?: Metadata): Observable<BoolValue>;
 }
@@ -319,59 +327,71 @@ export interface AchievementsController {
 
 export function AchievementsControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["getAchievements", "getAchievement", "createAchievement", "deleteAchievement"];
+    const grpcMethods: string[] = [
+      'getAchievements',
+      'getAchievement',
+      'createAchievement',
+      'deleteAchievement',
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("Achievements", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('Achievements', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("Achievements", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('Achievements', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const ACHIEVEMENTS_SERVICE_NAME = "Achievements";
+export const ACHIEVEMENTS_SERVICE_NAME = 'Achievements';
 
 export type AchievementsService = typeof AchievementsService;
 export const AchievementsService = {
   getAchievements: {
-    path: "/achievement.Achievements/getAchievements",
+    path: '/achievement.Achievements/getAchievements',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: AchievementInput): Buffer => Buffer.from(AchievementInput.encode(value).finish()),
+    requestSerialize: (value: AchievementInput): Buffer =>
+      Buffer.from(AchievementInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): AchievementInput => AchievementInput.decode(value),
-    responseSerialize: (value: getAchievementsMany): Buffer => Buffer.from(getAchievementsMany.encode(value).finish()),
+    responseSerialize: (value: getAchievementsMany): Buffer =>
+      Buffer.from(getAchievementsMany.encode(value).finish()),
     responseDeserialize: (value: Buffer): getAchievementsMany => getAchievementsMany.decode(value),
   },
   getAchievement: {
-    path: "/achievement.Achievements/getAchievement",
+    path: '/achievement.Achievements/getAchievement',
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: getAchievementByIdInput): Buffer =>
       Buffer.from(getAchievementByIdInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): getAchievementByIdInput => getAchievementByIdInput.decode(value),
-    responseSerialize: (value: AchievementOutput): Buffer => Buffer.from(AchievementOutput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): getAchievementByIdInput =>
+      getAchievementByIdInput.decode(value),
+    responseSerialize: (value: AchievementOutput): Buffer =>
+      Buffer.from(AchievementOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): AchievementOutput => AchievementOutput.decode(value),
   },
   createAchievement: {
-    path: "/achievement.Achievements/createAchievement",
+    path: '/achievement.Achievements/createAchievement',
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: createAchievementInput): Buffer =>
       Buffer.from(createAchievementInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): createAchievementInput => createAchievementInput.decode(value),
-    responseSerialize: (value: AchievementOutput): Buffer => Buffer.from(AchievementOutput.encode(value).finish()),
+    requestDeserialize: (value: Buffer): createAchievementInput =>
+      createAchievementInput.decode(value),
+    responseSerialize: (value: AchievementOutput): Buffer =>
+      Buffer.from(AchievementOutput.encode(value).finish()),
     responseDeserialize: (value: Buffer): AchievementOutput => AchievementOutput.decode(value),
   },
   deleteAchievement: {
-    path: "/achievement.Achievements/deleteAchievement",
+    path: '/achievement.Achievements/deleteAchievement',
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: deleteAchievementInput): Buffer =>
       Buffer.from(deleteAchievementInput.encode(value).finish()),
-    requestDeserialize: (value: Buffer): deleteAchievementInput => deleteAchievementInput.decode(value),
+    requestDeserialize: (value: Buffer): deleteAchievementInput =>
+      deleteAchievementInput.decode(value),
     responseSerialize: (value: boolean | undefined): Buffer =>
       Buffer.from(BoolValue.encode({ value: value ?? false }).finish()),
     responseDeserialize: (value: Buffer): boolean | undefined => BoolValue.decode(value).value,

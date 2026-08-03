@@ -24,5 +24,5 @@ export class CreateRouteDto implements Omit<ICreateRoute, 'userId'> {
   public difficulty!: string;
 
   @Field(() => [CreateRoutePointsDto])
-  public points!: IRoutePoints[]
+  public points!: IRoutePoints[];
 }

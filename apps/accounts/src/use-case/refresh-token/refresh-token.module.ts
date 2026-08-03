@@ -4,10 +4,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { GenerateTokenPairModule } from '../generate-token-pair/generate-token-pair.module';
 import { RedisModule } from '@app/redis';
 
-
 @Module({
   imports: [JwtModule, GenerateTokenPairModule, RedisModule],
   providers: [RefreshTokenHandler],
-  exports: [RefreshTokenHandler]
+  exports: [RefreshTokenHandler],
 })
 export class RefreshTokenModule {}

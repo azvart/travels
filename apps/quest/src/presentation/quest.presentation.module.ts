@@ -17,7 +17,6 @@ import { FindManyUserQuestsModule } from '../use-case/find-many-user-quests/find
 import { FindOneUserQuestModule } from '../use-case/find-one-user-quest/find-one-user-quest.module';
 import { FindAllUserQuestsModule } from '../use-case/find-all-user-quests/find-all-user-quests.module';
 
-
 @Module({
   imports: [
     CreateQuestModule,

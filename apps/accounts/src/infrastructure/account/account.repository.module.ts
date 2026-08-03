@@ -4,7 +4,6 @@ import { AccountAbstractRepository } from './account.abstract.repository';
 import { AccountRepository } from './account.repository';
 import { AccountEntity } from '@app/entities/enity';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([AccountEntity])],
   providers: [

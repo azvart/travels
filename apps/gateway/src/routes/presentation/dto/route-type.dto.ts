@@ -29,5 +29,5 @@ export class RouteType implements Route {
   public difficulty!: string;
 
   @Field(() => [RoutePointsDto])
-  public points:RoutePointsDto[]
+  public points: RoutePointsDto[];
 }

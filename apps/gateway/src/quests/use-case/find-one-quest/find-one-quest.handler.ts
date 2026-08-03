@@ -4,15 +4,13 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class FindOneQuestHandler {
+  public constructor(private readonly questGrpcService: QuestGrpcService) {}
 
-  public constructor(
-    private readonly questGrpcService: QuestGrpcService
-  ){}
-
-  public async run(id: string){
-    return firstValueFrom(this.questGrpcService.service.findOne({
-      id
-    }))
+  public async run(id: string) {
+    return firstValueFrom(
+      this.questGrpcService.service.findOne({
+        id,
+      }),
+    );
   }
-
 }

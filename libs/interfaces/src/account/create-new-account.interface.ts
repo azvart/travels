@@ -1,1 +1,4 @@
-export interface ICreateNewAccount {  email: string;  password: string;}
+export interface ICreateNewAccount {
+  email: string;
+  password: string;
+}

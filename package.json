@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "build": "npm-run-all --parallel & nest build gateway & nest build accounts & nest build travel-cards & nest build websocket-gateway & nest build job-processor",
     "start": "npm-run-all --parallel & nest start & nest start travel-cards & nest start job-processor & nest start accounts & nest start websocket-gateway",
     "start:gateway": "nest start --watch gateway",
@@ -16,13 +15,17 @@
     "start:quest-processor": "nest start --watch quest-processor",
     "start:user-processor": "nest start --watch user-processor",
     "start:job-processor": "nest start --watch jobs-processor",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/gateway/test/jest-e2e.json",
-    "proto:generate": "npx protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=libs/proto/src/generated --ts_proto_opt=nestJs=true,addGrpcMetadata=true,outputServices=grpc-js --proto_path=libs/proto/src libs/proto/src/**/*.proto"
+    "proto:generate": "npx protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=libs/proto/src/generated --ts_proto_opt=nestJs=true,addGrpcMetadata=true,outputServices=grpc-js --proto_path=libs/proto/src libs/proto/src/**/*.proto",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint \"{apps,libs}/**/*.ts\" --max-warnings=0",
+    "lint:fix": "eslint \"{apps,libs}/**/*.ts\" --fix",
+    "format": "prettier --write \"{apps,libs}/**/*.ts\"",
+    "format:check": "prettier --check \"{apps,libs}/**/*.ts\""
   },
   "dependencies": {
     "@apollo/client": "^4.0.7",
@@ -66,7 +69,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.18.0",
+    "@eslint/js": "^9.39.5",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
@@ -78,13 +81,13 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
-    "eslint": "^9.18.0",
-    "eslint-config-prettier": "^10.0.1",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.2.2",
-    "globals": "^16.0.0",
+    "globals": "^16.5.0",
     "jest": "^29.7.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.4.2",
+    "prettier": "^3.9.6",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
@@ -93,7 +96,7 @@
     "ts-proto": "^2.8.3",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0"
+    "typescript-eslint": "^8.65.0"
   },
   "jest": {
     "moduleFileExtensions": [

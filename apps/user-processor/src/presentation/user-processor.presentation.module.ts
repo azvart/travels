@@ -3,10 +3,9 @@ import { UserProcessorPresentationController } from './user-processor.presentati
 import { UserProcessorPresentationService } from './user-processor.presentation.service';
 import { UpdateUserTelemetryModule } from '../use-case/update-user-telemetry/update-user-telemetry.module';
 
-
 @Module({
   imports: [UpdateUserTelemetryModule],
   controllers: [UserProcessorPresentationController],
-  providers: [UserProcessorPresentationService]
+  providers: [UserProcessorPresentationService],
 })
 export class UserProcessorPresentationModule {}

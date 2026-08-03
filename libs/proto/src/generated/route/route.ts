@@ -5,12 +5,12 @@
 // source: route/route.proto
 
 /* eslint-disable */
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
+import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
+import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from '@grpc/grpc-js';
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
-export const protobufPackage = "route";
+export const protobufPackage = 'route';
 
 export interface Routes {
   id: string;
@@ -77,46 +77,46 @@ export interface DeleteUserRouteOutput {
   id: string;
 }
 
-export const ROUTE_PACKAGE_NAME = "route";
+export const ROUTE_PACKAGE_NAME = 'route';
 
 function createBaseRoutes(): Routes {
   return {
-    id: "",
-    routeName: "",
-    userId: "",
-    country: "",
+    id: '',
+    routeName: '',
+    userId: '',
+    country: '',
     distance: 0,
-    durationLabel: "",
+    durationLabel: '',
     pointsCount: 0,
-    difficulty: "",
+    difficulty: '',
     points: [],
   };
 }
 
 export const Routes: MessageFns<Routes> = {
   encode(message: Routes, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
-    if (message.routeName !== "") {
+    if (message.routeName !== '') {
       writer.uint32(18).string(message.routeName);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(26).string(message.userId);
     }
-    if (message.country !== "") {
+    if (message.country !== '') {
       writer.uint32(34).string(message.country);
     }
     if (message.distance !== 0) {
       writer.uint32(41).double(message.distance);
     }
-    if (message.durationLabel !== "") {
+    if (message.durationLabel !== '') {
       writer.uint32(50).string(message.durationLabel);
     }
     if (message.pointsCount !== 0) {
       writer.uint32(56).int32(message.pointsCount);
     }
-    if (message.difficulty !== "") {
+    if (message.difficulty !== '') {
       writer.uint32(66).string(message.difficulty);
     }
     for (const v of message.points) {
@@ -215,12 +215,12 @@ export const Routes: MessageFns<Routes> = {
 };
 
 function createBaseRoutePoints(): RoutePoints {
-  return { id: "", latitude: 0, longitude: 0, order: 0 };
+  return { id: '', latitude: 0, longitude: 0, order: 0 };
 }
 
 export const RoutePoints: MessageFns<RoutePoints> = {
   encode(message: RoutePoints, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
     if (message.latitude !== 0) {
@@ -297,38 +297,38 @@ export const RoutePoints: MessageFns<RoutePoints> = {
 
 function createBaseCreateRouteInput(): CreateRouteInput {
   return {
-    routeName: "",
-    country: "",
-    userId: "",
+    routeName: '',
+    country: '',
+    userId: '',
     distance: 0,
-    durationLabel: "",
+    durationLabel: '',
     pointsCount: 0,
-    difficulty: "",
+    difficulty: '',
     points: [],
   };
 }
 
 export const CreateRouteInput: MessageFns<CreateRouteInput> = {
   encode(message: CreateRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.routeName !== "") {
+    if (message.routeName !== '') {
       writer.uint32(10).string(message.routeName);
     }
-    if (message.country !== "") {
+    if (message.country !== '') {
       writer.uint32(18).string(message.country);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(26).string(message.userId);
     }
     if (message.distance !== 0) {
       writer.uint32(33).double(message.distance);
     }
-    if (message.durationLabel !== "") {
+    if (message.durationLabel !== '') {
       writer.uint32(42).string(message.durationLabel);
     }
     if (message.pointsCount !== 0) {
       writer.uint32(48).int32(message.pointsCount);
     }
-    if (message.difficulty !== "") {
+    if (message.difficulty !== '') {
       writer.uint32(58).string(message.difficulty);
     }
     for (const v of message.points) {
@@ -419,18 +419,18 @@ export const CreateRouteInput: MessageFns<CreateRouteInput> = {
 };
 
 function createBaseUpdateRouteInput(): UpdateRouteInput {
-  return { id: "", routeName: "", userId: "" };
+  return { id: '', routeName: '', userId: '' };
 }
 
 export const UpdateRouteInput: MessageFns<UpdateRouteInput> = {
   encode(message: UpdateRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
-    if (message.routeName !== "") {
+    if (message.routeName !== '') {
       writer.uint32(18).string(message.routeName);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(26).string(message.userId);
     }
     if (message.country !== undefined) {
@@ -533,7 +533,7 @@ export const UpdateRouteInput: MessageFns<UpdateRouteInput> = {
 };
 
 function createBaseFindManyRoutesInput(): FindManyRoutesInput {
-  return { externalRoutes: false, userId: "" };
+  return { externalRoutes: false, userId: '' };
 }
 
 export const FindManyRoutesInput: MessageFns<FindManyRoutesInput> = {
@@ -544,7 +544,7 @@ export const FindManyRoutesInput: MessageFns<FindManyRoutesInput> = {
     if (message.externalRoutes !== false) {
       writer.uint32(16).bool(message.externalRoutes);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(26).string(message.userId);
     }
     return writer;
@@ -629,12 +629,12 @@ export const FindManyRoutesOutput: MessageFns<FindManyRoutesOutput> = {
 };
 
 function createBaseFindOneRouteInput(): FindOneRouteInput {
-  return { id: "" };
+  return { id: '' };
 }
 
 export const FindOneRouteInput: MessageFns<FindOneRouteInput> = {
   encode(message: FindOneRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -666,15 +666,15 @@ export const FindOneRouteInput: MessageFns<FindOneRouteInput> = {
 };
 
 function createBaseDeleteUserRouteInput(): DeleteUserRouteInput {
-  return { id: "", userId: "" };
+  return { id: '', userId: '' };
 }
 
 export const DeleteUserRouteInput: MessageFns<DeleteUserRouteInput> = {
   encode(message: DeleteUserRouteInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
-    if (message.userId !== "") {
+    if (message.userId !== '') {
       writer.uint32(18).string(message.userId);
     }
     return writer;
@@ -714,12 +714,12 @@ export const DeleteUserRouteInput: MessageFns<DeleteUserRouteInput> = {
 };
 
 function createBaseDeleteUserRouteOutput(): DeleteUserRouteOutput {
-  return { id: "" };
+  return { id: '' };
 }
 
 export const DeleteUserRouteOutput: MessageFns<DeleteUserRouteOutput> = {
   encode(message: DeleteUserRouteOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== '') {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -755,24 +755,39 @@ export interface RouteClient {
 
   updateRoute(request: UpdateRouteInput, metadata?: Metadata): Observable<Routes>;
 
-  findManyRoutes(request: FindManyRoutesInput, metadata?: Metadata): Observable<FindManyRoutesOutput>;
+  findManyRoutes(
+    request: FindManyRoutesInput,
+    metadata?: Metadata,
+  ): Observable<FindManyRoutesOutput>;
 
   findOneRoute(request: FindOneRouteInput, metadata?: Metadata): Observable<Routes>;
 
-  deleteUserRoute(request: DeleteUserRouteInput, metadata?: Metadata): Observable<DeleteUserRouteOutput>;
+  deleteUserRoute(
+    request: DeleteUserRouteInput,
+    metadata?: Metadata,
+  ): Observable<DeleteUserRouteOutput>;
 }
 
 export interface RouteController {
-  createRoute(request: CreateRouteInput, metadata?: Metadata): Promise<Routes> | Observable<Routes> | Routes;
+  createRoute(
+    request: CreateRouteInput,
+    metadata?: Metadata,
+  ): Promise<Routes> | Observable<Routes> | Routes;
 
-  updateRoute(request: UpdateRouteInput, metadata?: Metadata): Promise<Routes> | Observable<Routes> | Routes;
+  updateRoute(
+    request: UpdateRouteInput,
+    metadata?: Metadata,
+  ): Promise<Routes> | Observable<Routes> | Routes;
 
   findManyRoutes(
     request: FindManyRoutesInput,
     metadata?: Metadata,
   ): Promise<FindManyRoutesOutput> | Observable<FindManyRoutesOutput> | FindManyRoutesOutput;
 
-  findOneRoute(request: FindOneRouteInput, metadata?: Metadata): Promise<Routes> | Observable<Routes> | Routes;
+  findOneRoute(
+    request: FindOneRouteInput,
+    metadata?: Metadata,
+  ): Promise<Routes> | Observable<Routes> | Routes;
 
   deleteUserRoute(
     request: DeleteUserRouteInput,
@@ -782,69 +797,82 @@ export interface RouteController {
 
 export function RouteControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createRoute", "updateRoute", "findManyRoutes", "findOneRoute", "deleteUserRoute"];
+    const grpcMethods: string[] = [
+      'createRoute',
+      'updateRoute',
+      'findManyRoutes',
+      'findOneRoute',
+      'deleteUserRoute',
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("Route", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod('Route', method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("Route", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod('Route', method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const ROUTE_SERVICE_NAME = "Route";
+export const ROUTE_SERVICE_NAME = 'Route';
 
 export type RouteService = typeof RouteService;
 export const RouteService = {
   createRoute: {
-    path: "/route.Route/createRoute",
+    path: '/route.Route/createRoute',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: CreateRouteInput): Buffer => Buffer.from(CreateRouteInput.encode(value).finish()),
+    requestSerialize: (value: CreateRouteInput): Buffer =>
+      Buffer.from(CreateRouteInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): CreateRouteInput => CreateRouteInput.decode(value),
     responseSerialize: (value: Routes): Buffer => Buffer.from(Routes.encode(value).finish()),
     responseDeserialize: (value: Buffer): Routes => Routes.decode(value),
   },
   updateRoute: {
-    path: "/route.Route/updateRoute",
+    path: '/route.Route/updateRoute',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UpdateRouteInput): Buffer => Buffer.from(UpdateRouteInput.encode(value).finish()),
+    requestSerialize: (value: UpdateRouteInput): Buffer =>
+      Buffer.from(UpdateRouteInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): UpdateRouteInput => UpdateRouteInput.decode(value),
     responseSerialize: (value: Routes): Buffer => Buffer.from(Routes.encode(value).finish()),
     responseDeserialize: (value: Buffer): Routes => Routes.decode(value),
   },
   findManyRoutes: {
-    path: "/route.Route/findManyRoutes",
+    path: '/route.Route/findManyRoutes',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: FindManyRoutesInput): Buffer => Buffer.from(FindManyRoutesInput.encode(value).finish()),
+    requestSerialize: (value: FindManyRoutesInput): Buffer =>
+      Buffer.from(FindManyRoutesInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): FindManyRoutesInput => FindManyRoutesInput.decode(value),
     responseSerialize: (value: FindManyRoutesOutput): Buffer =>
       Buffer.from(FindManyRoutesOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): FindManyRoutesOutput => FindManyRoutesOutput.decode(value),
+    responseDeserialize: (value: Buffer): FindManyRoutesOutput =>
+      FindManyRoutesOutput.decode(value),
   },
   findOneRoute: {
-    path: "/route.Route/findOneRoute",
+    path: '/route.Route/findOneRoute',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: FindOneRouteInput): Buffer => Buffer.from(FindOneRouteInput.encode(value).finish()),
+    requestSerialize: (value: FindOneRouteInput): Buffer =>
+      Buffer.from(FindOneRouteInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): FindOneRouteInput => FindOneRouteInput.decode(value),
     responseSerialize: (value: Routes): Buffer => Buffer.from(Routes.encode(value).finish()),
     responseDeserialize: (value: Buffer): Routes => Routes.decode(value),
   },
   deleteUserRoute: {
-    path: "/route.Route/deleteUserRoute",
+    path: '/route.Route/deleteUserRoute',
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: DeleteUserRouteInput): Buffer => Buffer.from(DeleteUserRouteInput.encode(value).finish()),
+    requestSerialize: (value: DeleteUserRouteInput): Buffer =>
+      Buffer.from(DeleteUserRouteInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): DeleteUserRouteInput => DeleteUserRouteInput.decode(value),
     responseSerialize: (value: DeleteUserRouteOutput): Buffer =>
       Buffer.from(DeleteUserRouteOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): DeleteUserRouteOutput => DeleteUserRouteOutput.decode(value),
+    responseDeserialize: (value: Buffer): DeleteUserRouteOutput =>
+      DeleteUserRouteOutput.decode(value),
   },
 } as const;
 

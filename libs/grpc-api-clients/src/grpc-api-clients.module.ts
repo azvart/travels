@@ -54,10 +54,10 @@ import { QuestGrpcService } from '@app/grpc-api-clients/quest';
               package: QUEST_PACKAGE_NAME,
               protoPath: join(process.cwd(), 'libs/proto/src/quest', 'quest.proto'),
               url: `${configService.get<string>('QUEST_GRPC_HOST')}:${configService.get('QUEST_GRPC_PORT')}`,
-            }
+            },
           };
         },
-        name: 'QUEST_GRPC_SERVICE'
+        name: 'QUEST_GRPC_SERVICE',
       },
     ]),
   ],

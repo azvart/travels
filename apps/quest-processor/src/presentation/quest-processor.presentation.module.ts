@@ -3,10 +3,9 @@ import { QuestProcessorPresentationService } from './quest-processor.presentatio
 import { QuestProcessorPresentationController } from './quest-processor.presentation.controller';
 import { UpdateUserQuestProgressModule } from '../use-case/update-user-quest/update-user-quest-progress.module';
 
-
 @Module({
   imports: [UpdateUserQuestProgressModule],
   controllers: [QuestProcessorPresentationController],
-  providers: [QuestProcessorPresentationService]
+  providers: [QuestProcessorPresentationService],
 })
 export class QuestProcessorPresentationModule {}

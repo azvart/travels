@@ -5,18 +5,13 @@ import { IGetUser } from 'libs/interfaces';
 
 @Injectable()
 export class GetUserFullHandler {
+  public constructor(private readonly accountGrpcService: AccountGrpcService) {}
 
-  public constructor(
-    private readonly accountGrpcService: AccountGrpcService
-  ){}
-
-
-
-  public async run(data: IGetUser){
+  public async run(data: IGetUser) {
     return firstValueFrom(
       this.accountGrpcService.service.getUser({
-        ...data
+        ...data,
       }),
-    )
+    );
   }
 }

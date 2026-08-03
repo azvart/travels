@@ -11,22 +11,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity, UserGamificationEntity, UserTelemetryEntity } from '@app/entities/enity';
 import { Repository } from 'typeorm';
 
-
 @Injectable()
-export class UserRepository implements UserAbstractRepository{
-
+export class UserRepository implements UserAbstractRepository {
   public constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(UserTelemetryEntity)
     private readonly userTelemetryRepository: Repository<UserTelemetryEntity>,
     @InjectRepository(UserGamificationEntity)
-    private readonly userGamificationRepository: Repository<UserGamificationEntity>
-  ){}
+    private readonly userGamificationRepository: Repository<UserGamificationEntity>,
+  ) {}
 
-  public async updateUser(userId: string,data:Omit<IUpdateUserInputInterface, 'id'>){
+  public async updateUser(userId: string, data: Omit<IUpdateUserInputInterface, 'id'>) {
     const updatedUser = await this.userRepository.update(userId, data);
-    if(!updatedUser.affected) {
+    if (!updatedUser.affected) {
       throw new Error(`Can't update user with id: ${userId}`);
     }
 
@@ -35,100 +33,101 @@ export class UserRepository implements UserAbstractRepository{
         id: userId,
       },
       relations: {
-        account: true
-      }
-    })
+        account: true,
+      },
+    });
   }
 
-
-  public async createUser(accountId: string){
+  public async createUser(accountId: string) {
     return this.userRepository.save(
       this.userRepository.create({
         account: {
           id: accountId,
-        }
-      })
-    )
+        },
+      }),
+    );
   }
 
-  public async getUser(data: IGetUser){
+  public async getUser(data: IGetUser) {
     return this.userRepository.findOneOrFail({
       where: {
         id: data.userId,
         account: {
           id: data.accountId,
-          email: data.email
-        }
+          email: data.email,
+        },
       },
       relations: {
-        account: true
-      }
-    })
+        account: true,
+      },
+    });
   }
 
-
-  public async findByAccountId(accountId: string){
-      return this.userRepository.findOneOrFail({
-        where: {
-          account: {
-            id: accountId
-          }
+  public async findByAccountId(accountId: string) {
+    return this.userRepository.findOneOrFail({
+      where: {
+        account: {
+          id: accountId,
         },
-        relations: {
-          account: true
-        }
-      })
+      },
+      relations: {
+        account: true,
+      },
+    });
   }
 
-  public async createUserGamification(userId:string){
+  public async createUserGamification(userId: string) {
     return this.userGamificationRepository.save(
       this.userGamificationRepository.create({
         user: {
-          id: userId
-        }
-      })
-    )
+          id: userId,
+        },
+      }),
+    );
   }
 
-  public async createUserTelemetry(userId: string, routeId: string){
+  public async createUserTelemetry(userId: string, routeId: string) {
     return this.userTelemetryRepository.save(
       this.userTelemetryRepository.create({
         userId,
-        routeId
-      })
-    )
+        routeId,
+      }),
+    );
   }
 
-  public async getUserTelemetry(userId:string, routeId: string):Promise<IUserTelemetry>{
+  public async getUserTelemetry(userId: string, routeId: string): Promise<IUserTelemetry> {
     return this.userTelemetryRepository.findOneOrFail({
       where: {
         userId,
-        routeId
+        routeId,
       },
-    })
+    });
   }
 
-  public async getUserGamification(userId:string):Promise<IUserGamification>{
+  public async getUserGamification(userId: string): Promise<IUserGamification> {
     return this.userGamificationRepository.findOneOrFail({
       where: {
         user: {
-          id: userId
-        }
+          id: userId,
+        },
       },
-       relations: {
-        user: true
-       }
-    })
+      relations: {
+        user: true,
+      },
+    });
   }
 
-  public async updateUserTelemetry(data:IUpdateUserTelemetry){
-    return !!await this.userTelemetryRepository.update({
-      userId: data.userId,
-      routeId: data.routeId
-    }, {
-      steps: data.steps,
-      avgPace: data.avgPace,
-      duration: data.duration
-    })
+  public async updateUserTelemetry(data: IUpdateUserTelemetry) {
+    return !!(await this.userTelemetryRepository.update(
+      {
+        userId: data.userId,
+        routeId: data.routeId,
+      },
+      {
+        steps: data.steps,
+        avgPace: data.avgPace,
+        duration: data.duration,
+      },
+    ));
   }
 }
