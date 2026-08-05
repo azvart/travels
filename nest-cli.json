@@ -37,6 +37,15 @@
         "tsConfigPath": "libs/auth/tsconfig.lib.json"
       }
     },
+    "awards": {
+      "type": "application",
+      "root": "apps/awards",
+      "entryFile": "main",
+      "sourceRoot": "apps/awards/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/awards/tsconfig.app.json"
+      }
+    },
     "entities": {
       "type": "library",
       "root": "libs/entities",
