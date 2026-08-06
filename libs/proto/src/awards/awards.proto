@@ -1,0 +1,83 @@
+syntax = 'proto3';
+
+package awards;
+
+import 'google/protobuf/wrappers.proto';
+import 'google/protobuf/empty.proto';
+
+service Awards {
+  rpc createAward(CreateAward) returns (Award);
+  rpc updateAward(UpdateAward) returns (Award);
+  rpc deleteAward(google.protobuf.StringValue) returns(Award);
+  rpc findManyAwards(google.protobuf.Empty) returns(AwardsList);
+  rpc findOneAward(google.protobuf.StringValue) returns(Award);
+
+  rpc createUserAward(CreateUserAward) returns (UserAward);
+  rpc updateUserAward(UpdateUserAward) returns(UserAward);
+  rpc deleteUserAward(DeleteUserAward) returns(UserAward);
+  rpc findManyUserAwards(FindManyUserAwards) returns(UserAwardsList);
+  rpc findOneUserAwards(FindOneUserAwards) returns(UserAward);
+}
+
+message Award {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  optional string imageUrl = 4;
+  string createdAt = 5;
+  optional string updatedAt = 6;
+}
+
+message UserAward {
+  string id = 1;
+  string userId = 2;
+  Award awards = 3;
+  optional string grantedAt = 4;
+}
+
+
+message CreateAward {
+  string name = 1;
+  string description = 2;
+  optional string imageUrl = 3;
+}
+
+message CreateUserAward {
+  string userId = 1;
+  string awardId = 2;
+}
+
+message UpdateAward {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional string imageUrl = 4;
+}
+
+message UpdateUserAward {
+  string id = 1;
+  string userId = 2;
+  string grantedAt = 3;
+}
+
+message AwardsList {
+  repeated Award data = 1;
+}
+
+message UserAwardsList {
+  repeated UserAward data = 1;
+}
+
+message DeleteUserAward {
+  string userAwardId = 1;
+  string userId = 2;
+}
+
+message FindManyUserAwards {
+  string userId = 1;
+}
+
+message FindOneUserAwards {
+  string id = 1;
+  string userId = 2;
+}

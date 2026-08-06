@@ -5,9 +5,9 @@
 // source: google/protobuf/empty.proto
 
 /* eslint-disable */
-import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
+import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
-export const protobufPackage = 'google.protobuf';
+export const protobufPackage = "google.protobuf";
 
 /**
  * A generic empty message that you can re-use to avoid defining duplicated
@@ -18,9 +18,10 @@ export const protobufPackage = 'google.protobuf';
  *       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
  *     }
  */
-export interface Empty {}
+export interface Empty {
+}
 
-export const GOOGLE_PROTOBUF_PACKAGE_NAME = 'google.protobuf';
+export const GOOGLE_PROTOBUF_PACKAGE_NAME = "google.protobuf";
 
 function createBaseEmpty(): Empty {
   return {};

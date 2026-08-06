@@ -25,7 +25,7 @@ export class AwardsEntity implements IAwards {
   @Column({
     nullable: true,
   })
-  public imageUrl!: string | null;
+  public imageUrl!: string;
 
   @CreateDateColumn()
   public createdAt!: Date;

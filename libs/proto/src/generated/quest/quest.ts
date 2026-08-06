@@ -5,12 +5,12 @@
 // source: quest/quest.proto
 
 /* eslint-disable */
-import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
-import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from '@grpc/grpc-js';
-import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
+import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
+import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
+import { Observable } from "rxjs";
 
-export const protobufPackage = 'quest';
+export const protobufPackage = "quest";
 
 export interface UserQuestEntity {
   id: string;
@@ -136,32 +136,24 @@ export interface DeletedManyQuestsResult {
   id: string[];
 }
 
-export const QUEST_PACKAGE_NAME = 'quest';
+export const QUEST_PACKAGE_NAME = "quest";
 
 function createBaseUserQuestEntity(): UserQuestEntity {
-  return {
-    id: '',
-    userId: '',
-    questId: '',
-    status: '',
-    progress: 0,
-    finishResult: 0,
-    createdAt: '',
-  };
+  return { id: "", userId: "", questId: "", status: "", progress: 0, finishResult: 0, createdAt: "" };
 }
 
 export const UserQuestEntity: MessageFns<UserQuestEntity> = {
   encode(message: UserQuestEntity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(18).string(message.userId);
     }
-    if (message.questId !== '') {
+    if (message.questId !== "") {
       writer.uint32(26).string(message.questId);
     }
-    if (message.status !== '') {
+    if (message.status !== "") {
       writer.uint32(34).string(message.status);
     }
     if (message.progress !== 0) {
@@ -173,7 +165,7 @@ export const UserQuestEntity: MessageFns<UserQuestEntity> = {
     if (message.completedAt !== undefined) {
       writer.uint32(58).string(message.completedAt);
     }
-    if (message.createdAt !== '') {
+    if (message.createdAt !== "") {
       writer.uint32(66).string(message.createdAt);
     }
     return writer;
@@ -265,10 +257,7 @@ function createBaseFindManyUserQuestsOutput(): FindManyUserQuestsOutput {
 }
 
 export const FindManyUserQuestsOutput: MessageFns<FindManyUserQuestsOutput> = {
-  encode(
-    message: FindManyUserQuestsOutput,
-    writer: BinaryWriter = new BinaryWriter(),
-  ): BinaryWriter {
+  encode(message: FindManyUserQuestsOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     for (const v of message.userQuests) {
       UserQuestEntity.encode(v!, writer.uint32(10).fork()).join();
     }
@@ -338,12 +327,12 @@ export const FindAllUserQuests: MessageFns<FindAllUserQuests> = {
 };
 
 function createBaseDeleteUserQuests(): DeleteUserQuests {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const DeleteUserQuests: MessageFns<DeleteUserQuests> = {
   encode(message: DeleteUserQuests, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -375,12 +364,12 @@ export const DeleteUserQuests: MessageFns<DeleteUserQuests> = {
 };
 
 function createBaseDeleteUserQuestInput(): DeleteUserQuestInput {
-  return { questId: '' };
+  return { questId: "" };
 }
 
 export const DeleteUserQuestInput: MessageFns<DeleteUserQuestInput> = {
   encode(message: DeleteUserQuestInput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.questId !== '') {
+    if (message.questId !== "") {
       writer.uint32(10).string(message.questId);
     }
     return writer;
@@ -412,15 +401,15 @@ export const DeleteUserQuestInput: MessageFns<DeleteUserQuestInput> = {
 };
 
 function createBaseAttacheQuestToUser(): AttacheQuestToUser {
-  return { userId: '', questId: '' };
+  return { userId: "", questId: "" };
 }
 
 export const AttacheQuestToUser: MessageFns<AttacheQuestToUser> = {
   encode(message: AttacheQuestToUser, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
-    if (message.questId !== '') {
+    if (message.questId !== "") {
       writer.uint32(18).string(message.questId);
     }
     return writer;
@@ -460,15 +449,15 @@ export const AttacheQuestToUser: MessageFns<AttacheQuestToUser> = {
 };
 
 function createBaseCompleteQuest(): CompleteQuest {
-  return { userId: '', questId: '' };
+  return { userId: "", questId: "" };
 }
 
 export const CompleteQuest: MessageFns<CompleteQuest> = {
   encode(message: CompleteQuest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
-    if (message.questId !== '') {
+    if (message.questId !== "") {
       writer.uint32(18).string(message.questId);
     }
     return writer;
@@ -578,12 +567,12 @@ export const UpdateUserQuestData: MessageFns<UpdateUserQuestData> = {
 };
 
 function createBaseUpdateUserQuest(): UpdateUserQuest {
-  return { userId: '', data: undefined };
+  return { userId: "", data: undefined };
 }
 
 export const UpdateUserQuest: MessageFns<UpdateUserQuest> = {
   encode(message: UpdateUserQuest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
     if (message.data !== undefined) {
@@ -696,12 +685,12 @@ export const FindManyUserQuestsData: MessageFns<FindManyUserQuestsData> = {
 };
 
 function createBaseFindManyUserQuests(): FindManyUserQuests {
-  return { userId: '', data: undefined };
+  return { userId: "", data: undefined };
 }
 
 export const FindManyUserQuests: MessageFns<FindManyUserQuests> = {
   encode(message: FindManyUserQuests, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
     if (message.data !== undefined) {
@@ -744,15 +733,15 @@ export const FindManyUserQuests: MessageFns<FindManyUserQuests> = {
 };
 
 function createBaseFindOneUserQuest(): FindOneUserQuest {
-  return { userId: '', questId: '' };
+  return { userId: "", questId: "" };
 }
 
 export const FindOneUserQuest: MessageFns<FindOneUserQuest> = {
   encode(message: FindOneUserQuest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
-    if (message.questId !== '') {
+    if (message.questId !== "") {
       writer.uint32(18).string(message.questId);
     }
     return writer;
@@ -792,37 +781,30 @@ export const FindOneUserQuest: MessageFns<FindOneUserQuest> = {
 };
 
 function createBaseQuestEntity(): QuestEntity {
-  return {
-    id: '',
-    questName: '',
-    questDescription: '',
-    questReward: '',
-    questCondition: '',
-    questCountry: '',
-  };
+  return { id: "", questName: "", questDescription: "", questReward: "", questCondition: "", questCountry: "" };
 }
 
 export const QuestEntity: MessageFns<QuestEntity> = {
   encode(message: QuestEntity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.questName !== '') {
+    if (message.questName !== "") {
       writer.uint32(18).string(message.questName);
     }
-    if (message.questDescription !== '') {
+    if (message.questDescription !== "") {
       writer.uint32(26).string(message.questDescription);
     }
-    if (message.questReward !== '') {
+    if (message.questReward !== "") {
       writer.uint32(34).string(message.questReward);
     }
-    if (message.questCondition !== '') {
+    if (message.questCondition !== "") {
       writer.uint32(42).string(message.questCondition);
     }
     if (message.questType !== undefined) {
       writer.uint32(50).string(message.questType);
     }
-    if (message.questCountry !== '') {
+    if (message.questCountry !== "") {
       writer.uint32(58).string(message.questCountry);
     }
     return writer;
@@ -902,33 +884,27 @@ export const QuestEntity: MessageFns<QuestEntity> = {
 };
 
 function createBaseCreateQuest(): CreateQuest {
-  return {
-    questName: '',
-    questDescription: '',
-    questReward: '',
-    questCondition: '',
-    questCountry: '',
-  };
+  return { questName: "", questDescription: "", questReward: "", questCondition: "", questCountry: "" };
 }
 
 export const CreateQuest: MessageFns<CreateQuest> = {
   encode(message: CreateQuest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.questName !== '') {
+    if (message.questName !== "") {
       writer.uint32(10).string(message.questName);
     }
-    if (message.questDescription !== '') {
+    if (message.questDescription !== "") {
       writer.uint32(18).string(message.questDescription);
     }
-    if (message.questReward !== '') {
+    if (message.questReward !== "") {
       writer.uint32(26).string(message.questReward);
     }
-    if (message.questCondition !== '') {
+    if (message.questCondition !== "") {
       writer.uint32(34).string(message.questCondition);
     }
     if (message.questType !== undefined) {
       writer.uint32(42).string(message.questType);
     }
-    if (message.questCountry !== '') {
+    if (message.questCountry !== "") {
       writer.uint32(50).string(message.questCountry);
     }
     return writer;
@@ -1000,12 +976,12 @@ export const CreateQuest: MessageFns<CreateQuest> = {
 };
 
 function createBaseUpdateQuest(): UpdateQuest {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const UpdateQuest: MessageFns<UpdateQuest> = {
   encode(message: UpdateQuest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     if (message.questName !== undefined) {
@@ -1188,12 +1164,12 @@ export const FindManyQuestsResult: MessageFns<FindManyQuestsResult> = {
 };
 
 function createBaseFindOneQuest(): FindOneQuest {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const FindOneQuest: MessageFns<FindOneQuest> = {
   encode(message: FindOneQuest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -1225,12 +1201,12 @@ export const FindOneQuest: MessageFns<FindOneQuest> = {
 };
 
 function createBaseDeleteOneQuest(): DeleteOneQuest {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const DeleteOneQuest: MessageFns<DeleteOneQuest> = {
   encode(message: DeleteOneQuest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -1262,12 +1238,12 @@ export const DeleteOneQuest: MessageFns<DeleteOneQuest> = {
 };
 
 function createBaseDeleteOneQuestResult(): DeleteOneQuestResult {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const DeleteOneQuestResult: MessageFns<DeleteOneQuestResult> = {
   encode(message: DeleteOneQuestResult, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -1340,10 +1316,7 @@ function createBaseDeletedManyQuestsResult(): DeletedManyQuestsResult {
 }
 
 export const DeletedManyQuestsResult: MessageFns<DeletedManyQuestsResult> = {
-  encode(
-    message: DeletedManyQuestsResult,
-    writer: BinaryWriter = new BinaryWriter(),
-  ): BinaryWriter {
+  encode(message: DeletedManyQuestsResult, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     for (const v of message.id) {
       writer.uint32(10).string(v!);
     }
@@ -1396,39 +1369,24 @@ export interface QuestClient {
 
   updateQuests(request: UpdateUserQuest, metadata?: Metadata): Observable<UserQuestEntity>;
 
-  findManyUserQuests(
-    request: FindManyUserQuests,
-    metadata?: Metadata,
-  ): Observable<FindManyUserQuestsOutput>;
+  findManyUserQuests(request: FindManyUserQuests, metadata?: Metadata): Observable<FindManyUserQuestsOutput>;
 
   findOneUserQuest(request: FindOneUserQuest, metadata?: Metadata): Observable<UserQuestEntity>;
 
-  findAllUserQuests(
-    request: FindAllUserQuests,
-    metadata?: Metadata,
-  ): Observable<FindManyUserQuestsOutput>;
+  findAllUserQuests(request: FindAllUserQuests, metadata?: Metadata): Observable<FindManyUserQuestsOutput>;
 }
 
 export interface QuestController {
-  createQuest(
-    request: CreateQuest,
-    metadata?: Metadata,
-  ): Promise<QuestEntity> | Observable<QuestEntity> | QuestEntity;
+  createQuest(request: CreateQuest, metadata?: Metadata): Promise<QuestEntity> | Observable<QuestEntity> | QuestEntity;
 
-  updateQuest(
-    request: UpdateQuest,
-    metadata?: Metadata,
-  ): Promise<QuestEntity> | Observable<QuestEntity> | QuestEntity;
+  updateQuest(request: UpdateQuest, metadata?: Metadata): Promise<QuestEntity> | Observable<QuestEntity> | QuestEntity;
 
   findMany(
     request: FindManyQuests,
     metadata?: Metadata,
   ): Promise<FindManyQuestsResult> | Observable<FindManyQuestsResult> | FindManyQuestsResult;
 
-  findOne(
-    request: FindOneQuest,
-    metadata?: Metadata,
-  ): Promise<QuestEntity> | Observable<QuestEntity> | QuestEntity;
+  findOne(request: FindOneQuest, metadata?: Metadata): Promise<QuestEntity> | Observable<QuestEntity> | QuestEntity;
 
   deleteOne(
     request: DeleteOneQuest,
@@ -1438,10 +1396,7 @@ export interface QuestController {
   deleteMany(
     request: DeleteManyQuests,
     metadata?: Metadata,
-  ):
-    | Promise<DeletedManyQuestsResult>
-    | Observable<DeletedManyQuestsResult>
-    | DeletedManyQuestsResult;
+  ): Promise<DeletedManyQuestsResult> | Observable<DeletedManyQuestsResult> | DeletedManyQuestsResult;
 
   attachQuestToUser(
     request: AttacheQuestToUser,
@@ -1466,10 +1421,7 @@ export interface QuestController {
   findManyUserQuests(
     request: FindManyUserQuests,
     metadata?: Metadata,
-  ):
-    | Promise<FindManyUserQuestsOutput>
-    | Observable<FindManyUserQuestsOutput>
-    | FindManyUserQuestsOutput;
+  ): Promise<FindManyUserQuestsOutput> | Observable<FindManyUserQuestsOutput> | FindManyUserQuestsOutput;
 
   findOneUserQuest(
     request: FindOneUserQuest,
@@ -1479,192 +1431,163 @@ export interface QuestController {
   findAllUserQuests(
     request: FindAllUserQuests,
     metadata?: Metadata,
-  ):
-    | Promise<FindManyUserQuestsOutput>
-    | Observable<FindManyUserQuestsOutput>
-    | FindManyUserQuestsOutput;
+  ): Promise<FindManyUserQuestsOutput> | Observable<FindManyUserQuestsOutput> | FindManyUserQuestsOutput;
 }
 
 export function QuestControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      'createQuest',
-      'updateQuest',
-      'findMany',
-      'findOne',
-      'deleteOne',
-      'deleteMany',
-      'attachQuestToUser',
-      'completeQuest',
-      'deleteQuests',
-      'updateQuests',
-      'findManyUserQuests',
-      'findOneUserQuest',
-      'findAllUserQuests',
+      "createQuest",
+      "updateQuest",
+      "findMany",
+      "findOne",
+      "deleteOne",
+      "deleteMany",
+      "attachQuestToUser",
+      "completeQuest",
+      "deleteQuests",
+      "updateQuests",
+      "findManyUserQuests",
+      "findOneUserQuest",
+      "findAllUserQuests",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod('Quest', method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod("Quest", method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod('Quest', method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod("Quest", method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const QUEST_SERVICE_NAME = 'Quest';
+export const QUEST_SERVICE_NAME = "Quest";
 
 export type QuestService = typeof QuestService;
 export const QuestService = {
   createQuest: {
-    path: '/quest.Quest/createQuest',
+    path: "/quest.Quest/createQuest",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: CreateQuest): Buffer =>
-      Buffer.from(CreateQuest.encode(value).finish()),
+    requestSerialize: (value: CreateQuest): Buffer => Buffer.from(CreateQuest.encode(value).finish()),
     requestDeserialize: (value: Buffer): CreateQuest => CreateQuest.decode(value),
-    responseSerialize: (value: QuestEntity): Buffer =>
-      Buffer.from(QuestEntity.encode(value).finish()),
+    responseSerialize: (value: QuestEntity): Buffer => Buffer.from(QuestEntity.encode(value).finish()),
     responseDeserialize: (value: Buffer): QuestEntity => QuestEntity.decode(value),
   },
   updateQuest: {
-    path: '/quest.Quest/updateQuest',
+    path: "/quest.Quest/updateQuest",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UpdateQuest): Buffer =>
-      Buffer.from(UpdateQuest.encode(value).finish()),
+    requestSerialize: (value: UpdateQuest): Buffer => Buffer.from(UpdateQuest.encode(value).finish()),
     requestDeserialize: (value: Buffer): UpdateQuest => UpdateQuest.decode(value),
-    responseSerialize: (value: QuestEntity): Buffer =>
-      Buffer.from(QuestEntity.encode(value).finish()),
+    responseSerialize: (value: QuestEntity): Buffer => Buffer.from(QuestEntity.encode(value).finish()),
     responseDeserialize: (value: Buffer): QuestEntity => QuestEntity.decode(value),
   },
   findMany: {
-    path: '/quest.Quest/findMany',
+    path: "/quest.Quest/findMany",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: FindManyQuests): Buffer =>
-      Buffer.from(FindManyQuests.encode(value).finish()),
+    requestSerialize: (value: FindManyQuests): Buffer => Buffer.from(FindManyQuests.encode(value).finish()),
     requestDeserialize: (value: Buffer): FindManyQuests => FindManyQuests.decode(value),
     responseSerialize: (value: FindManyQuestsResult): Buffer =>
       Buffer.from(FindManyQuestsResult.encode(value).finish()),
-    responseDeserialize: (value: Buffer): FindManyQuestsResult =>
-      FindManyQuestsResult.decode(value),
+    responseDeserialize: (value: Buffer): FindManyQuestsResult => FindManyQuestsResult.decode(value),
   },
   findOne: {
-    path: '/quest.Quest/findOne',
+    path: "/quest.Quest/findOne",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: FindOneQuest): Buffer =>
-      Buffer.from(FindOneQuest.encode(value).finish()),
+    requestSerialize: (value: FindOneQuest): Buffer => Buffer.from(FindOneQuest.encode(value).finish()),
     requestDeserialize: (value: Buffer): FindOneQuest => FindOneQuest.decode(value),
-    responseSerialize: (value: QuestEntity): Buffer =>
-      Buffer.from(QuestEntity.encode(value).finish()),
+    responseSerialize: (value: QuestEntity): Buffer => Buffer.from(QuestEntity.encode(value).finish()),
     responseDeserialize: (value: Buffer): QuestEntity => QuestEntity.decode(value),
   },
   deleteOne: {
-    path: '/quest.Quest/deleteOne',
+    path: "/quest.Quest/deleteOne",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: DeleteOneQuest): Buffer =>
-      Buffer.from(DeleteOneQuest.encode(value).finish()),
+    requestSerialize: (value: DeleteOneQuest): Buffer => Buffer.from(DeleteOneQuest.encode(value).finish()),
     requestDeserialize: (value: Buffer): DeleteOneQuest => DeleteOneQuest.decode(value),
     responseSerialize: (value: DeleteOneQuestResult): Buffer =>
       Buffer.from(DeleteOneQuestResult.encode(value).finish()),
-    responseDeserialize: (value: Buffer): DeleteOneQuestResult =>
-      DeleteOneQuestResult.decode(value),
+    responseDeserialize: (value: Buffer): DeleteOneQuestResult => DeleteOneQuestResult.decode(value),
   },
   deleteMany: {
-    path: '/quest.Quest/deleteMany',
+    path: "/quest.Quest/deleteMany",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: DeleteManyQuests): Buffer =>
-      Buffer.from(DeleteManyQuests.encode(value).finish()),
+    requestSerialize: (value: DeleteManyQuests): Buffer => Buffer.from(DeleteManyQuests.encode(value).finish()),
     requestDeserialize: (value: Buffer): DeleteManyQuests => DeleteManyQuests.decode(value),
     responseSerialize: (value: DeletedManyQuestsResult): Buffer =>
       Buffer.from(DeletedManyQuestsResult.encode(value).finish()),
-    responseDeserialize: (value: Buffer): DeletedManyQuestsResult =>
-      DeletedManyQuestsResult.decode(value),
+    responseDeserialize: (value: Buffer): DeletedManyQuestsResult => DeletedManyQuestsResult.decode(value),
   },
   attachQuestToUser: {
-    path: '/quest.Quest/attachQuestToUser',
+    path: "/quest.Quest/attachQuestToUser",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: AttacheQuestToUser): Buffer =>
-      Buffer.from(AttacheQuestToUser.encode(value).finish()),
+    requestSerialize: (value: AttacheQuestToUser): Buffer => Buffer.from(AttacheQuestToUser.encode(value).finish()),
     requestDeserialize: (value: Buffer): AttacheQuestToUser => AttacheQuestToUser.decode(value),
-    responseSerialize: (value: UserQuestEntity): Buffer =>
-      Buffer.from(UserQuestEntity.encode(value).finish()),
+    responseSerialize: (value: UserQuestEntity): Buffer => Buffer.from(UserQuestEntity.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserQuestEntity => UserQuestEntity.decode(value),
   },
   completeQuest: {
-    path: '/quest.Quest/completeQuest',
+    path: "/quest.Quest/completeQuest",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: CompleteQuest): Buffer =>
-      Buffer.from(CompleteQuest.encode(value).finish()),
+    requestSerialize: (value: CompleteQuest): Buffer => Buffer.from(CompleteQuest.encode(value).finish()),
     requestDeserialize: (value: Buffer): CompleteQuest => CompleteQuest.decode(value),
-    responseSerialize: (value: UserQuestEntity): Buffer =>
-      Buffer.from(UserQuestEntity.encode(value).finish()),
+    responseSerialize: (value: UserQuestEntity): Buffer => Buffer.from(UserQuestEntity.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserQuestEntity => UserQuestEntity.decode(value),
   },
   deleteQuests: {
-    path: '/quest.Quest/deleteQuests',
+    path: "/quest.Quest/deleteQuests",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: DeleteUserQuestInput): Buffer =>
-      Buffer.from(DeleteUserQuestInput.encode(value).finish()),
+    requestSerialize: (value: DeleteUserQuestInput): Buffer => Buffer.from(DeleteUserQuestInput.encode(value).finish()),
     requestDeserialize: (value: Buffer): DeleteUserQuestInput => DeleteUserQuestInput.decode(value),
-    responseSerialize: (value: DeleteUserQuests): Buffer =>
-      Buffer.from(DeleteUserQuests.encode(value).finish()),
+    responseSerialize: (value: DeleteUserQuests): Buffer => Buffer.from(DeleteUserQuests.encode(value).finish()),
     responseDeserialize: (value: Buffer): DeleteUserQuests => DeleteUserQuests.decode(value),
   },
   updateQuests: {
-    path: '/quest.Quest/updateQuests',
+    path: "/quest.Quest/updateQuests",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UpdateUserQuest): Buffer =>
-      Buffer.from(UpdateUserQuest.encode(value).finish()),
+    requestSerialize: (value: UpdateUserQuest): Buffer => Buffer.from(UpdateUserQuest.encode(value).finish()),
     requestDeserialize: (value: Buffer): UpdateUserQuest => UpdateUserQuest.decode(value),
-    responseSerialize: (value: UserQuestEntity): Buffer =>
-      Buffer.from(UserQuestEntity.encode(value).finish()),
+    responseSerialize: (value: UserQuestEntity): Buffer => Buffer.from(UserQuestEntity.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserQuestEntity => UserQuestEntity.decode(value),
   },
   findManyUserQuests: {
-    path: '/quest.Quest/findManyUserQuests',
+    path: "/quest.Quest/findManyUserQuests",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: FindManyUserQuests): Buffer =>
-      Buffer.from(FindManyUserQuests.encode(value).finish()),
+    requestSerialize: (value: FindManyUserQuests): Buffer => Buffer.from(FindManyUserQuests.encode(value).finish()),
     requestDeserialize: (value: Buffer): FindManyUserQuests => FindManyUserQuests.decode(value),
     responseSerialize: (value: FindManyUserQuestsOutput): Buffer =>
       Buffer.from(FindManyUserQuestsOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): FindManyUserQuestsOutput =>
-      FindManyUserQuestsOutput.decode(value),
+    responseDeserialize: (value: Buffer): FindManyUserQuestsOutput => FindManyUserQuestsOutput.decode(value),
   },
   findOneUserQuest: {
-    path: '/quest.Quest/findOneUserQuest',
+    path: "/quest.Quest/findOneUserQuest",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: FindOneUserQuest): Buffer =>
-      Buffer.from(FindOneUserQuest.encode(value).finish()),
+    requestSerialize: (value: FindOneUserQuest): Buffer => Buffer.from(FindOneUserQuest.encode(value).finish()),
     requestDeserialize: (value: Buffer): FindOneUserQuest => FindOneUserQuest.decode(value),
-    responseSerialize: (value: UserQuestEntity): Buffer =>
-      Buffer.from(UserQuestEntity.encode(value).finish()),
+    responseSerialize: (value: UserQuestEntity): Buffer => Buffer.from(UserQuestEntity.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserQuestEntity => UserQuestEntity.decode(value),
   },
   findAllUserQuests: {
-    path: '/quest.Quest/findAllUserQuests',
+    path: "/quest.Quest/findAllUserQuests",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: FindAllUserQuests): Buffer =>
-      Buffer.from(FindAllUserQuests.encode(value).finish()),
+    requestSerialize: (value: FindAllUserQuests): Buffer => Buffer.from(FindAllUserQuests.encode(value).finish()),
     requestDeserialize: (value: Buffer): FindAllUserQuests => FindAllUserQuests.decode(value),
     responseSerialize: (value: FindManyUserQuestsOutput): Buffer =>
       Buffer.from(FindManyUserQuestsOutput.encode(value).finish()),
-    responseDeserialize: (value: Buffer): FindManyUserQuestsOutput =>
-      FindManyUserQuestsOutput.decode(value),
+    responseDeserialize: (value: Buffer): FindManyUserQuestsOutput => FindManyUserQuestsOutput.decode(value),
   },
 } as const;
 

@@ -5,13 +5,13 @@
 // source: account/account.proto
 
 /* eslint-disable */
-import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire';
-import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from '@grpc/grpc-js';
-import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
-import { BoolValue } from '../google/protobuf/wrappers';
+import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
+import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
+import { Observable } from "rxjs";
+import { BoolValue } from "../google/protobuf/wrappers";
 
-export const protobufPackage = 'account';
+export const protobufPackage = "account";
 
 export interface UserGamificationInterface {
   id: string;
@@ -113,18 +113,15 @@ export interface GetUser {
   email: string;
 }
 
-export const ACCOUNT_PACKAGE_NAME = 'account';
+export const ACCOUNT_PACKAGE_NAME = "account";
 
 function createBaseUserGamificationInterface(): UserGamificationInterface {
-  return { id: '', userLevel: 0, userLevelProgress: 0 };
+  return { id: "", userLevel: 0, userLevelProgress: 0 };
 }
 
 export const UserGamificationInterface: MessageFns<UserGamificationInterface> = {
-  encode(
-    message: UserGamificationInterface,
-    writer: BinaryWriter = new BinaryWriter(),
-  ): BinaryWriter {
-    if (message.id !== '') {
+  encode(message: UserGamificationInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     if (message.user !== undefined) {
@@ -189,15 +186,15 @@ export const UserGamificationInterface: MessageFns<UserGamificationInterface> = 
 };
 
 function createBaseCreateUserTelemetry(): CreateUserTelemetry {
-  return { userId: '', routeId: '' };
+  return { userId: "", routeId: "" };
 }
 
 export const CreateUserTelemetry: MessageFns<CreateUserTelemetry> = {
   encode(message: CreateUserTelemetry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
-    if (message.routeId !== '') {
+    if (message.routeId !== "") {
       writer.uint32(18).string(message.routeId);
     }
     return writer;
@@ -237,15 +234,15 @@ export const CreateUserTelemetry: MessageFns<CreateUserTelemetry> = {
 };
 
 function createBaseGetUserTelemetry(): GetUserTelemetry {
-  return { userId: '', routeId: '' };
+  return { userId: "", routeId: "" };
 }
 
 export const GetUserTelemetry: MessageFns<GetUserTelemetry> = {
   encode(message: GetUserTelemetry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
-    if (message.routeId !== '') {
+    if (message.routeId !== "") {
       writer.uint32(18).string(message.routeId);
     }
     return writer;
@@ -285,15 +282,15 @@ export const GetUserTelemetry: MessageFns<GetUserTelemetry> = {
 };
 
 function createBaseUpdateUserTelemetry(): UpdateUserTelemetry {
-  return { userId: '', routeId: '', steps: 0, duration: 0, avgPace: 0 };
+  return { userId: "", routeId: "", steps: 0, duration: 0, avgPace: 0 };
 }
 
 export const UpdateUserTelemetry: MessageFns<UpdateUserTelemetry> = {
   encode(message: UpdateUserTelemetry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
-    if (message.routeId !== '') {
+    if (message.routeId !== "") {
       writer.uint32(18).string(message.routeId);
     }
     if (message.steps !== 0) {
@@ -366,15 +363,15 @@ export const UpdateUserTelemetry: MessageFns<UpdateUserTelemetry> = {
 };
 
 function createBaseUserTelemetryInterface(): UserTelemetryInterface {
-  return { id: '', userId: '', duration: 0, steps: 0, avgPace: 0, routeId: '' };
+  return { id: "", userId: "", duration: 0, steps: 0, avgPace: 0, routeId: "" };
 }
 
 export const UserTelemetryInterface: MessageFns<UserTelemetryInterface> = {
   encode(message: UserTelemetryInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(18).string(message.userId);
     }
     if (message.duration !== 0) {
@@ -386,7 +383,7 @@ export const UserTelemetryInterface: MessageFns<UserTelemetryInterface> = {
     if (message.avgPace !== 0) {
       writer.uint32(40).int32(message.avgPace);
     }
-    if (message.routeId !== '') {
+    if (message.routeId !== "") {
       writer.uint32(50).string(message.routeId);
     }
     return writer;
@@ -458,18 +455,18 @@ export const UserTelemetryInterface: MessageFns<UserTelemetryInterface> = {
 };
 
 function createBaseTokenType(): TokenType {
-  return { id: '', token: '', refreshToken: '' };
+  return { id: "", token: "", refreshToken: "" };
 }
 
 export const TokenType: MessageFns<TokenType> = {
   encode(message: TokenType, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.token !== '') {
+    if (message.token !== "") {
       writer.uint32(18).string(message.token);
     }
-    if (message.refreshToken !== '') {
+    if (message.refreshToken !== "") {
       writer.uint32(26).string(message.refreshToken);
     }
     return writer;
@@ -517,21 +514,21 @@ export const TokenType: MessageFns<TokenType> = {
 };
 
 function createBaseAccountInterface(): AccountInterface {
-  return { id: '', email: '', password: '', registrationType: '' };
+  return { id: "", email: "", password: "", registrationType: "" };
 }
 
 export const AccountInterface: MessageFns<AccountInterface> = {
   encode(message: AccountInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.email !== '') {
+    if (message.email !== "") {
       writer.uint32(18).string(message.email);
     }
-    if (message.password !== '') {
+    if (message.password !== "") {
       writer.uint32(26).string(message.password);
     }
-    if (message.registrationType !== '') {
+    if (message.registrationType !== "") {
       writer.uint32(34).string(message.registrationType);
     }
     return writer;
@@ -587,12 +584,12 @@ export const AccountInterface: MessageFns<AccountInterface> = {
 };
 
 function createBaseUserInterface(): UserInterface {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const UserInterface: MessageFns<UserInterface> = {
   encode(message: UserInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     if (message.firstName !== undefined) {
@@ -712,15 +709,15 @@ export const UserInterface: MessageFns<UserInterface> = {
 };
 
 function createBaseCreateAccount(): CreateAccount {
-  return { email: '', password: '' };
+  return { email: "", password: "" };
 }
 
 export const CreateAccount: MessageFns<CreateAccount> = {
   encode(message: CreateAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.email !== '') {
+    if (message.email !== "") {
       writer.uint32(10).string(message.email);
     }
-    if (message.password !== '') {
+    if (message.password !== "") {
       writer.uint32(18).string(message.password);
     }
     return writer;
@@ -760,12 +757,12 @@ export const CreateAccount: MessageFns<CreateAccount> = {
 };
 
 function createBaseUpdateAccount(): UpdateAccount {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const UpdateAccount: MessageFns<UpdateAccount> = {
   encode(message: UpdateAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     if (message.email !== undefined) {
@@ -819,12 +816,12 @@ export const UpdateAccount: MessageFns<UpdateAccount> = {
 };
 
 function createBaseDeleteAccount(): DeleteAccount {
-  return { accountId: '' };
+  return { accountId: "" };
 }
 
 export const DeleteAccount: MessageFns<DeleteAccount> = {
   encode(message: DeleteAccount, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.accountId !== '') {
+    if (message.accountId !== "") {
       writer.uint32(10).string(message.accountId);
     }
     return writer;
@@ -856,15 +853,15 @@ export const DeleteAccount: MessageFns<DeleteAccount> = {
 };
 
 function createBaseLogin(): Login {
-  return { email: '', password: '' };
+  return { email: "", password: "" };
 }
 
 export const Login: MessageFns<Login> = {
   encode(message: Login, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.email !== '') {
+    if (message.email !== "") {
       writer.uint32(10).string(message.email);
     }
-    if (message.password !== '') {
+    if (message.password !== "") {
       writer.uint32(18).string(message.password);
     }
     return writer;
@@ -904,12 +901,12 @@ export const Login: MessageFns<Login> = {
 };
 
 function createBaseUpdateUser(): UpdateUser {
-  return { id: '' };
+  return { id: "" };
 }
 
 export const UpdateUser: MessageFns<UpdateUser> = {
   encode(message: UpdateUser, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
     if (message.firstName !== undefined) {
@@ -1018,12 +1015,12 @@ export const UpdateUser: MessageFns<UpdateUser> = {
 };
 
 function createBaseRefreshToken(): RefreshToken {
-  return { refreshToken: '' };
+  return { refreshToken: "" };
 }
 
 export const RefreshToken: MessageFns<RefreshToken> = {
   encode(message: RefreshToken, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.refreshToken !== '') {
+    if (message.refreshToken !== "") {
       writer.uint32(10).string(message.refreshToken);
     }
     return writer;
@@ -1055,18 +1052,18 @@ export const RefreshToken: MessageFns<RefreshToken> = {
 };
 
 function createBaseGetUser(): GetUser {
-  return { userId: '', accountId: '', email: '' };
+  return { userId: "", accountId: "", email: "" };
 }
 
 export const GetUser: MessageFns<GetUser> = {
   encode(message: GetUser, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== '') {
+    if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
-    if (message.accountId !== '') {
+    if (message.accountId !== "") {
       writer.uint32(18).string(message.accountId);
     }
-    if (message.email !== '') {
+    if (message.email !== "") {
       writer.uint32(26).string(message.email);
     }
     return writer;
@@ -1128,56 +1125,35 @@ export interface AccountClient {
 
   getUser(request: GetUser, metadata?: Metadata): Observable<UserInterface>;
 
-  getUserTelemetry(
-    request: GetUserTelemetry,
-    metadata?: Metadata,
-  ): Observable<UserTelemetryInterface>;
+  getUserTelemetry(request: GetUserTelemetry, metadata?: Metadata): Observable<UserTelemetryInterface>;
 
   getUserGamification(request: GetUser, metadata?: Metadata): Observable<UserGamificationInterface>;
 
   updateUserTelemetry(request: UpdateUserTelemetry, metadata?: Metadata): Observable<BoolValue>;
 
-  createUserTelemetry(
-    request: CreateUserTelemetry,
-    metadata?: Metadata,
-  ): Observable<UserTelemetryInterface>;
+  createUserTelemetry(request: CreateUserTelemetry, metadata?: Metadata): Observable<UserTelemetryInterface>;
 }
 
 export interface AccountController {
-  createAccount(
-    request: CreateAccount,
-    metadata?: Metadata,
-  ): Promise<TokenType> | Observable<TokenType> | TokenType;
+  createAccount(request: CreateAccount, metadata?: Metadata): Promise<TokenType> | Observable<TokenType> | TokenType;
 
   updateAccount(
     request: UpdateAccount,
     metadata?: Metadata,
   ): Promise<AccountInterface> | Observable<AccountInterface> | AccountInterface;
 
-  deleteAccount(
-    request: DeleteAccount,
-    metadata?: Metadata,
-  ): Promise<BoolValue> | Observable<BoolValue> | BoolValue;
+  deleteAccount(request: DeleteAccount, metadata?: Metadata): Promise<BoolValue> | Observable<BoolValue> | BoolValue;
 
-  login(
-    request: Login,
-    metadata?: Metadata,
-  ): Promise<TokenType> | Observable<TokenType> | TokenType;
+  login(request: Login, metadata?: Metadata): Promise<TokenType> | Observable<TokenType> | TokenType;
 
   updateUser(
     request: UpdateUser,
     metadata?: Metadata,
   ): Promise<UserInterface> | Observable<UserInterface> | UserInterface;
 
-  refreshToken(
-    request: RefreshToken,
-    metadata?: Metadata,
-  ): Promise<TokenType> | Observable<TokenType> | TokenType;
+  refreshToken(request: RefreshToken, metadata?: Metadata): Promise<TokenType> | Observable<TokenType> | TokenType;
 
-  getUser(
-    request: GetUser,
-    metadata?: Metadata,
-  ): Promise<UserInterface> | Observable<UserInterface> | UserInterface;
+  getUser(request: GetUser, metadata?: Metadata): Promise<UserInterface> | Observable<UserInterface> | UserInterface;
 
   getUserTelemetry(
     request: GetUserTelemetry,
@@ -1187,10 +1163,7 @@ export interface AccountController {
   getUserGamification(
     request: GetUser,
     metadata?: Metadata,
-  ):
-    | Promise<UserGamificationInterface>
-    | Observable<UserGamificationInterface>
-    | UserGamificationInterface;
+  ): Promise<UserGamificationInterface> | Observable<UserGamificationInterface> | UserGamificationInterface;
 
   updateUserTelemetry(
     request: UpdateUserTelemetry,
@@ -1206,68 +1179,64 @@ export interface AccountController {
 export function AccountControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      'createAccount',
-      'updateAccount',
-      'deleteAccount',
-      'login',
-      'updateUser',
-      'refreshToken',
-      'getUser',
-      'getUserTelemetry',
-      'getUserGamification',
-      'updateUserTelemetry',
-      'createUserTelemetry',
+      "createAccount",
+      "updateAccount",
+      "deleteAccount",
+      "login",
+      "updateUser",
+      "refreshToken",
+      "getUser",
+      "getUserTelemetry",
+      "getUserGamification",
+      "updateUserTelemetry",
+      "createUserTelemetry",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod('Account', method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod("Account", method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod('Account', method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod("Account", method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const ACCOUNT_SERVICE_NAME = 'Account';
+export const ACCOUNT_SERVICE_NAME = "Account";
 
 export type AccountService = typeof AccountService;
 export const AccountService = {
   createAccount: {
-    path: '/account.Account/createAccount',
+    path: "/account.Account/createAccount",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: CreateAccount): Buffer =>
-      Buffer.from(CreateAccount.encode(value).finish()),
+    requestSerialize: (value: CreateAccount): Buffer => Buffer.from(CreateAccount.encode(value).finish()),
     requestDeserialize: (value: Buffer): CreateAccount => CreateAccount.decode(value),
     responseSerialize: (value: TokenType): Buffer => Buffer.from(TokenType.encode(value).finish()),
     responseDeserialize: (value: Buffer): TokenType => TokenType.decode(value),
   },
   updateAccount: {
-    path: '/account.Account/updateAccount',
+    path: "/account.Account/updateAccount",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UpdateAccount): Buffer =>
-      Buffer.from(UpdateAccount.encode(value).finish()),
+    requestSerialize: (value: UpdateAccount): Buffer => Buffer.from(UpdateAccount.encode(value).finish()),
     requestDeserialize: (value: Buffer): UpdateAccount => UpdateAccount.decode(value),
-    responseSerialize: (value: AccountInterface): Buffer =>
-      Buffer.from(AccountInterface.encode(value).finish()),
+    responseSerialize: (value: AccountInterface): Buffer => Buffer.from(AccountInterface.encode(value).finish()),
     responseDeserialize: (value: Buffer): AccountInterface => AccountInterface.decode(value),
   },
   deleteAccount: {
-    path: '/account.Account/deleteAccount',
+    path: "/account.Account/deleteAccount",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: DeleteAccount): Buffer =>
-      Buffer.from(DeleteAccount.encode(value).finish()),
+    requestSerialize: (value: DeleteAccount): Buffer => Buffer.from(DeleteAccount.encode(value).finish()),
     requestDeserialize: (value: Buffer): DeleteAccount => DeleteAccount.decode(value),
     responseSerialize: (value: boolean | undefined): Buffer =>
       Buffer.from(BoolValue.encode({ value: value ?? false }).finish()),
     responseDeserialize: (value: Buffer): boolean | undefined => BoolValue.decode(value).value,
   },
   login: {
-    path: '/account.Account/login',
+    path: "/account.Account/login",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: Login): Buffer => Buffer.from(Login.encode(value).finish()),
@@ -1276,80 +1245,71 @@ export const AccountService = {
     responseDeserialize: (value: Buffer): TokenType => TokenType.decode(value),
   },
   updateUser: {
-    path: '/account.Account/updateUser',
+    path: "/account.Account/updateUser",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: UpdateUser): Buffer => Buffer.from(UpdateUser.encode(value).finish()),
     requestDeserialize: (value: Buffer): UpdateUser => UpdateUser.decode(value),
-    responseSerialize: (value: UserInterface): Buffer =>
-      Buffer.from(UserInterface.encode(value).finish()),
+    responseSerialize: (value: UserInterface): Buffer => Buffer.from(UserInterface.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserInterface => UserInterface.decode(value),
   },
   refreshToken: {
-    path: '/account.Account/refreshToken',
+    path: "/account.Account/refreshToken",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: RefreshToken): Buffer =>
-      Buffer.from(RefreshToken.encode(value).finish()),
+    requestSerialize: (value: RefreshToken): Buffer => Buffer.from(RefreshToken.encode(value).finish()),
     requestDeserialize: (value: Buffer): RefreshToken => RefreshToken.decode(value),
     responseSerialize: (value: TokenType): Buffer => Buffer.from(TokenType.encode(value).finish()),
     responseDeserialize: (value: Buffer): TokenType => TokenType.decode(value),
   },
   getUser: {
-    path: '/account.Account/getUser',
+    path: "/account.Account/getUser",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: GetUser): Buffer => Buffer.from(GetUser.encode(value).finish()),
     requestDeserialize: (value: Buffer): GetUser => GetUser.decode(value),
-    responseSerialize: (value: UserInterface): Buffer =>
-      Buffer.from(UserInterface.encode(value).finish()),
+    responseSerialize: (value: UserInterface): Buffer => Buffer.from(UserInterface.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserInterface => UserInterface.decode(value),
   },
   getUserTelemetry: {
-    path: '/account.Account/getUserTelemetry',
+    path: "/account.Account/getUserTelemetry",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: GetUserTelemetry): Buffer =>
-      Buffer.from(GetUserTelemetry.encode(value).finish()),
+    requestSerialize: (value: GetUserTelemetry): Buffer => Buffer.from(GetUserTelemetry.encode(value).finish()),
     requestDeserialize: (value: Buffer): GetUserTelemetry => GetUserTelemetry.decode(value),
     responseSerialize: (value: UserTelemetryInterface): Buffer =>
       Buffer.from(UserTelemetryInterface.encode(value).finish()),
-    responseDeserialize: (value: Buffer): UserTelemetryInterface =>
-      UserTelemetryInterface.decode(value),
+    responseDeserialize: (value: Buffer): UserTelemetryInterface => UserTelemetryInterface.decode(value),
   },
   getUserGamification: {
-    path: '/account.Account/getUserGamification',
+    path: "/account.Account/getUserGamification",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: GetUser): Buffer => Buffer.from(GetUser.encode(value).finish()),
     requestDeserialize: (value: Buffer): GetUser => GetUser.decode(value),
     responseSerialize: (value: UserGamificationInterface): Buffer =>
       Buffer.from(UserGamificationInterface.encode(value).finish()),
-    responseDeserialize: (value: Buffer): UserGamificationInterface =>
-      UserGamificationInterface.decode(value),
+    responseDeserialize: (value: Buffer): UserGamificationInterface => UserGamificationInterface.decode(value),
   },
   updateUserTelemetry: {
-    path: '/account.Account/updateUserTelemetry',
+    path: "/account.Account/updateUserTelemetry",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: UpdateUserTelemetry): Buffer =>
-      Buffer.from(UpdateUserTelemetry.encode(value).finish()),
+    requestSerialize: (value: UpdateUserTelemetry): Buffer => Buffer.from(UpdateUserTelemetry.encode(value).finish()),
     requestDeserialize: (value: Buffer): UpdateUserTelemetry => UpdateUserTelemetry.decode(value),
     responseSerialize: (value: boolean | undefined): Buffer =>
       Buffer.from(BoolValue.encode({ value: value ?? false }).finish()),
     responseDeserialize: (value: Buffer): boolean | undefined => BoolValue.decode(value).value,
   },
   createUserTelemetry: {
-    path: '/account.Account/createUserTelemetry',
+    path: "/account.Account/createUserTelemetry",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: CreateUserTelemetry): Buffer =>
-      Buffer.from(CreateUserTelemetry.encode(value).finish()),
+    requestSerialize: (value: CreateUserTelemetry): Buffer => Buffer.from(CreateUserTelemetry.encode(value).finish()),
     requestDeserialize: (value: Buffer): CreateUserTelemetry => CreateUserTelemetry.decode(value),
     responseSerialize: (value: UserTelemetryInterface): Buffer =>
       Buffer.from(UserTelemetryInterface.encode(value).finish()),
-    responseDeserialize: (value: Buffer): UserTelemetryInterface =>
-      UserTelemetryInterface.decode(value),
+    responseDeserialize: (value: Buffer): UserTelemetryInterface => UserTelemetryInterface.decode(value),
   },
 } as const;
 

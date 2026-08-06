@@ -15,6 +15,7 @@
     "start:quest-processor": "nest start --watch quest-processor",
     "start:user-processor": "nest start --watch user-processor",
     "start:job-processor": "nest start --watch jobs-processor",
+    "start:awards": "nest start --watch awards",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
