@@ -1,5 +1,5 @@
 export enum QUEST_TYPE {
-  DEFAULT = 'DEFAULT', /// WITHOUT dates
-  DAILY = 'DAILY',
-  WEEKLY = 'WEEKLY',
+  DEFAULT = 1,
+  DAILY = 2,
+  WEEKLY = 3,
 }

@@ -36,6 +36,7 @@ export class LoginHandler {
       accountId: account.id,
       email: account.email,
       userId: user.id,
+      role: user.role,
     });
   }
 

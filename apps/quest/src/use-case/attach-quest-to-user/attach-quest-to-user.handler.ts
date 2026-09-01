@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { UserQuestAbstractRepository } from '../../infrastructure/repositories/user-quest';
 import { UserQuestService } from '@app/redis';
+import { AccountGrpcService } from '@app/grpc-api-clients';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AttachQuestToUserHandler {
   public constructor(
     private readonly userQuestRepository: UserQuestAbstractRepository,
-    private readonly userQuestRedisService: UserQuestService,
+    private readonly accountGrpcService: AccountGrpcService,
   ) {}
 
   public async run(data: { userId: string; questId: string | string[] }) {
@@ -14,21 +16,12 @@ export class AttachQuestToUserHandler {
       data.userId,
       data.questId,
     );
-
-    if (Array.isArray(attachedQuests)) {
-      await Promise.all(
-        attachedQuests.map((quest) =>
-          this.userQuestRedisService.startQuests(data.userId, quest.questId, quest),
-        ),
-      );
-    } else {
-      await this.userQuestRedisService.startQuests(
-        data.userId,
-        attachedQuests.questId,
-        attachedQuests,
-      );
-    }
-
+    await firstValueFrom(this.accountGrpcService.service.updateUserStatistic({
+      userId: data.userId,
+      data: {
+        attachedQuests: 1
+      }
+    }))
     return attachedQuests;
   }
 }

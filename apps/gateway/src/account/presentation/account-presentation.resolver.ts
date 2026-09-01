@@ -1,4 +1,4 @@
-import { Args, Context, Mutation, Resolver, Query } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { AccountPresentationService } from './account-presentation.service';
 import { Account, CreateNewAccountInput, UpdateAccountInput, UpdateAccountOutput } from './dto';
 import { TokenType } from './dto/token-type.dto';
@@ -40,7 +40,7 @@ export class AccountPresentationResolver {
   }
 
   @Query(() => GetAccountFromTokenOutput)
-  public async getAccountByToken(@CurrentUser() user: IGetUser) {
+  public getAccountByToken(@CurrentUser() user: IGetUser) {
     return {
       accountId: user.accountId,
       userId: user.userId,
@@ -49,7 +49,7 @@ export class AccountPresentationResolver {
   }
 
   @Mutation(() => GetAccountFromTokenOutput)
-  public async me(@CurrentUser() user: IGetUser) {
+  public me(@CurrentUser() user: IGetUser) {
     return {
       accountId: user.accountId,
       userId: user.userId,

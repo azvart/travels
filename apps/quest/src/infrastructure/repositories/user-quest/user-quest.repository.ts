@@ -1,34 +1,63 @@
 import { Injectable } from '@nestjs/common';
 import { UserQuestAbstractRepository } from './user-quest.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserQuestEntity } from '@app/entities';
+import { QuestEntity, UserQuestEntity } from '@app/entities';
 import { Repository } from 'typeorm';
-import { IFindManyUserQuests, IUpdateUserQuest, QuestStatusEnum } from 'libs/interfaces';
+import { IFindManyUserQuests, IUpdateUserQuest } from 'libs/interfaces';
+import { questStatus } from '@app/proto/generated/quest/quest';
 
 @Injectable()
 export class UserQuestRepository implements UserQuestAbstractRepository {
   public constructor(
     @InjectRepository(UserQuestEntity)
     private readonly userQuestRepository: Repository<UserQuestEntity>,
+    @InjectRepository(QuestEntity)
+    private readonly questRepository: Repository<QuestEntity>,
   ) {}
 
   public async attachQuestToUser(userId: string, questId: string | string[]) {
     if (Array.isArray(questId)) {
-      const userQuests = questId.map((id) =>
-        this.userQuestRepository.create({
-          userId,
-          questId: id,
-        }),
+      const quests = await Promise.all(
+        questId.map((id) =>
+          this.questRepository.findOneOrFail({
+            where: {
+              id,
+            },
+          }),
+        ),
+      );
+      const createUserQuestEntity = await Promise.all(
+        quests.map((quest) =>
+          this.userQuestRepository.create({
+            userId,
+            questId: quest.id,
+            progress: 0,
+            finishResult: quest.questFinishResults,
+            questCondition: quest.questCondition,
+            questType: quest.questType,
+            questField: quest.questField,
+          }),
+        ),
       );
 
-      return this.userQuestRepository.save(userQuests);
+      return this.userQuestRepository.save(createUserQuestEntity);
     }
-    return this.userQuestRepository.save(
-      this.userQuestRepository.create({
-        userId,
-        questId,
-      }),
-    );
+
+    const quest = await this.questRepository.findOneOrFail({
+      where: {
+        id: questId
+      }
+    });
+    const createUserQuestEntity = this.userQuestRepository.create({
+      userId,
+      questId: quest.id,
+      progress: 0,
+      finishResult: quest.questFinishResults,
+      questCondition: quest.questCondition,
+      questType: quest.questType,
+      questField: quest.questField,
+    })
+    return this.userQuestRepository.save(createUserQuestEntity);
   }
 
   public async deleteQuests(questId: string | string[]) {
@@ -93,7 +122,7 @@ export class UserQuestRepository implements UserQuestAbstractRepository {
                 questId: id,
               },
               {
-                status: QuestStatusEnum.FINISHED,
+                status: questStatus.FINISHED,
                 completedAt: new Date(),
                 progress: 100,
                 finishResult: 100,
@@ -125,7 +154,7 @@ export class UserQuestRepository implements UserQuestAbstractRepository {
         questId,
       },
       {
-        status: QuestStatusEnum.FINISHED,
+        status: questStatus.FINISHED,
         completedAt: new Date(),
       },
     );

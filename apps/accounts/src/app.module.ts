@@ -11,30 +11,38 @@ import {
   UserQuestEntity,
   UserGamificationEntity,
   UserTelemetryEntity,
+  UserStatisticEntity,
 } from '@app/entities/enity';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     AppConfigModule.forRootAsync(),
     RedisModule,
     AccountPresentationModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 54321,
-      username: 'root',
-      database: 'travels',
-      password: 'root_password',
-      autoLoadEntities: true,
-      synchronize: true,
-      entities: [
-        AccountEntity,
-        UserEntity,
-        UserQuestEntity,
-        QuestEntity,
-        UserGamificationEntity,
-        UserTelemetryEntity,
-      ],
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          type: configService.get<'mysql' | 'mariadb'>('TYPEORM_TYPE'),
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          database: configService.get<string>('DB_DATABASE'),
+          password: configService.get<string>('DB_PASSWORD'),
+          autoLoadEntities: true,
+          synchronize: true,
+          entities: [
+            AccountEntity,
+            UserEntity,
+            UserQuestEntity,
+            QuestEntity,
+            UserGamificationEntity,
+            UserTelemetryEntity,
+            UserStatisticEntity,
+          ],
+        };
+      },
     }),
   ],
 })

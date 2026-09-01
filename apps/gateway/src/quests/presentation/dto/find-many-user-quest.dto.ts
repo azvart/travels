@@ -1,7 +1,8 @@
 import { InputType, Field, ID, registerEnumType } from '@nestjs/graphql';
 import { IFindManyUserQuests, QuestStatusEnum } from 'libs/interfaces';
+import { questStatus } from '@app/proto/generated/quest/quest';
 
-registerEnumType(QuestStatusEnum, {
+registerEnumType(questStatus, {
   name: 'QuestStatusEnum',
 });
 
@@ -10,6 +11,6 @@ export class FindManyUserQuestDto implements IFindManyUserQuests {
   @Field(() => ID, { nullable: true })
   public questId?: string;
 
-  @Field(() => QuestStatusEnum, { nullable: true })
-  public status?: QuestStatusEnum;
+  @Field(() => questStatus, { nullable: true })
+  public status?: questStatus;
 }

@@ -22,6 +22,14 @@ export class CreateRouteHandler {
         routeId: newRoute.id,
       }),
     );
+    await firstValueFrom(
+      this.accountGrpcService.service.updateUserStatistic({
+        userId: data.userId,
+        data: {
+          createdRoutes: 1
+        }
+      })
+    )
     return newRoute;
   }
 }

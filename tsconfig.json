@@ -88,6 +88,12 @@
       "libs/database/*": [
         "libs/database/src/*"
       ],
+      "libs/interceptors": [
+        "libs/interceptors/src"
+      ],
+      "libs/interceptors/*": [
+        "libs/interceptors/src/*"
+      ],
       "libs/interfaces": [
         "libs/interfaces/src"
       ],

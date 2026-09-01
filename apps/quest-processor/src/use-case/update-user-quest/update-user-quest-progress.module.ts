@@ -4,6 +4,7 @@ import { RedisModule } from '@app/redis';
 import { PubSubModule } from '@app/pubsub';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { GrpcApiClientsModule } from '@app/grpc-api-clients';
+import { KafkaConsumersGroupsEnum } from 'libs/interfaces/kafka';
 
 @Module({
   imports: [
@@ -14,12 +15,13 @@ import { GrpcApiClientsModule } from '@app/grpc-api-clients';
         name: 'QUEST_PROGRESS_KAFKA_SERVICE',
         transport: Transport.KAFKA,
         options: {
+          postfixId: '',
           client: {
-            clientId: 'quest-processor',
+            clientId: KafkaConsumersGroupsEnum.QUEST_PROCESSOR,
             brokers: ['localhost:9092'],
-          },
-          consumer: {
-            groupId: 'quest-processor',
+            consumer: {
+              groupId: KafkaConsumersGroupsEnum.QUEST_PROCESSOR,
+            },
           },
         },
       },

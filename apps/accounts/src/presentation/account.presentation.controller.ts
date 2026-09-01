@@ -10,6 +10,7 @@ import {
   IUpdateUserInputInterface,
   IUpdateUserTelemetry,
 } from 'libs/interfaces';
+import { IUpdateUserStatistic } from 'libs/interfaces/user-statistic';
 
 @Controller()
 export class AccountPresentationController {
@@ -68,5 +69,25 @@ export class AccountPresentationController {
   @GrpcMethod('Account', 'createUserTelemetry')
   public async createUserTelemetry(data: { userId: string; routeId: string }) {
     return this.accountPresentationService.createUserTelemetry(data);
+  }
+
+  @GrpcMethod('Account', 'createUserStatistic')
+  public async createUserStatistic(data: {userId: string}){
+    return this.accountPresentationService.createUserStatistic(data.userId);
+  }
+
+  @GrpcMethod('Account', 'updateUserStatistic')
+  public async updateUserStatistic(data: {userId: string, data: IUpdateUserStatistic}){
+    return this.accountPresentationService.updateUserStatistic(data.userId, data.data);
+  }
+
+  @GrpcMethod("Account", "findManyUserStatistics")
+  public async findManyUserStatistics(){
+    return this.accountPresentationService.findManyUserStatistic();
+  }
+
+  @GrpcMethod("Account", 'findOneUserStatistic')
+  public async findOneUserStatistic(data: {userId: string}){
+    return this.accountPresentationService.findOneUserStatistic(data.userId);
   }
 }

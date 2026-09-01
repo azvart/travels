@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { AccountEntity } from '@app/entities/enity/account.entity';
-import { IUser } from 'libs/interfaces';
+import { IUser, UserRoleEnum } from 'libs/interfaces';
 import { UserQuestEntity } from './user-quest.entity';
 
 @Entity('users')
@@ -28,6 +28,9 @@ export class UserEntity implements IUser {
 
   @Column({ nullable: true })
   public city?: string;
+
+  @Column({ type: 'enum', enum: UserRoleEnum, nullable: false, default: UserRoleEnum.USER })
+  public role!: UserRoleEnum;
 
   @OneToOne(() => AccountEntity, { nullable: true })
   @JoinColumn()

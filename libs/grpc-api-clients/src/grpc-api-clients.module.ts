@@ -10,6 +10,8 @@ import { join } from 'node:path';
 import { RouteGrpcService } from '@app/grpc-api-clients/route';
 import { QUEST_PACKAGE_NAME } from '@app/proto/generated/quest/quest';
 import { QuestGrpcService } from '@app/grpc-api-clients/quest';
+import { AWARDS_PACKAGE_NAME } from '@app/proto/generated/awards/awards';
+import { AwardsGrpcService } from '@app/grpc-api-clients/awards';
 
 @Module({
   imports: [
@@ -59,9 +61,24 @@ import { QuestGrpcService } from '@app/grpc-api-clients/quest';
         },
         name: 'QUEST_GRPC_SERVICE',
       },
+      {
+        imports: [AppConfigModule.forRootAsync()],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => {
+          return {
+            transport: Transport.GRPC,
+            options: {
+              package: AWARDS_PACKAGE_NAME,
+              protoPath: join(process.cwd(), 'libs/proto/src/awards', 'awards.proto'),
+              url: `${configService.get<string>('AWARDS_GRPC_HOST')}:${configService.get('AWARDS_GRPC_PORT')}`,
+            },
+          };
+        },
+        name: 'AWARDS_GRPC_SERVICE',
+      },
     ]),
   ],
-  providers: [AccountGrpcService, RouteGrpcService, QuestGrpcService],
-  exports: [AccountGrpcService, RouteGrpcService, QuestGrpcService],
+  providers: [AccountGrpcService, RouteGrpcService, QuestGrpcService, AwardsGrpcService],
+  exports: [AccountGrpcService, RouteGrpcService, QuestGrpcService, AwardsGrpcService],
 })
 export class GrpcApiClientsModule {}

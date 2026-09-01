@@ -8,7 +8,12 @@ import {
   IUserTelemetry,
 } from 'libs/interfaces';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity, UserGamificationEntity, UserTelemetryEntity } from '@app/entities/enity';
+import {
+  UserEntity,
+  UserGamificationEntity,
+  UserStatisticEntity,
+  UserTelemetryEntity,
+} from '@app/entities/enity';
 import { Repository } from 'typeorm';
 
 @Injectable()

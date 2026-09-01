@@ -1,17 +1,20 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnApplicationBootstrap, OnModuleInit } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
 import { PubSub } from 'graphql-subscriptions';
 import { IUserQuest } from 'libs/interfaces';
+import { KafkaConsumersGroupsEnum, KafkaTopicsEnum } from 'libs/interfaces/kafka';
+import { ClientKafkaProxy } from '@nestjs/microservices';
 
 @Injectable()
-export class UserQuestUpdateHandler implements OnModuleInit {
+export class UserQuestUpdateHandler implements OnApplicationBootstrap{
+
   private readonly kafka = new Kafka({
     clientId: 'quest-processor',
-    brokers: ['localhost:9092'],
+    brokers: (process.env.KAFKA_BROKERS ?? 'localhost:9092').split(','),
   });
 
   private readonly consumer = this.kafka.consumer({
-    groupId: 'quest-processor',
+    groupId: KafkaConsumersGroupsEnum.QUEST_PROCESSOR,
   });
 
   public constructor(
@@ -19,10 +22,10 @@ export class UserQuestUpdateHandler implements OnModuleInit {
     private readonly pubSub: PubSub,
   ) {}
 
-  async onModuleInit() {
+  async onApplicationBootstrap() {
     await this.consumer.connect();
     await this.consumer.subscribe({
-      topic: 'user-quest-update',
+      topic: KafkaTopicsEnum.USER_QUEST_SOCKET_UPDATE,
     });
 
     await this.consumer.run({

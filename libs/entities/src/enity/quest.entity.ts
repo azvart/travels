@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { IQuest, QUEST_TYPE } from 'libs/interfaces';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { IQuest } from 'libs/interfaces';
 import { UserQuestEntity } from './user-quest.entity';
+import { questType, questCondition, questField } from '@app/proto/generated/quest/quest';
 
 @Entity('quest')
 export class QuestEntity implements IQuest {
@@ -23,17 +31,29 @@ export class QuestEntity implements IQuest {
   public questReward!: string;
 
   @Column({
+    type: 'enum',
+    enum: questCondition,
     nullable: false,
   })
-  public questCondition!: string;
+  public questCondition!: questCondition;
 
   @Column({
     type: 'enum',
-    enum: QUEST_TYPE,
+    enum: questType,
     nullable: false,
-    default: QUEST_TYPE.DEFAULT,
+    default: questType.DEFAULT,
   })
-  public questType?: QUEST_TYPE;
+  public questType!: questType;
+
+  @Column({
+    type: 'enum',
+    enum: questField,
+    nullable: false,
+  })
+  public questField: questField;
+
+  @Column()
+  public questFinishResults: number;
 
   @Column({
     nullable: false,
@@ -42,4 +62,18 @@ export class QuestEntity implements IQuest {
 
   @OneToMany(() => UserQuestEntity, (uq) => uq.quest)
   public userQuests: UserQuestEntity;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  checkConditionWithField() {
+    switch (this.questCondition) {
+      case questCondition.CREATE: {
+        const possibleToCreate = [questField.AWARDS, questField.ROUTES];
+        if (!possibleToCreate.includes(this.questField)) {
+          throw new Error(`quest field ${this.questField} cannot be set with condition CREATE`);
+        }
+        break;
+      }
+    }
+  }
 }

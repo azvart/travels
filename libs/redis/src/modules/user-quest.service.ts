@@ -29,10 +29,20 @@ export class UserQuestService {
   }
 
   public async deleteQuest(userId: string, questId: string) {
+
     return this.redis.getClient().hdel(this.userQuestKey(userId), questId);
   }
 
-  public async getAllQuests(userId: string) {
-    return this.redis.getClient().hgetall(this.userQuestKey(userId));
+  public async getAllQuests(userId: string):Promise<IUserQuest[]> {
+    const redisStringData = await this.redis.getClient().hgetall(this.userQuestKey(userId));
+    return Object.values(redisStringData).map<IUserQuest>((item) => JSON.parse(item));
+  }
+
+  public async getAllUserQuests(userId: string, questId:string):Promise<IUserQuest> {
+    const redistStringData = await this.redis.getClient().hget(this.userQuestKey(userId), questId);
+    if(!redistStringData){
+      throw Error(`Not found data from redis userId: ${userId} and questId: ${questId}`);
+    }
+    return JSON.parse(redistStringData) as IUserQuest;
   }
 }

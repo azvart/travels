@@ -66,6 +66,7 @@ export class AuthGuard implements CanActivate {
       userId: payload.userId,
       email: payload.email,
       accountId: payload.accountId,
+      role: payload.role,
     };
 
     if (isSubscription) {

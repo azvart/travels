@@ -3,7 +3,7 @@ import { SubscriptionPresentationService } from './subscription.presentation.ser
 import { QuestSubscriptionDto, UserTelemetryInputDto, UserTelemetrySubscriptionDto } from './dto';
 import { Logger } from '@nestjs/common';
 import { CurrentUser } from '@app/auth';
-import { IGetUser } from 'libs/interfaces';
+import { IGetUser, IUpdateUserTelemetry } from 'libs/interfaces';
 
 @Resolver()
 export class SubscriptionPresentationController {

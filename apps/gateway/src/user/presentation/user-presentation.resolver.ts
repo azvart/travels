@@ -1,13 +1,14 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UpdateUserInput, User, UserFull, UserGamificationDto, UserTelemetryDto } from './dto';
 import { UserPresentationService } from './user-presentation.service';
-import { CurrentUser } from '@app/auth';
-import { IGetUser } from 'libs/interfaces';
+import { CurrentUser, Roles } from '@app/auth';
+import { IGetUser, UserRoleEnum } from 'libs/interfaces';
 
 @Resolver(() => User)
 export class UserPresentationResolver {
   public constructor(private readonly userPresentationService: UserPresentationService) {}
 
+  @Roles(UserRoleEnum.ADMIN)
   @Mutation(() => User)
   public async updateUser(@Args('input') input: UpdateUserInput) {
     return this.userPresentationService.updateUser(input);
