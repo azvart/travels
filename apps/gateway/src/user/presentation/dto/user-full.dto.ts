@@ -1,6 +1,10 @@
-import { ObjectType, Field, PickType } from '@nestjs/graphql';
+import { ObjectType, Field, PickType, registerEnumType } from '@nestjs/graphql';
 import { User } from './user.dto';
-import { IUser } from 'libs/interfaces';
+import { IUser, UserRoleEnum } from 'libs/interfaces';
+
+registerEnumType(UserRoleEnum, {
+  name: 'UserRoleEnum',
+});
 
 @ObjectType()
 export class UserFull
@@ -18,4 +22,7 @@ export class UserFull
 
   @Field(() => String, { nullable: true })
   public city?: string;
+
+  @Field(() => UserRoleEnum)
+  public role: UserRoleEnum;
 }

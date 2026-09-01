@@ -1,4 +1,4 @@
 export enum QUEST_CONDITION {
-  DESTINATION = 'DESTINATION',
-  STEPS = 'STEPS',
+  CREATE = 1,
+  UPDATE = 2,
 }

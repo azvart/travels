@@ -12,6 +12,10 @@ import { GetUserTelemetryModule } from '../use-case/get-user-telemetry/get-user-
 import { GetUserGamificationModule } from '../use-case/get-user-gamification/get-user-gamification.module';
 import { UpdateUserTelemetryModule } from '../use-case/update-user-telemetry/update-user-telemetry.module';
 import { CreateUserTelemetryModule } from '../use-case/create-user-telemetry/create-user-telemetry.module';
+import { CreateUserStatisticModule } from '../use-case/create-user-statistic/create-user-statistic.module';
+import { UpdateUserStatisticModule } from '../use-case/update-user-statistic/update-user-statistic.module';
+import { FindOneUserStatisticModule } from '../use-case/find-one-user-statistic/find-one-user-statistic.module';
+import { FindManyUserStatisticModule } from '../use-case/find-many-user-statistic/find-many-user-statistic.module';
 
 @Module({
   imports: [
@@ -26,6 +30,10 @@ import { CreateUserTelemetryModule } from '../use-case/create-user-telemetry/cre
     GetUserGamificationModule,
     UpdateUserTelemetryModule,
     CreateUserTelemetryModule,
+    CreateUserStatisticModule,
+    UpdateUserStatisticModule,
+    FindOneUserStatisticModule,
+    FindManyUserStatisticModule
   ],
   controllers: [AccountPresentationController],
   providers: [AccountPresentationService],

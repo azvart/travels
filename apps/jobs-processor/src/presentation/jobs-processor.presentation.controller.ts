@@ -11,14 +11,20 @@ export class JobsProcessorPresentationController {
   ) {}
 
   @Cron(CronExpression.EVERY_30_SECONDS)
-  public async questProgress() {
-    this.logger.debug(`${this.questProgress.name}:Execute method`);
-    return this.jobsProcessorPresentationService.questProgress();
-  }
-
-  @Cron(CronExpression.EVERY_30_SECONDS)
   public async updateUserTelemetry() {
     this.logger.debug(this.updateUserTelemetry.name);
     return this.jobsProcessorPresentationService.updateUserTelemetry();
+  }
+
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  public async createAttachedUserQuestInRedis(){
+    this.logger.log(`${this.createAttachedUserQuestInRedis.name}: Execute method`);
+    return this.jobsProcessorPresentationService.createAttachedUserQuestInRedis();
+  }
+
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  public async finishQuests(){
+    this.logger.log(`${this.finishQuests.name}: Execute method`)
+    return this.jobsProcessorPresentationService.finishQuests();
   }
 }

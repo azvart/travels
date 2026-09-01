@@ -1,4 +1,5 @@
 import { IAccount } from '../account';
+import { UserRoleEnum } from 'libs/interfaces/user/user-role.enum';
 
 export interface IUser {
   id: string;
@@ -9,5 +10,6 @@ export interface IUser {
   countryCode?: string;
   street?: string;
   city?: string;
+  role: UserRoleEnum;
   account?: IAccount;
 }

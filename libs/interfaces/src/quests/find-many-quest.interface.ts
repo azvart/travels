@@ -1,6 +1,6 @@
-import { QUEST_TYPE } from './quest.type.enum';
+import { questType } from '@app/proto/generated/quest/quest';
 
 export interface IFindManyQuests {
-  questType?: QUEST_TYPE;
+  questType?: questType;
   questCountry?: string;
 }

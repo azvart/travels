@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserTelemetrySubscriptionHandler } from './user-telemetry-subscription.handler';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { KafkaConsumersGroupsEnum } from 'libs/interfaces/kafka';
 
 @Module({
   imports: [
@@ -9,12 +10,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'USER_TELEMETRY_KAFKA_SERVICE',
         transport: Transport.KAFKA,
         options: {
+          postfixId: '',
           client: {
-            clientId: 'user-processor',
+            clientId: KafkaConsumersGroupsEnum.USER_PROCESSOR,
             brokers: ['localhost:9092'],
-          },
-          consumer: {
-            groupId: 'user-processor',
+            consumer: {
+              groupId: KafkaConsumersGroupsEnum.USER_PROCESSOR,
+            },
           },
         },
       },

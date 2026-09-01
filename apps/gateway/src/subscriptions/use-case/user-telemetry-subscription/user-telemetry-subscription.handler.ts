@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientKafkaProxy } from '@nestjs/microservices';
-import { IUpdateUserTelemetry, IUserTelemetry } from 'libs/interfaces';
+import { IUpdateUserTelemetry } from 'libs/interfaces';
+import { KafkaTopicsEnum } from 'libs/interfaces/kafka';
 
 @Injectable()
 export class UserTelemetrySubscriptionHandler {
@@ -12,7 +13,8 @@ export class UserTelemetrySubscriptionHandler {
   ) {}
 
   public async run(userId: string, data: Omit<IUpdateUserTelemetry, 'userId'>): Promise<void> {
-    this.userTelemetryKafkaService.emit('user-telemetry-processor', {
+    this.logger.log(`${this.run.name} ${data}`)
+    this.userTelemetryKafkaService.emit(KafkaTopicsEnum.USER_TELEMETRY_UPDATE, {
       userId,
       ...data,
     });

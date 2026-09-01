@@ -41,8 +41,12 @@ export class UserTelemetryService {
     return this.redis.getClient().hset(this.userTelemetry(), userId, JSON.stringify(data));
   }
 
-  public async getUserRouteTelemetry(userId: string, routeId: string) {
-    return this.redis.getClient().hget(this.userRouteTelemetryKey(userId), routeId);
+  public async getUserRouteTelemetry<T = IUpdateUserTelemetry>(userId: string, routeId: string) {
+    const redisData = await this.redis.getClient().hget(this.userRouteTelemetryKey(userId), routeId);
+    if(!redisData){
+      throw new Error(`Not found userRouteTelemetry with userId: ${userId} and routeId: ${routeId}`)
+    }
+    return JSON.parse(redisData) as T;
   }
 
   public async getUserTelemetry(userId: string) {
@@ -50,6 +54,9 @@ export class UserTelemetryService {
   }
 
   public async getAllUserTelemetry() {
-    return this.redis.getClient().hgetall(this.userTelemetry());
+    const redisData = await this.redis.getClient().hgetall(this.userTelemetry());
+    const stringValues = Object.values(redisData);
+    const mapData = stringValues.map((item) => JSON.parse(item))
+    return await Promise.all(mapData.map((item) => this.getUserRouteTelemetry(item.userId, item.routeId)));
   }
 }

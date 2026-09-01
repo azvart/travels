@@ -18,16 +18,48 @@ service Quest {
   rpc findAllUserQuests(FindAllUserQuests) returns(FindManyUserQuestsOutput);
 }
 
+enum QUEST_TYPE {
+  UNSPECIFIED = 0;
+  DEFAULT = 1;
+  DAILY = 2;
+  WEEKLY = 3;
+}
 
+enum QUEST_CONDITION {
+  NO = 0;
+  CREATE = 1;
+  UPDATE = 2;
+}
+
+enum QUEST_FIELD {
+  NO_FIELD = 0;
+  STEPS = 1;
+  POINTS = 2;
+  ROUTES = 3;
+  AWARDS = 4;
+  EVENTS = 5;
+  USERS = 6;
+  CURRENT_COUNTRY = 7;
+  DURATION = 8;
+}
+
+enum QUEST_STATUS {
+  EMPTY = 0;
+  IN_PROGRESS = 1;
+  FINISHED = 2;
+}
 message UserQuestEntity {
   string id = 1;
   string userId = 2;
   string questId = 3;
-  string status = 4;
-  int32 progress = 5;
-  int32 finishResult = 6;
-  optional string completedAt = 7;
-  string createdAt = 8;
+  QUEST_STATUS status = 4;
+  QUEST_CONDITION questCondition = 5;
+  QUEST_FIELD questField = 6;
+  QUEST_TYPE questType = 7;
+  int32 progress = 8;
+  int32 finishResult = 9;
+  optional string completedAt = 10;
+  string createdAt = 11;
 }
 
 message FindManyUserQuestsOutput {
@@ -70,7 +102,7 @@ message UpdateUserQuest {
 
 message FindManyUserQuestsData  {
   optional string questId = 1;
-  optional string status = 2;
+  optional QUEST_STATUS status = 2;
   optional string createdAt = 3;
   optional string completedAt = 4;
 
@@ -91,18 +123,22 @@ message QuestEntity {
   string questName = 2;
   string questDescription = 3;
   string questReward = 4;
-  string questCondition = 5;
-  optional string questType = 6;
+  QUEST_CONDITION questCondition = 5;
+  QUEST_TYPE questType = 6;
   string questCountry = 7;
+  int32 questFinishResults = 8;
+  QUEST_FIELD questField = 9;
 }
 
 message CreateQuest {
   string questName = 1;
   string questDescription = 2;
   string questReward = 3;
-  string questCondition = 4;
-  optional string questType = 5;
+  QUEST_CONDITION questCondition = 4;
+  QUEST_TYPE questType = 5;
   string questCountry = 6;
+  int32 questFinishResults = 7;
+  QUEST_FIELD questField = 8;
 }
 
 message UpdateQuest {
@@ -110,13 +146,15 @@ message UpdateQuest {
   optional string questName = 2;
   optional string questDescription = 3;
   optional string questReward = 4;
-  optional string questCondition = 5;
-  optional string questType = 6;
-  optional string questCountry = 7;
+  optional QUEST_CONDITION questCondition = 5;
+  optional QUEST_TYPE questType = 6;
+  optional QUEST_FIELD questField = 7;
+  optional string questCountry = 8;
+  optional int32 questFinishResults = 9;
 }
 
 message FindManyQuests {
-  optional string questType = 1;
+  optional QUEST_TYPE questType = 1;
   optional string questCountry = 2;
 }
 

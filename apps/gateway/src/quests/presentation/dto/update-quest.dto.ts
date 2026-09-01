@@ -1,8 +1,16 @@
 import { InputType, Field, ID, registerEnumType } from '@nestjs/graphql';
-import { IUpdateQuest, QUEST_TYPE } from 'libs/interfaces';
+import { IUpdateQuest } from 'libs/interfaces';
+import { questCondition, questType, questField } from '@app/proto/generated/quest/quest';
 
-registerEnumType(QUEST_TYPE, {
+registerEnumType(questType, {
   name: 'QuestType',
+});
+
+registerEnumType(questCondition, {
+  name: 'QuestCondition',
+});
+registerEnumType(questField, {
+  name: 'QuestField',
 });
 
 @InputType()
@@ -16,8 +24,8 @@ export class UpdateQuestDto implements IUpdateQuest {
   @Field(() => String, { nullable: true })
   public questDescription?: string;
 
-  @Field(() => String, { nullable: true })
-  public questCondition?: string;
+  @Field(() => questCondition, { nullable: true })
+  public questCondition!: questCondition;
 
   @Field(() => String, { nullable: true })
   public questCountry?: string;
@@ -25,6 +33,9 @@ export class UpdateQuestDto implements IUpdateQuest {
   @Field(() => String, { nullable: true })
   public questReward?: string;
 
-  @Field(() => QUEST_TYPE, { nullable: true })
-  public questType?: QUEST_TYPE;
+  @Field(() => questField)
+  public questField!: questField;
+
+  @Field(() => questType, { nullable: true })
+  public questType!: questType;
 }

@@ -1,16 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { QuestProcessorModule } from './quest-processor.module';
-import { Transport } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { KafkaConsumersGroupsEnum } from 'libs/interfaces/kafka';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(QuestProcessorModule, {
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(QuestProcessorModule, {
     transport: Transport.KAFKA,
     options: {
-      clientId: 'quest-processor',
+      postfixId: '',
+      clientId: KafkaConsumersGroupsEnum.QUEST_PROCESSOR,
       brokers: ['localhost:9092'],
-    },
-    consumer: {
-      groupId: 'quest-processor',
+      consumer: {
+        groupId: KafkaConsumersGroupsEnum.QUEST_PROCESSOR,
+      },
     },
   });
   await app.listen();

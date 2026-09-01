@@ -1,9 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { IUserQuest, QuestStatusEnum } from 'libs/interfaces';
+import { IUserQuest } from 'libs/interfaces';
 import { UserQuestService } from '@app/redis';
 import { ClientKafkaProxy } from '@nestjs/microservices';
 import { QuestGrpcService } from '@app/grpc-api-clients/quest';
 import { firstValueFrom } from 'rxjs';
+import { KafkaTopicsEnum } from 'libs/interfaces/kafka';
+import { questStatus } from '@app/proto/generated/quest/quest';
 
 @Injectable()
 export class UpdateUserQuestProgressHandler {
@@ -22,14 +24,11 @@ export class UpdateUserQuestProgressHandler {
       progress: payload.progress + 1,
       finishResult: 100,
     };
-    if (
-      payload.progress === payload.finishResult ||
-      payload.status !== QuestStatusEnum.IN_PROGRESS
-    ) {
+    if (payload.progress === payload.finishResult || payload.status !== questStatus.IN_PROGRESS) {
       this.logger.debug(`QuestId ${payload.questId} is Finished`);
       const finishedStatusQuest = {
         ...payload,
-        status: QuestStatusEnum.FINISHED,
+        status: questStatus.FINISHED,
       };
       await this.userQuestService.updateQuest(
         updatedMessage.userId,
@@ -43,7 +42,7 @@ export class UpdateUserQuestProgressHandler {
         }),
       );
 
-      this.kafkaClient.emit('user-quest-update', {
+      this.kafkaClient.emit(KafkaTopicsEnum.USER_QUEST_SOCKET_UPDATE, {
         userId: finishedStatusQuest.userId,
         questId: finishedStatusQuest.questId,
         progress: finishedStatusQuest.progress,
@@ -58,7 +57,7 @@ export class UpdateUserQuestProgressHandler {
       updatedMessage.questId,
       updatedMessage,
     );
-    this.kafkaClient.emit('user-quest-update', {
+    this.kafkaClient.emit(KafkaTopicsEnum.USER_QUEST_SOCKET_UPDATE, {
       userId: updatedMessage.userId,
       questId: updatedMessage.questId,
       progress: updatedMessage.progress,

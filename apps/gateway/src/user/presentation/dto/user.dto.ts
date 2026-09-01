@@ -1,6 +1,10 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
 import { Account } from '../../../account';
-import { IUser } from 'libs/interfaces';
+import { IUser, UserRoleEnum } from 'libs/interfaces';
+
+registerEnumType(UserRoleEnum, {
+  name: 'UserRoleEnum',
+});
 
 @ObjectType()
 export class User implements IUser {
@@ -24,6 +28,8 @@ export class User implements IUser {
   street?: string;
   @Field(() => String, { nullable: true })
   city?: string;
+  @Field(() => UserRoleEnum)
+  public role: UserRoleEnum;
   @Field(() => Account, { nullable: true })
   public account?: Account;
 }

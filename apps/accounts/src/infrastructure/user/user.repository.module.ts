@@ -7,6 +7,7 @@ import {
   UserQuestEntity,
   UserGamificationEntity,
   UserTelemetryEntity,
+  UserStatisticEntity,
 } from '@app/entities/enity';
 
 @Module({
@@ -16,6 +17,7 @@ import {
       UserQuestEntity,
       UserGamificationEntity,
       UserTelemetryEntity,
+      UserStatisticEntity,
     ]),
   ],
   providers: [

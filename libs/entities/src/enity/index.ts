@@ -6,3 +6,4 @@ export * from './user-telemetry.entity';
 export * from './user-gamification.entity';
 export * from './awards.entity';
 export * from './user-awards.entity';
+export * from './user-statistic.entity';

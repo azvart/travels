@@ -1,7 +1,8 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
 import { IUserQuest, QuestStatusEnum } from 'libs/interfaces';
+import { questStatus } from '@app/proto/generated/quest/quest';
 
-registerEnumType(QuestStatusEnum, {
+registerEnumType(questStatus, {
   name: 'QuestStatusEnum',
 });
 
@@ -16,8 +17,8 @@ export class QuestSubscriptionDto implements Pick<
   @Field(() => Number)
   public progress!: number;
 
-  @Field(() => QuestStatusEnum)
-  public status!: QuestStatusEnum;
+  @Field(() => questStatus)
+  public status!: questStatus;
 
   @Field(() => Number)
   public finishResult!: number;

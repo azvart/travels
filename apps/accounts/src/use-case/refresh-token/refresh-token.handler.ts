@@ -34,6 +34,7 @@ export class RefreshTokenHandler {
       userId: payload.userId,
       email: payload.email,
       accountId: payload.accountId,
+      role: payload.role,
     });
   }
 }

@@ -11,12 +11,15 @@ import { UserPresentationModule } from './user';
 import { RoutePresentationModule } from './routes';
 import { QuestsPresentationModule } from './quests';
 import { SubscriptionPresentationModule } from './subscriptions';
+import { HealthPresentationModule } from './health';
+import { AwardsPresentationModule } from './awards';
 
 @Module({
   imports: [
     AppConfigModule.forRootAsync(),
     PubSubModule,
     AuthModule,
+    HealthPresentationModule,
     CacheModule.register(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -38,6 +41,7 @@ import { SubscriptionPresentationModule } from './subscriptions';
       },
     }),
     AccountPresentationModule,
+    AwardsPresentationModule,
     UserPresentationModule,
     RoutePresentationModule,
     QuestsPresentationModule,

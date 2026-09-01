@@ -13,14 +13,20 @@ export class AwardsRepository implements AwardsAbstractRepository {
   ) {}
 
   public async createAward(data: ICreateAward) {
-    return this.awardsRepository.save(this.awardsRepository.create(data));
+    return this.awardsRepository.save(
+      this.awardsRepository.create({
+        name: data.name,
+        imageUrl: data.imageUrl,
+        description: data.description,
+      }),
+    );
   }
 
   public async updateAward(data: IUpdateAward) {
     const updatedAwards = await this.awardsRepository.update(data.id, {
       name: data.name,
       description: data.description,
-      imageUrl: data.imageUrl,
+      ...(data.imageUrl ? { imageUrl: data.imageUrl } : {}),
       updatedAt: new Date(),
     });
     if (!updatedAwards.affected) {

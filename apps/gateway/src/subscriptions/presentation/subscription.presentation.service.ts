@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PubSub } from 'graphql-subscriptions';
-import { IUpdateUserTelemetry, IUserTelemetry } from 'libs/interfaces';
+import { IUpdateUserTelemetry } from 'libs/interfaces';
 import { UserTelemetrySubscriptionHandler } from '../use-case/user-telemetry-subscription/user-telemetry-subscription.handler';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class SubscriptionPresentationService {
     private readonly userTelemetrySubscriptionHandler: UserTelemetrySubscriptionHandler,
   ) {}
 
-  public async questSubscription(userId: string) {
+  public questSubscription(userId: string) {
     return this.pubSub.asyncIterableIterator(`user-quest-sub-${userId}`);
   }
 

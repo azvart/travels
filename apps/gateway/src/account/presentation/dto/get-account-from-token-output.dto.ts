@@ -1,5 +1,9 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { IGetUser } from 'libs/interfaces';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { IGetUser, UserRoleEnum } from 'libs/interfaces';
+
+registerEnumType(UserRoleEnum, {
+  name: 'UserRoleEnum',
+});
 
 @ObjectType()
 export class GetAccountFromTokenOutput implements IGetUser {
@@ -11,4 +15,7 @@ export class GetAccountFromTokenOutput implements IGetUser {
 
   @Field(() => String)
   public email!: string;
+
+  @Field(() => UserRoleEnum)
+  public role!: UserRoleEnum;
 }

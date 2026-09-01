@@ -1,11 +1,13 @@
-import { QUEST_TYPE } from 'libs/interfaces';
+import { questType, questCondition, questField } from '@app/proto/generated/quest/quest';
 
 export interface IQuest {
   id: string;
   questName: string;
   questDescription: string;
   questReward: string;
-  questCondition: string;
-  questType?: QUEST_TYPE;
+  questCondition: questCondition;
+  questField: questField;
+  questFinishResults: number;
+  questType: questType;
   questCountry: string;
 }

@@ -5,6 +5,7 @@ import { ICreateNewAccount } from 'libs/interfaces/account/create-new-account.in
 import { UserAbstractRepository } from '../../infrastructure/user';
 import { GenerateTokenPairHandler } from '../generate-token-pair/generate-token-pair.handler';
 import { DataSource } from 'typeorm';
+import { UserStatisticAbstractRepository } from '../../infrastructure/user-statistic';
 
 @Injectable()
 export class CreateAccountHandler {
@@ -12,6 +13,7 @@ export class CreateAccountHandler {
     private dataSource: DataSource,
     private readonly accountRepository: AccountAbstractRepository,
     private readonly userRepository: UserAbstractRepository,
+    private readonly userStatisticRepository: UserStatisticAbstractRepository,
     private readonly generateTokenPairHandler: GenerateTokenPairHandler,
   ) {}
 
@@ -28,6 +30,7 @@ export class CreateAccountHandler {
       });
 
       const user = await this.userRepository.createUser(account.id);
+      await this.userStatisticRepository.createUserStatistic(user.id);
 
       await this.userRepository.createUserGamification(user.id);
 
@@ -37,6 +40,7 @@ export class CreateAccountHandler {
         accountId: account.id,
         userId: user.id,
         email: account.email,
+        role: user.role,
       });
     } catch (err) {
       await queryRunner.rollbackTransaction();

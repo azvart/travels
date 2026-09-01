@@ -24,6 +24,7 @@ export class AwardsEntity implements IAwards {
 
   @Column({
     nullable: true,
+    default: null,
   })
   public imageUrl!: string;
 

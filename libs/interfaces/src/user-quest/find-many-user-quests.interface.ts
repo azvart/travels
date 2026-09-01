@@ -1,8 +1,8 @@
-import { QuestStatusEnum } from './quest-status.enum';
+import { questStatus } from '@app/proto/generated/quest/quest';
 
 export interface IFindManyUserQuests {
   questId?: string;
-  status?: QuestStatusEnum;
+  status?: questStatus;
   createdAt?: Date;
   completedAt?: Date;
 }

@@ -1,9 +1,17 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
-import { IQuest, QUEST_TYPE } from 'libs/interfaces';
-import { UserQuestDto } from './user-quest.dto';
+import { IQuest, QUEST_CONDITION, QUEST_FIELD, QUEST_TYPE } from 'libs/interfaces';
+import { questType, questCondition, questField } from '@app/proto/generated/quest/quest';
 
-registerEnumType(QUEST_TYPE, {
+registerEnumType(questType, {
   name: 'QuestType',
+});
+
+registerEnumType(questCondition, {
+  name: 'QuestCondition',
+});
+
+registerEnumType(questField, {
+  name: 'QuestField',
 });
 
 @ObjectType()
@@ -23,11 +31,17 @@ export class QuestDto implements IQuest {
   @Field(() => String)
   public questReward!: string;
 
-  @Field(() => String)
-  public questCondition!: string;
+  @Field(() => questCondition)
+  public questCondition!: questCondition;
 
-  @Field(() => QUEST_TYPE, { nullable: true })
-  public questType?: QUEST_TYPE;
+  @Field(() => questType)
+  public questType!: questType;
+
+  @Field(() => Number)
+  public questFinishResults!: number;
+
+  @Field(() => questField)
+  public questField!: questField;
 
   @Field(() => Boolean, { nullable: true, defaultValue: false })
   public attached: boolean;

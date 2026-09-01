@@ -1,7 +1,8 @@
 import { QuestStatusEnum } from './quest-status.enum';
+import { questStatus } from '@app/proto/generated/quest/quest';
 
 export interface IUpdateUserQuest {
-  status?: QuestStatusEnum;
+  status?: questStatus;
   progress?: number;
   finishResult?: number;
   completedAt?: Date;

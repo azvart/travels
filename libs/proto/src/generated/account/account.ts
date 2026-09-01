@@ -9,15 +9,62 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import type { handleUnaryCall, Metadata, UntypedServiceImplementation } from "@grpc/grpc-js";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
+import { Empty } from "../google/protobuf/empty";
 import { BoolValue } from "../google/protobuf/wrappers";
 
 export const protobufPackage = "account";
+
+export enum UserRoleEnum {
+  UNSPECIFIED = 0,
+  ADMIN = 1,
+  USER = 2,
+  UNRECOGNIZED = -1,
+}
 
 export interface UserGamificationInterface {
   id: string;
   user?: UserInterface | undefined;
   userLevel: number;
   userLevelProgress: number;
+}
+
+export interface UserStatisticInterface {
+  id: string;
+  steps: number;
+  createdRoutes: number;
+  finishedRoutes: number;
+  grantedAwards: number;
+  finishedQuests: number;
+  attachedQuests: number;
+  countries: string[];
+  userId?: string | undefined;
+  user?: UserInterface | undefined;
+}
+
+export interface CreateUserStatistic {
+  userId: string;
+}
+
+export interface UpdateUserStatisticData {
+  steps?: number | undefined;
+  createdRoutes?: number | undefined;
+  finishedRoutes?: number | undefined;
+  grantedAwards?: number | undefined;
+  finishedQuests?: number | undefined;
+  attachedQuests?: number | undefined;
+}
+
+export interface UpdateUserStatisticInterface {
+  userId: string;
+  data: UpdateUserStatisticData | undefined;
+}
+
+export interface FindManyUserStatisticsOutput {
+  data: UserStatisticInterface[];
+}
+
+export interface FindOneUserStatistic {
+  userId: string;
 }
 
 export interface CreateUserTelemetry {
@@ -111,6 +158,7 @@ export interface GetUser {
   userId: string;
   accountId: string;
   email: string;
+  role: UserRoleEnum;
 }
 
 export const ACCOUNT_PACKAGE_NAME = "account";
@@ -173,6 +221,402 @@ export const UserGamificationInterface: MessageFns<UserGamificationInterface> = 
           }
 
           message.userLevelProgress = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseUserStatisticInterface(): UserStatisticInterface {
+  return {
+    id: "",
+    steps: 0,
+    createdRoutes: 0,
+    finishedRoutes: 0,
+    grantedAwards: 0,
+    finishedQuests: 0,
+    attachedQuests: 0,
+    countries: [],
+  };
+}
+
+export const UserStatisticInterface: MessageFns<UserStatisticInterface> = {
+  encode(message: UserStatisticInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.steps !== 0) {
+      writer.uint32(16).int32(message.steps);
+    }
+    if (message.createdRoutes !== 0) {
+      writer.uint32(24).int32(message.createdRoutes);
+    }
+    if (message.finishedRoutes !== 0) {
+      writer.uint32(32).int32(message.finishedRoutes);
+    }
+    if (message.grantedAwards !== 0) {
+      writer.uint32(40).int32(message.grantedAwards);
+    }
+    if (message.finishedQuests !== 0) {
+      writer.uint32(48).int32(message.finishedQuests);
+    }
+    if (message.attachedQuests !== 0) {
+      writer.uint32(56).int32(message.attachedQuests);
+    }
+    for (const v of message.countries) {
+      writer.uint32(66).string(v!);
+    }
+    if (message.userId !== undefined) {
+      writer.uint32(74).string(message.userId);
+    }
+    if (message.user !== undefined) {
+      UserInterface.encode(message.user, writer.uint32(82).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UserStatisticInterface {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUserStatisticInterface();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.steps = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.createdRoutes = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.finishedRoutes = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.grantedAwards = reader.int32();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.finishedQuests = reader.int32();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.attachedQuests = reader.int32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.countries.push(reader.string());
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 10: {
+          if (tag !== 82) {
+            break;
+          }
+
+          message.user = UserInterface.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseCreateUserStatistic(): CreateUserStatistic {
+  return { userId: "" };
+}
+
+export const CreateUserStatistic: MessageFns<CreateUserStatistic> = {
+  encode(message: CreateUserStatistic, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateUserStatistic {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateUserStatistic();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseUpdateUserStatisticData(): UpdateUserStatisticData {
+  return {};
+}
+
+export const UpdateUserStatisticData: MessageFns<UpdateUserStatisticData> = {
+  encode(message: UpdateUserStatisticData, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.steps !== undefined) {
+      writer.uint32(16).int32(message.steps);
+    }
+    if (message.createdRoutes !== undefined) {
+      writer.uint32(24).int32(message.createdRoutes);
+    }
+    if (message.finishedRoutes !== undefined) {
+      writer.uint32(32).int32(message.finishedRoutes);
+    }
+    if (message.grantedAwards !== undefined) {
+      writer.uint32(40).int32(message.grantedAwards);
+    }
+    if (message.finishedQuests !== undefined) {
+      writer.uint32(48).int32(message.finishedQuests);
+    }
+    if (message.attachedQuests !== undefined) {
+      writer.uint32(56).int32(message.attachedQuests);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateUserStatisticData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUpdateUserStatisticData();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.steps = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.createdRoutes = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.finishedRoutes = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.grantedAwards = reader.int32();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.finishedQuests = reader.int32();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.attachedQuests = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseUpdateUserStatisticInterface(): UpdateUserStatisticInterface {
+  return { userId: "", data: undefined };
+}
+
+export const UpdateUserStatisticInterface: MessageFns<UpdateUserStatisticInterface> = {
+  encode(message: UpdateUserStatisticInterface, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.data !== undefined) {
+      UpdateUserStatisticData.encode(message.data, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateUserStatisticInterface {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUpdateUserStatisticInterface();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.data = UpdateUserStatisticData.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseFindManyUserStatisticsOutput(): FindManyUserStatisticsOutput {
+  return { data: [] };
+}
+
+export const FindManyUserStatisticsOutput: MessageFns<FindManyUserStatisticsOutput> = {
+  encode(message: FindManyUserStatisticsOutput, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.data) {
+      UserStatisticInterface.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FindManyUserStatisticsOutput {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFindManyUserStatisticsOutput();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.data.push(UserStatisticInterface.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseFindOneUserStatistic(): FindOneUserStatistic {
+  return { userId: "" };
+}
+
+export const FindOneUserStatistic: MessageFns<FindOneUserStatistic> = {
+  encode(message: FindOneUserStatistic, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FindOneUserStatistic {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFindOneUserStatistic();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
           continue;
         }
       }
@@ -1052,7 +1496,7 @@ export const RefreshToken: MessageFns<RefreshToken> = {
 };
 
 function createBaseGetUser(): GetUser {
-  return { userId: "", accountId: "", email: "" };
+  return { userId: "", accountId: "", email: "", role: 0 };
 }
 
 export const GetUser: MessageFns<GetUser> = {
@@ -1065,6 +1509,9 @@ export const GetUser: MessageFns<GetUser> = {
     }
     if (message.email !== "") {
       writer.uint32(26).string(message.email);
+    }
+    if (message.role !== 0) {
+      writer.uint32(32).int32(message.role);
     }
     return writer;
   },
@@ -1100,6 +1547,14 @@ export const GetUser: MessageFns<GetUser> = {
           message.email = reader.string();
           continue;
         }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.role = reader.int32() as any;
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -1132,6 +1587,14 @@ export interface AccountClient {
   updateUserTelemetry(request: UpdateUserTelemetry, metadata?: Metadata): Observable<BoolValue>;
 
   createUserTelemetry(request: CreateUserTelemetry, metadata?: Metadata): Observable<UserTelemetryInterface>;
+
+  createUserStatistic(request: CreateUserStatistic, metadata?: Metadata): Observable<UserStatisticInterface>;
+
+  updateUserStatistic(request: UpdateUserStatisticInterface, metadata?: Metadata): Observable<UserStatisticInterface>;
+
+  findManyUserStatistics(request: Empty, metadata?: Metadata): Observable<FindManyUserStatisticsOutput>;
+
+  findOneUserStatistic(request: FindOneUserStatistic, metadata?: Metadata): Observable<UserStatisticInterface>;
 }
 
 export interface AccountController {
@@ -1174,6 +1637,26 @@ export interface AccountController {
     request: CreateUserTelemetry,
     metadata?: Metadata,
   ): Promise<UserTelemetryInterface> | Observable<UserTelemetryInterface> | UserTelemetryInterface;
+
+  createUserStatistic(
+    request: CreateUserStatistic,
+    metadata?: Metadata,
+  ): Promise<UserStatisticInterface> | Observable<UserStatisticInterface> | UserStatisticInterface;
+
+  updateUserStatistic(
+    request: UpdateUserStatisticInterface,
+    metadata?: Metadata,
+  ): Promise<UserStatisticInterface> | Observable<UserStatisticInterface> | UserStatisticInterface;
+
+  findManyUserStatistics(
+    request: Empty,
+    metadata?: Metadata,
+  ): Promise<FindManyUserStatisticsOutput> | Observable<FindManyUserStatisticsOutput> | FindManyUserStatisticsOutput;
+
+  findOneUserStatistic(
+    request: FindOneUserStatistic,
+    metadata?: Metadata,
+  ): Promise<UserStatisticInterface> | Observable<UserStatisticInterface> | UserStatisticInterface;
 }
 
 export function AccountControllerMethods() {
@@ -1190,6 +1673,10 @@ export function AccountControllerMethods() {
       "getUserGamification",
       "updateUserTelemetry",
       "createUserTelemetry",
+      "createUserStatistic",
+      "updateUserStatistic",
+      "findManyUserStatistics",
+      "findOneUserStatistic",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
@@ -1311,6 +1798,47 @@ export const AccountService = {
       Buffer.from(UserTelemetryInterface.encode(value).finish()),
     responseDeserialize: (value: Buffer): UserTelemetryInterface => UserTelemetryInterface.decode(value),
   },
+  createUserStatistic: {
+    path: "/account.Account/createUserStatistic",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: CreateUserStatistic): Buffer => Buffer.from(CreateUserStatistic.encode(value).finish()),
+    requestDeserialize: (value: Buffer): CreateUserStatistic => CreateUserStatistic.decode(value),
+    responseSerialize: (value: UserStatisticInterface): Buffer =>
+      Buffer.from(UserStatisticInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserStatisticInterface => UserStatisticInterface.decode(value),
+  },
+  updateUserStatistic: {
+    path: "/account.Account/updateUserStatistic",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: UpdateUserStatisticInterface): Buffer =>
+      Buffer.from(UpdateUserStatisticInterface.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UpdateUserStatisticInterface => UpdateUserStatisticInterface.decode(value),
+    responseSerialize: (value: UserStatisticInterface): Buffer =>
+      Buffer.from(UserStatisticInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserStatisticInterface => UserStatisticInterface.decode(value),
+  },
+  findManyUserStatistics: {
+    path: "/account.Account/findManyUserStatistics",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: Empty): Buffer => Buffer.from(Empty.encode(value).finish()),
+    requestDeserialize: (value: Buffer): Empty => Empty.decode(value),
+    responseSerialize: (value: FindManyUserStatisticsOutput): Buffer =>
+      Buffer.from(FindManyUserStatisticsOutput.encode(value).finish()),
+    responseDeserialize: (value: Buffer): FindManyUserStatisticsOutput => FindManyUserStatisticsOutput.decode(value),
+  },
+  findOneUserStatistic: {
+    path: "/account.Account/findOneUserStatistic",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: FindOneUserStatistic): Buffer => Buffer.from(FindOneUserStatistic.encode(value).finish()),
+    requestDeserialize: (value: Buffer): FindOneUserStatistic => FindOneUserStatistic.decode(value),
+    responseSerialize: (value: UserStatisticInterface): Buffer =>
+      Buffer.from(UserStatisticInterface.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UserStatisticInterface => UserStatisticInterface.decode(value),
+  },
 } as const;
 
 export interface AccountServer extends UntypedServiceImplementation {
@@ -1325,6 +1853,10 @@ export interface AccountServer extends UntypedServiceImplementation {
   getUserGamification: handleUnaryCall<GetUser, UserGamificationInterface>;
   updateUserTelemetry: handleUnaryCall<UpdateUserTelemetry, boolean | undefined>;
   createUserTelemetry: handleUnaryCall<CreateUserTelemetry, UserTelemetryInterface>;
+  createUserStatistic: handleUnaryCall<CreateUserStatistic, UserStatisticInterface>;
+  updateUserStatistic: handleUnaryCall<UpdateUserStatisticInterface, UserStatisticInterface>;
+  findManyUserStatistics: handleUnaryCall<Empty, FindManyUserStatisticsOutput>;
+  findOneUserStatistic: handleUnaryCall<FindOneUserStatistic, UserStatisticInterface>;
 }
 
 export interface MessageFns<T> {

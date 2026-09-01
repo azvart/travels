@@ -21,6 +21,11 @@ import { GetUserTelemetryHandler } from '../use-case/get-user-telemetry/get-user
 import { GetUserGamificationHandler } from '../use-case/get-user-gamification/get-user-gamification.handler';
 import { UpdateUserTelemetryHandler } from '../use-case/update-user-telemetry/update-user-telemetry.handler';
 import { CreateUserTelemetryHandler } from '../use-case/create-user-telemetry/create-user-telemetry.handler';
+import { CreateUserStatisticHandler } from '../use-case/create-user-statistic/create-user-statistic.handler';
+import { UpdateUserStatisticHandler } from '../use-case/update-user-statistic/update-user-statistic.handler';
+import { FindOneUserStatisticHandler } from '../use-case/find-one-user-statistic/find-one-user-statistic.handler';
+import { FindManyUserStatisticHandler } from '../use-case/find-many-user-statistic/find-many-user-statistic.handler';
+import { IUpdateUserStatistic } from 'libs/interfaces/user-statistic';
 
 @Injectable()
 export class AccountPresentationService {
@@ -36,6 +41,10 @@ export class AccountPresentationService {
     private readonly getUserGamificationHandler: GetUserGamificationHandler,
     private readonly updateUserTelemetryHandler: UpdateUserTelemetryHandler,
     private readonly createUserTelemetryHandler: CreateUserTelemetryHandler,
+    private readonly createUserStatisticHandler: CreateUserStatisticHandler,
+    private readonly updateUserStatisticHandler: UpdateUserStatisticHandler,
+    private readonly findOneUserStatisticHandler: FindOneUserStatisticHandler,
+    private readonly findManyUserStatisticHandler: FindManyUserStatisticHandler
   ) {}
 
   public async createAccount(data: ICreateNewAccount) {
@@ -93,5 +102,21 @@ export class AccountPresentationService {
 
   public async createUserTelemetry(data: { userId: string; routeId: string }) {
     return this.createUserTelemetryHandler.run(data);
+  }
+
+  public async createUserStatistic(userId: string){
+    return this.createUserStatisticHandler.run(userId);
+  }
+
+  public async updateUserStatistic(userId: string, data: IUpdateUserStatistic){
+    return this.updateUserStatisticHandler.run(userId, data);
+  }
+
+  public async findOneUserStatistic(userId: string){
+    return this.findOneUserStatisticHandler.run(userId);
+  }
+
+  public async findManyUserStatistic(){
+    return this.findManyUserStatisticHandler.run();
   }
 }

@@ -12,11 +12,49 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "quest";
 
+export enum questType {
+  UNSPECIFIED = 0,
+  DEFAULT = 1,
+  DAILY = 2,
+  WEEKLY = 3,
+  UNRECOGNIZED = -1,
+}
+
+export enum questCondition {
+  NO = 0,
+  CREATE = 1,
+  UPDATE = 2,
+  UNRECOGNIZED = -1,
+}
+
+export enum questField {
+  NO_FIELD = 0,
+  STEPS = 1,
+  POINTS = 2,
+  ROUTES = 3,
+  AWARDS = 4,
+  EVENTS = 5,
+  USERS = 6,
+  CURRENT_COUNTRY = 7,
+  DURATION = 8,
+  UNRECOGNIZED = -1,
+}
+
+export enum questStatus {
+  EMPTY = 0,
+  IN_PROGRESS = 1,
+  FINISHED = 2,
+  UNRECOGNIZED = -1,
+}
+
 export interface UserQuestEntity {
   id: string;
   userId: string;
   questId: string;
-  status: string;
+  status: questStatus;
+  questCondition: questCondition;
+  questField: questField;
+  questType: questType;
   progress: number;
   finishResult: number;
   completedAt?: string | undefined;
@@ -63,7 +101,7 @@ export interface UpdateUserQuest {
 
 export interface FindManyUserQuestsData {
   questId?: string | undefined;
-  status?: string | undefined;
+  status?: questStatus | undefined;
   createdAt?: string | undefined;
   completedAt?: string | undefined;
 }
@@ -83,18 +121,22 @@ export interface QuestEntity {
   questName: string;
   questDescription: string;
   questReward: string;
-  questCondition: string;
-  questType?: string | undefined;
+  questCondition: questCondition;
+  questType: questType;
   questCountry: string;
+  questFinishResults: number;
+  questField: questField;
 }
 
 export interface CreateQuest {
   questName: string;
   questDescription: string;
   questReward: string;
-  questCondition: string;
-  questType?: string | undefined;
+  questCondition: questCondition;
+  questType: questType;
   questCountry: string;
+  questFinishResults: number;
+  questField: questField;
 }
 
 export interface UpdateQuest {
@@ -102,13 +144,15 @@ export interface UpdateQuest {
   questName?: string | undefined;
   questDescription?: string | undefined;
   questReward?: string | undefined;
-  questCondition?: string | undefined;
-  questType?: string | undefined;
+  questCondition?: questCondition | undefined;
+  questType?: questType | undefined;
+  questField?: questField | undefined;
   questCountry?: string | undefined;
+  questFinishResults?: number | undefined;
 }
 
 export interface FindManyQuests {
-  questType?: string | undefined;
+  questType?: questType | undefined;
   questCountry?: string | undefined;
 }
 
@@ -139,7 +183,18 @@ export interface DeletedManyQuestsResult {
 export const QUEST_PACKAGE_NAME = "quest";
 
 function createBaseUserQuestEntity(): UserQuestEntity {
-  return { id: "", userId: "", questId: "", status: "", progress: 0, finishResult: 0, createdAt: "" };
+  return {
+    id: "",
+    userId: "",
+    questId: "",
+    status: 0,
+    questCondition: 0,
+    questField: 0,
+    questType: 0,
+    progress: 0,
+    finishResult: 0,
+    createdAt: "",
+  };
 }
 
 export const UserQuestEntity: MessageFns<UserQuestEntity> = {
@@ -153,20 +208,29 @@ export const UserQuestEntity: MessageFns<UserQuestEntity> = {
     if (message.questId !== "") {
       writer.uint32(26).string(message.questId);
     }
-    if (message.status !== "") {
-      writer.uint32(34).string(message.status);
+    if (message.status !== 0) {
+      writer.uint32(32).int32(message.status);
+    }
+    if (message.questCondition !== 0) {
+      writer.uint32(40).int32(message.questCondition);
+    }
+    if (message.questField !== 0) {
+      writer.uint32(48).int32(message.questField);
+    }
+    if (message.questType !== 0) {
+      writer.uint32(56).int32(message.questType);
     }
     if (message.progress !== 0) {
-      writer.uint32(40).int32(message.progress);
+      writer.uint32(64).int32(message.progress);
     }
     if (message.finishResult !== 0) {
-      writer.uint32(48).int32(message.finishResult);
+      writer.uint32(72).int32(message.finishResult);
     }
     if (message.completedAt !== undefined) {
-      writer.uint32(58).string(message.completedAt);
+      writer.uint32(82).string(message.completedAt);
     }
     if (message.createdAt !== "") {
-      writer.uint32(66).string(message.createdAt);
+      writer.uint32(90).string(message.createdAt);
     }
     return writer;
   },
@@ -203,11 +267,11 @@ export const UserQuestEntity: MessageFns<UserQuestEntity> = {
           continue;
         }
         case 4: {
-          if (tag !== 34) {
+          if (tag !== 32) {
             break;
           }
 
-          message.status = reader.string();
+          message.status = reader.int32() as any;
           continue;
         }
         case 5: {
@@ -215,7 +279,7 @@ export const UserQuestEntity: MessageFns<UserQuestEntity> = {
             break;
           }
 
-          message.progress = reader.int32();
+          message.questCondition = reader.int32() as any;
           continue;
         }
         case 6: {
@@ -223,19 +287,43 @@ export const UserQuestEntity: MessageFns<UserQuestEntity> = {
             break;
           }
 
-          message.finishResult = reader.int32();
+          message.questField = reader.int32() as any;
           continue;
         }
         case 7: {
-          if (tag !== 58) {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.questType = reader.int32() as any;
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.progress = reader.int32();
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.finishResult = reader.int32();
+          continue;
+        }
+        case 10: {
+          if (tag !== 82) {
             break;
           }
 
           message.completedAt = reader.string();
           continue;
         }
-        case 8: {
-          if (tag !== 66) {
+        case 11: {
+          if (tag !== 90) {
             break;
           }
 
@@ -624,7 +712,7 @@ export const FindManyUserQuestsData: MessageFns<FindManyUserQuestsData> = {
       writer.uint32(10).string(message.questId);
     }
     if (message.status !== undefined) {
-      writer.uint32(18).string(message.status);
+      writer.uint32(16).int32(message.status);
     }
     if (message.createdAt !== undefined) {
       writer.uint32(26).string(message.createdAt);
@@ -651,11 +739,11 @@ export const FindManyUserQuestsData: MessageFns<FindManyUserQuestsData> = {
           continue;
         }
         case 2: {
-          if (tag !== 18) {
+          if (tag !== 16) {
             break;
           }
 
-          message.status = reader.string();
+          message.status = reader.int32() as any;
           continue;
         }
         case 3: {
@@ -781,7 +869,17 @@ export const FindOneUserQuest: MessageFns<FindOneUserQuest> = {
 };
 
 function createBaseQuestEntity(): QuestEntity {
-  return { id: "", questName: "", questDescription: "", questReward: "", questCondition: "", questCountry: "" };
+  return {
+    id: "",
+    questName: "",
+    questDescription: "",
+    questReward: "",
+    questCondition: 0,
+    questType: 0,
+    questCountry: "",
+    questFinishResults: 0,
+    questField: 0,
+  };
 }
 
 export const QuestEntity: MessageFns<QuestEntity> = {
@@ -798,14 +896,20 @@ export const QuestEntity: MessageFns<QuestEntity> = {
     if (message.questReward !== "") {
       writer.uint32(34).string(message.questReward);
     }
-    if (message.questCondition !== "") {
-      writer.uint32(42).string(message.questCondition);
+    if (message.questCondition !== 0) {
+      writer.uint32(40).int32(message.questCondition);
     }
-    if (message.questType !== undefined) {
-      writer.uint32(50).string(message.questType);
+    if (message.questType !== 0) {
+      writer.uint32(48).int32(message.questType);
     }
     if (message.questCountry !== "") {
       writer.uint32(58).string(message.questCountry);
+    }
+    if (message.questFinishResults !== 0) {
+      writer.uint32(64).int32(message.questFinishResults);
+    }
+    if (message.questField !== 0) {
+      writer.uint32(72).int32(message.questField);
     }
     return writer;
   },
@@ -850,19 +954,19 @@ export const QuestEntity: MessageFns<QuestEntity> = {
           continue;
         }
         case 5: {
-          if (tag !== 42) {
+          if (tag !== 40) {
             break;
           }
 
-          message.questCondition = reader.string();
+          message.questCondition = reader.int32() as any;
           continue;
         }
         case 6: {
-          if (tag !== 50) {
+          if (tag !== 48) {
             break;
           }
 
-          message.questType = reader.string();
+          message.questType = reader.int32() as any;
           continue;
         }
         case 7: {
@@ -871,6 +975,22 @@ export const QuestEntity: MessageFns<QuestEntity> = {
           }
 
           message.questCountry = reader.string();
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.questFinishResults = reader.int32();
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.questField = reader.int32() as any;
           continue;
         }
       }
@@ -884,7 +1004,16 @@ export const QuestEntity: MessageFns<QuestEntity> = {
 };
 
 function createBaseCreateQuest(): CreateQuest {
-  return { questName: "", questDescription: "", questReward: "", questCondition: "", questCountry: "" };
+  return {
+    questName: "",
+    questDescription: "",
+    questReward: "",
+    questCondition: 0,
+    questType: 0,
+    questCountry: "",
+    questFinishResults: 0,
+    questField: 0,
+  };
 }
 
 export const CreateQuest: MessageFns<CreateQuest> = {
@@ -898,14 +1027,20 @@ export const CreateQuest: MessageFns<CreateQuest> = {
     if (message.questReward !== "") {
       writer.uint32(26).string(message.questReward);
     }
-    if (message.questCondition !== "") {
-      writer.uint32(34).string(message.questCondition);
+    if (message.questCondition !== 0) {
+      writer.uint32(32).int32(message.questCondition);
     }
-    if (message.questType !== undefined) {
-      writer.uint32(42).string(message.questType);
+    if (message.questType !== 0) {
+      writer.uint32(40).int32(message.questType);
     }
     if (message.questCountry !== "") {
       writer.uint32(50).string(message.questCountry);
+    }
+    if (message.questFinishResults !== 0) {
+      writer.uint32(56).int32(message.questFinishResults);
+    }
+    if (message.questField !== 0) {
+      writer.uint32(64).int32(message.questField);
     }
     return writer;
   },
@@ -942,19 +1077,19 @@ export const CreateQuest: MessageFns<CreateQuest> = {
           continue;
         }
         case 4: {
-          if (tag !== 34) {
+          if (tag !== 32) {
             break;
           }
 
-          message.questCondition = reader.string();
+          message.questCondition = reader.int32() as any;
           continue;
         }
         case 5: {
-          if (tag !== 42) {
+          if (tag !== 40) {
             break;
           }
 
-          message.questType = reader.string();
+          message.questType = reader.int32() as any;
           continue;
         }
         case 6: {
@@ -963,6 +1098,22 @@ export const CreateQuest: MessageFns<CreateQuest> = {
           }
 
           message.questCountry = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.questFinishResults = reader.int32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.questField = reader.int32() as any;
           continue;
         }
       }
@@ -994,13 +1145,19 @@ export const UpdateQuest: MessageFns<UpdateQuest> = {
       writer.uint32(34).string(message.questReward);
     }
     if (message.questCondition !== undefined) {
-      writer.uint32(42).string(message.questCondition);
+      writer.uint32(40).int32(message.questCondition);
     }
     if (message.questType !== undefined) {
-      writer.uint32(50).string(message.questType);
+      writer.uint32(48).int32(message.questType);
+    }
+    if (message.questField !== undefined) {
+      writer.uint32(56).int32(message.questField);
     }
     if (message.questCountry !== undefined) {
-      writer.uint32(58).string(message.questCountry);
+      writer.uint32(66).string(message.questCountry);
+    }
+    if (message.questFinishResults !== undefined) {
+      writer.uint32(72).int32(message.questFinishResults);
     }
     return writer;
   },
@@ -1045,27 +1202,43 @@ export const UpdateQuest: MessageFns<UpdateQuest> = {
           continue;
         }
         case 5: {
-          if (tag !== 42) {
+          if (tag !== 40) {
             break;
           }
 
-          message.questCondition = reader.string();
+          message.questCondition = reader.int32() as any;
           continue;
         }
         case 6: {
-          if (tag !== 50) {
+          if (tag !== 48) {
             break;
           }
 
-          message.questType = reader.string();
+          message.questType = reader.int32() as any;
           continue;
         }
         case 7: {
-          if (tag !== 58) {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.questField = reader.int32() as any;
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
             break;
           }
 
           message.questCountry = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.questFinishResults = reader.int32();
           continue;
         }
       }
@@ -1085,7 +1258,7 @@ function createBaseFindManyQuests(): FindManyQuests {
 export const FindManyQuests: MessageFns<FindManyQuests> = {
   encode(message: FindManyQuests, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.questType !== undefined) {
-      writer.uint32(10).string(message.questType);
+      writer.uint32(8).int32(message.questType);
     }
     if (message.questCountry !== undefined) {
       writer.uint32(18).string(message.questCountry);
@@ -1101,11 +1274,11 @@ export const FindManyQuests: MessageFns<FindManyQuests> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 10) {
+          if (tag !== 8) {
             break;
           }
 
-          message.questType = reader.string();
+          message.questType = reader.int32() as any;
           continue;
         }
         case 2: {

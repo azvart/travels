@@ -26,6 +26,12 @@ type GetAccountFromTokenOutput {
   accountId: String!
   userId: String!
   email: String!
+  role: UserRoleEnum!
+}
+
+enum UserRoleEnum {
+  ADMIN
+  USER
 }
 
 type User {
@@ -37,6 +43,7 @@ type User {
   countryCode: String
   street: String
   city: String
+  role: UserRoleEnum!
   account: Account
 }
 
@@ -49,6 +56,7 @@ type UserFull {
   countryCode: String
   street: String
   city: String
+  role: UserRoleEnum!
 }
 
 type UserTelemetryDto {
@@ -98,15 +106,39 @@ type QuestDto {
   questName: String!
   questCountry: String!
   questReward: String!
-  questCondition: String!
-  questType: QuestType
+  questCondition: QuestCondition!
+  questType: QuestType!
+  questFinishResults: Float!
+  questField: QuestField!
   attached: Boolean
 }
 
+enum QuestCondition {
+  NO
+  CREATE
+  UPDATE
+  UNRECOGNIZED
+}
+
 enum QuestType {
+  UNSPECIFIED
   DEFAULT
   DAILY
   WEEKLY
+  UNRECOGNIZED
+}
+
+enum QuestField {
+  NO_FIELD
+  STEPS
+  POINTS
+  ROUTES
+  AWARDS
+  EVENTS
+  USERS
+  CURRENT_COUNTRY
+  DURATION
+  UNRECOGNIZED
 }
 
 type DeleteManyQuestsOutputDto {
@@ -118,16 +150,22 @@ type UserQuestDto {
   userId: String!
   questId: String!
   status: QuestStatusEnum!
+  questCondition: QuestCondition!
+  questType: QuestType!
+  questField: QuestField!
   progress: Float!
   finishResult: String!
   completedAt: DateTime
   createdAt: DateTime!
+  updatedAt: DateTime
   questEntity: QuestDto
 }
 
 enum QuestStatusEnum {
+  EMPTY
   IN_PROGRESS
   FINISHED
+  UNRECOGNIZED
 }
 
 """
@@ -152,6 +190,15 @@ type UserTelemetrySubscriptionDto {
   avgPace: Float!
   duration: Float!
   distance: Float!
+}
+
+type AwardsDto {
+  id: ID!
+  name: String!
+  description: String!
+  imageUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type Query {
@@ -197,6 +244,7 @@ type Mutation {
   login(input: LoginInputDTO!): TokenType!
   updateExistingAccount(input: UpdateAccountInput!): UpdateAccountOutput!
   me: GetAccountFromTokenOutput!
+  createAward(input: CreateAwardInputDto!): AwardsDto!
   updateUser(input: UpdateUserInput!): User!
   createRoute(input: CreateRouteDto!): RouteType!
   updateRoute(input: UpdateRoute!): RouteType!
@@ -222,6 +270,12 @@ input UpdateAccountInput {
   id: ID!
   email: String
   password: String
+}
+
+input CreateAwardInputDto {
+  name: String!
+  description: String!
+  imageUrl: String
 }
 
 input UpdateUserInput {
@@ -271,19 +325,22 @@ input DeleteUserRouteDto {
 input CreateQuestDto {
   questName: String!
   questDescription: String!
-  questCondition: String!
+  questCondition: QuestCondition!
+  questField: QuestField!
+  questFinishResults: Float!
   questCountry: String!
   questReward: String!
-  questType: QuestType
+  questType: QuestType!
 }
 
 input UpdateQuestDto {
   id: ID!
   questName: String
   questDescription: String
-  questCondition: String
+  questCondition: QuestCondition
   questCountry: String
   questReward: String
+  questField: QuestField!
   questType: QuestType
 }
 
